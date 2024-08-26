@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/employees/employee_repository.dart';
-import 'package:hrm_aqtech/features/employee_management/controllers/checkbox_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
-import 'package:hrm_aqtech/features/employee_management/controllers/role_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
+import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/popups/full_screen_loader.dart';
 import 'package:hrm_aqtech/utils/popups/loaders.dart';
 import 'package:intl/intl.dart';
 
-class EditableTextFieldController extends GetxController {
-  static EditableTextFieldController get instance => Get.find();
-  RoleController roleController = Get.put(RoleController());
+class UpdateEmployeeController extends GetxController {
+  static UpdateEmployeeController get instance => Get.find();
   var isEditting = false.obs;
   var isAdd = false.obs;
+  var isActive = false.obs;
+  var isLeader = false.obs;
+  var isLunch = false.obs;
+  var selectedDepartment = EmployeeRole.Dev.obs;
   TextEditingController emailController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
   TextEditingController tfsController = TextEditingController();
@@ -25,7 +27,6 @@ class EditableTextFieldController extends GetxController {
   TextEditingController wfhQuotaController = TextEditingController();
   TextEditingController startDate = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
-  CheckboxController checkboxController = Get.put(CheckboxController());
 
   @override
   void onClose() {
@@ -38,13 +39,26 @@ class EditableTextFieldController extends GetxController {
     wfhQuotaController.dispose();
     startDate.dispose();
     birthDateController.dispose();
-    checkboxController.dispose();
+    
 
     super.onClose();
   }
 
   void toggleEditting() {
     isEditting.value = !isEditting.value;
+  }
+
+  void toggle(int value) {
+    switch (value) {
+      case 0:
+        isLeader.value = !isLeader.value;
+        break;
+      case 1:
+        isLunch.value = !isLunch.value;
+        break;
+      default:
+        isActive.value = !isActive.value;
+    }
   }
 
   void save(Employee newEmployee, bool isAdd) async {
@@ -112,15 +126,19 @@ class EditableTextFieldController extends GetxController {
     newEmployee.fullName = fullNameController.text.toString().trim();
     newEmployee.tfsName = tfsController.text.toString().trim();
     newEmployee.nickName = nickNameController.text.toString().trim();
-    newEmployee.isActive = checkboxController.isActive.value;
-    newEmployee.isLunch = checkboxController.isLunch.value;
-    newEmployee.isLeader = checkboxController.isLeader.value;
+    newEmployee.isActive = isActive.value;
+    newEmployee.isLunch = isLunch.value;
+    newEmployee.isLeader = isLeader.value;
     newEmployee.phone = phoneController.text.toString().trim();
     newEmployee.wfhQuota = int.parse(wfhQuotaController.text);
     newEmployee.absenceQuota = int.parse(absenceQuotaController.text);
     newEmployee.birthDate =
         DateFormat("dd/MM/yyyy").parse(birthDateController.text);
     newEmployee.startDate = DateFormat("dd/MM/yyyy").parse(startDate.text);
-    newEmployee.role = roleController.selectedDepartment.value;
+    newEmployee.role = selectedDepartment.value;
   }
 }
+
+
+
+

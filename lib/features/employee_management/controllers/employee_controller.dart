@@ -1,18 +1,17 @@
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/employees/employee_repository.dart';
-import 'package:hrm_aqtech/features/employee_management/controllers/editable_text_field_controller.dart';
+import 'package:hrm_aqtech/features/employee_management/controllers/update_employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
-import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
 
 class EmployeeController extends GetxController {
   RxString filteredRole = "All".obs; // mac dinh la loc tat ca
   final isLoading = false.obs;
   static EmployeeController get instance => Get.find();
-  RxList<Employee> allEmployees = <Employee>[].obs;
-  RxList<Employee> searchResult = <Employee>[].obs;
+  List<Employee> allEmployees = <Employee>[];
+  List<Employee> searchResult = <Employee>[];
   RxInt textSearchLength = 0.obs;
-  final editableController = Get.put(EditableTextFieldController());
+  final editableController = Get.put(UpdateEmployeeController());
   final _employeeRepository = Get.put(EmployeeRepository());
 
   @override
@@ -50,8 +49,7 @@ class EmployeeController extends GetxController {
     } else {
       return allEmployees
           .where((employee) =>
-              employee.role.name ==
-              filteredRole.value.toString().trim())
+              employee.role.name == filteredRole.value.toString().trim())
           .toList();
     }
   }
@@ -59,7 +57,7 @@ class EmployeeController extends GetxController {
   // Tìm kiếm nhân viên
   void searchEmployee({String query = ''}) {
     textSearchLength.value = query.length;
-    searchResult.value = filteredEmployees
+    searchResult = filteredEmployees
         .where((employee) =>
             employee.fullName.toLowerCase().contains(query.toLowerCase()))
         .toList();

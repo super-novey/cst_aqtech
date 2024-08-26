@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/datepicker/date_picker.dart';
 import 'package:hrm_aqtech/common/widgets/images/circular_image.dart';
 import 'package:hrm_aqtech/common/widgets/texts/section_heading.dart';
-import 'package:hrm_aqtech/features/employee_management/controllers/checkbox_controller.dart';
-import 'package:hrm_aqtech/features/employee_management/controllers/editable_text_field_controller.dart';
+import 'package:hrm_aqtech/features/employee_management/controllers/update_employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_details/widgets/profile_menu.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
@@ -12,13 +11,12 @@ import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
-import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
 
 class EmployeeDetailScreen extends StatelessWidget {
   EmployeeDetailScreen({super.key, required this.selectedEmployee});
 
   // Text controller
-  final controller = EditableTextFieldController.instance;
+  final controller = UpdateEmployeeController.instance;
   final Employee selectedEmployee;
 
   void fetchEmployeeDetails() {
@@ -27,11 +25,11 @@ class EmployeeDetailScreen extends StatelessWidget {
     controller.fullNameController.text = selectedEmployee.fullName;
     controller.nickNameController.text = selectedEmployee.nickName;
     controller.phoneController.text = selectedEmployee.phone;
-    controller.checkboxController.isActive.value = selectedEmployee.isActive;
-    controller.checkboxController.isLeader.value = selectedEmployee.isLeader;
-    controller.checkboxController.isLunch.value = selectedEmployee.isLunch;
+    controller.isActive.value = selectedEmployee.isActive;
+    controller.isLeader.value = selectedEmployee.isLeader;
+    controller.isLunch.value = selectedEmployee.isLunch;
     controller.wfhQuotaController.text = selectedEmployee.wfhQuota.toString();
-    controller.roleController.selectedDepartment.value = selectedEmployee.role;
+    controller.selectedDepartment.value = selectedEmployee.role;
     controller.startDate.text =
         MyFormatter.formatDate(selectedEmployee.startDate.toString());
     controller.absenceQuotaController.text =
@@ -171,14 +169,13 @@ class EmployeeDetailScreen extends StatelessWidget {
                       child: Obx(
                         () => DropdownButtonHideUnderline(
                           child: DropdownButton(
-                            value: controller
-                                .roleController.selectedDepartment.value,
+                            value: controller.selectedDepartment.value,
                             dropdownColor: MyColors.iconColor,
                             onChanged: controller.isEditting.value
                                 ? (EmployeeRole? role) {
                                     if (role != null) {
-                                      controller.roleController
-                                          .setSelectedDepartment(role);
+                                      controller.selectedDepartment.value =
+                                          role;
                                     }
                                   }
                                 : null,
@@ -226,20 +223,17 @@ class EmployeeDetailScreen extends StatelessWidget {
                       ),
                       borderRadius:
                           BorderRadius.circular(MySizes.borderRadiusMd)),
-                  child: Column(
+                  child: const Column(
                     children: [
                       MyCheckboxListTile(
                         field: 0,
-                        controller: controller.checkboxController,
                         text: "Là leader",
                       ),
                       MyCheckboxListTile(
                         field: 1,
-                        controller: controller.checkboxController,
                         text: "Trợ cấp ăn trưa",
                       ),
                       MyCheckboxListTile(
-                          controller: controller.checkboxController,
                           text: "Còn hoạt động",
                           field: 2)
                     ],
@@ -268,21 +262,20 @@ class EmployeeDetailScreen extends StatelessWidget {
 class MyCheckboxListTile extends StatelessWidget {
   const MyCheckboxListTile({
     super.key,
-    required this.controller,
     required this.text,
     required this.field,
   });
 
-  final CheckboxController controller;
   final String text;
   final int field;
 
   @override
   Widget build(BuildContext context) {
+    final controller = UpdateEmployeeController.instance;
     return Obx(
       () => CheckboxListTile(
         activeColor: MyColors.dartPrimaryColor,
-        enabled: (EditableTextFieldController.instance.isEditting.value),
+        enabled: (controller.isEditting.value),
         title: Text(text),
         value: (field == 0)
             ? controller.isLeader.value

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrm_aqtech/features/employee_management/controllers/editable_text_field_controller.dart';
+import 'package:hrm_aqtech/features/employee_management/controllers/update_employee_controller.dart';
 import 'package:intl/intl.dart';
 
 class DatePicker extends StatelessWidget {
@@ -18,8 +18,7 @@ class DatePicker extends StatelessWidget {
             child: AbsorbPointer(
               child: TextField(
                 controller: controler,
-                enabled:
-                    (EditableTextFieldController.instance.isEditting.value),
+                enabled: (UpdateEmployeeController.instance.isEditting.value),
                 decoration: InputDecoration(
                   label: Text(
                     label,
