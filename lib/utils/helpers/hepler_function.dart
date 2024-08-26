@@ -4,14 +4,14 @@ import 'package:hrm_aqtech/utils/constants/enums.dart';
 class HeplerFunction {
   static Color getRoleColor(EmployeeRole role) {
     switch (role) {
-      case EmployeeRole.Dev:
-        return Colors.teal; 
+      case EmployeeRole.Developer:
+        return Colors.teal;
       case EmployeeRole.Support:
-        return const Color.fromRGBO(254, 112, 102, 1); 
+        return const Color.fromRGBO(254, 112, 102, 1);
       case EmployeeRole.Sale:
         return Colors.orange;
       default:
-        return Colors.blue; 
+        return Colors.blue;
     }
   }
 
@@ -19,7 +19,7 @@ class HeplerFunction {
     switch (value) {
       case "1":
         {
-          return EmployeeRole.Dev.name.toString();
+          return EmployeeRole.Developer.name.toString();
         }
       case "2":
         {
@@ -32,7 +32,7 @@ class HeplerFunction {
 
   static String convertEnumToInt(EmployeeRole role) {
     switch (role) {
-      case EmployeeRole.Dev:
+      case EmployeeRole.Developer:
         return "1";
       case EmployeeRole.Sale:
         return "2";
@@ -45,7 +45,7 @@ class HeplerFunction {
     switch (value) {
       case "1":
         {
-          return EmployeeRole.Dev;
+          return EmployeeRole.Developer;
         }
       case "2":
         {

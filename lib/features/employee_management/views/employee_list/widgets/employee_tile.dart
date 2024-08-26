@@ -80,8 +80,7 @@ class EmployeeTile extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         vertical: 6.0, horizontal: 16.0),
                     decoration: BoxDecoration(
-                      color: HeplerFunction.getRoleColor(
-                          employee.role),
+                      color: HeplerFunction.getRoleColor(employee.role),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Text(

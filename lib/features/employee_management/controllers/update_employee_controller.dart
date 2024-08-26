@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/employees/employee_repository.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
+import 'package:hrm_aqtech/features/employee_management/views/employee_list/employee_list_screen.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -17,7 +18,7 @@ class UpdateEmployeeController extends GetxController {
   var isActive = false.obs;
   var isLeader = false.obs;
   var isLunch = false.obs;
-  var selectedDepartment = EmployeeRole.Dev.obs;
+  var selectedDepartment = EmployeeRole.Developer.obs;
   TextEditingController emailController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
   TextEditingController tfsController = TextEditingController();
@@ -30,17 +31,15 @@ class UpdateEmployeeController extends GetxController {
 
   @override
   void onClose() {
-    emailController.dispose();
-    fullNameController.dispose();
-    tfsController.dispose();
-    nickNameController.dispose();
-    phoneController.dispose();
-    absenceQuotaController.dispose();
-    wfhQuotaController.dispose();
-    startDate.dispose();
-    birthDateController.dispose();
-    
-
+    // emailController.dispose();
+    // fullNameController.dispose();
+    // tfsController.dispose();
+    // nickNameController.dispose();
+    // phoneController.dispose();
+    // absenceQuotaController.dispose();
+    // wfhQuotaController.dispose();
+    // startDate.dispose();
+    // birthDateController.dispose();
     super.onClose();
   }
 
@@ -106,7 +105,8 @@ class UpdateEmployeeController extends GetxController {
               await EmployeeRepository.instance.deleteEmployee(id);
               Loaders.successSnackBar(
                   title: "Thành công!", message: "Xóa nhân viên");
-              Navigator.of(Get.overlayContext!).pop();
+              //Navigator.of(Get.overlayContext!).pop();
+              Get.offAll(() => const EmployeeListScreen());
             },
             style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(0),
@@ -138,7 +138,3 @@ class UpdateEmployeeController extends GetxController {
     newEmployee.role = selectedDepartment.value;
   }
 }
-
-
-
-

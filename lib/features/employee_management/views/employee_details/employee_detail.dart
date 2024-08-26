@@ -6,6 +6,7 @@ import 'package:hrm_aqtech/common/widgets/texts/section_heading.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/update_employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_details/widgets/profile_menu.dart';
+import 'package:hrm_aqtech/features/employee_management/views/employee_list/employee_list_screen.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';
@@ -42,24 +43,31 @@ class EmployeeDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     fetchEmployeeDetails();
     return Scaffold(
-        appBar: AppBar(backgroundColor: MyColors.primaryColor, actions: [
-          Obx(
-            () => IconButton(
+        appBar: AppBar(
+            leading: IconButton(
                 onPressed: () {
-                  if (controller.isEditting.value) {
-                    if (controller.isAdd.value) {
-                      controller.save(selectedEmployee, true);
-                    } else {
-                      controller.save(selectedEmployee, false);
-                    }
-                  } else {
-                    controller.toggleEditting();
-                  }
+                  Get.offAll(() => const EmployeeListScreen());
                 },
-                icon: Icon(
-                    controller.isEditting.value ? Icons.save : Icons.edit)),
-          ),
-        ]),
+                icon: const Icon(Icons.arrow_back_ios)),
+            backgroundColor: MyColors.primaryColor,
+            actions: [
+              Obx(
+                () => IconButton(
+                    onPressed: () {
+                      if (controller.isEditting.value) {
+                        if (controller.isAdd.value) {
+                          controller.save(selectedEmployee, true);
+                        } else {
+                          controller.save(selectedEmployee, false);
+                        }
+                      } else {
+                        controller.toggleEditting();
+                      }
+                    },
+                    icon: Icon(
+                        controller.isEditting.value ? Icons.save : Icons.edit)),
+              ),
+            ]),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(MySizes.defaultSpace),
@@ -233,9 +241,7 @@ class EmployeeDetailScreen extends StatelessWidget {
                         field: 1,
                         text: "Trợ cấp ăn trưa",
                       ),
-                      MyCheckboxListTile(
-                          text: "Còn hoạt động",
-                          field: 2)
+                      MyCheckboxListTile(text: "Còn hoạt động", field: 2)
                     ],
                   ),
                 ),

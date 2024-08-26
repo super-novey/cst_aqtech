@@ -18,7 +18,6 @@ class EmployeeListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Khởi tạo employee controller
     final controller = Get.put(EmployeeController());
-    
 
     return DefaultTabController(
       length: EmployeeRole.values.length + 1, // do co tab All nen +1

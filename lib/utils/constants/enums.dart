@@ -1,2 +1,2 @@
 // ignore: constant_identifier_names
-enum EmployeeRole { Dev, Support, Sale, Hr }
+enum EmployeeRole { Developer, Support, Sale, Hr }

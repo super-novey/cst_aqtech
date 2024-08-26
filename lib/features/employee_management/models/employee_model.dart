@@ -27,14 +27,14 @@ class Employee {
     DateTime? birthDate,
     DateTime? startDate,
     this.nickName = "",
-    this.role = EmployeeRole.Dev,
+    this.role = EmployeeRole.Developer,
     this.isLeader = false,
     this.isLunch = false,
-     this.wfhQuota = 0,
-     this.absenceQuota = 0,
-     this.isActive = true,
-  }) : birthDate = birthDate ?? DateTime.now(), startDate = startDate ?? DateTime.now();
-  
+    this.wfhQuota = 0,
+    this.absenceQuota = 0,
+    this.isActive = true,
+  })  : birthDate = birthDate ?? DateTime.now(),
+        startDate = startDate ?? DateTime.now();
 
   // Tạo phương thức fromJson để parse dữ liệu JSON thành model
   factory Employee.fromJson(Map<String, dynamic> json) {
