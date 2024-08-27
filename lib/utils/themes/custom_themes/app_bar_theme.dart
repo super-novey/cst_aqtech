@@ -4,6 +4,7 @@ import 'package:hrm_aqtech/utils/constants/sizes.dart';
 
 class MyAppBarTheme {
   static const lightAppBarTheme = AppBarTheme(
+      centerTitle: false,
       scrolledUnderElevation: 0,
       elevation: 0,
       backgroundColor: Colors.transparent,
