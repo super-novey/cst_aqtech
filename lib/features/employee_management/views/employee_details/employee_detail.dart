@@ -93,8 +93,8 @@ class EmployeeDetailScreen extends StatelessWidget {
                   ),
                 ),
                 // 2.
-                const SectionHeading(
-                  text: "Thông tin cá nhân",
+                const MySectionHeading(
+                  title: "Thông tin cá nhân",
                 ),
 
                 const SizedBox(
@@ -143,8 +143,8 @@ class EmployeeDetailScreen extends StatelessWidget {
                 const SizedBox(
                   height: MySizes.spaceBtwItems,
                 ),
-                const SectionHeading(
-                  text: "Công ty",
+                const MySectionHeading(
+                  title: "Công ty",
                 ),
 
                 const SizedBox(
