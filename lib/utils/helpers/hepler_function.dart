@@ -10,6 +10,8 @@ class HeplerFunction {
         return const Color.fromRGBO(254, 112, 102, 1);
       case EmployeeRole.Sale:
         return Colors.orange;
+      case EmployeeRole.Hr:
+        return Colors.deepPurpleAccent;
       default:
         return Colors.blue;
     }
