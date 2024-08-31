@@ -30,7 +30,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? IconButton(
                 onPressed: () => Get.back(),
                 icon: Icon(
-                  Icons.arrow_back_rounded,
+                  Icons.arrow_back_ios,
                   color: iconColor,
                 ))
             : leadingIcon != null

@@ -4,6 +4,7 @@ import 'package:hrm_aqtech/common/widgets/header/circular_container.dart';
 import 'package:hrm_aqtech/common/widgets/header/primary_header_container.dart';
 import 'package:hrm_aqtech/common/widgets/images/image_text_image.dart';
 import 'package:hrm_aqtech/common/widgets/texts/section_heading.dart';
+import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/business_days_list_screen.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_list/employee_list_screen.dart';
 import 'package:hrm_aqtech/features/home/widgets/home_appbar.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/general_time_off/general_time_off_screen.dart';
@@ -163,7 +164,9 @@ class HomeScreen extends StatelessWidget {
                           MyVerticalImageText(
                               image: MyImagePaths.iconPlane,
                               title: "Ngày công\n tác",
-                              onTap: () {}),
+                              onTap: () {
+                                Get.to(() => const BusinessDaysListScreen());
+                              }),
                           MyVerticalImageText(
                               image: MyImagePaths.iconBeach,
                               title: "Ngày nghỉ\n phép",
