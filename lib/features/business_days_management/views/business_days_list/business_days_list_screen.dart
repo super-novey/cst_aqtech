@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/appbar.dart';
-import 'package:hrm_aqtech/features/business_days_management/controllers/date_range_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/business_date_tile.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/filter_tool.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
-import 'package:hrm_aqtech/utils/constants/sizes.dart';
-import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 
 class BusinessDaysListScreen extends StatelessWidget {
   const BusinessDaysListScreen({super.key});
@@ -44,12 +40,9 @@ class BusinessDaysListScreen extends StatelessWidget {
             ];
           },
           body: ListView.builder(
-              itemCount: 20,
+              itemCount: 5,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(MySizes.defaultSpace),
-                  child: BusinessDateTile(),
-                );
+                return const BusinessDateTile();
               }),
         ));
   }

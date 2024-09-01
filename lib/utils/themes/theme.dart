@@ -9,14 +9,12 @@ import 'package:hrm_aqtech/utils/themes/custom_themes/text_theme.dart';
 
 class MyTheme {
   static ThemeData lightTheme = ThemeData(
-      //primaryColor: MyColors.primaryColor,
       colorScheme: const ColorScheme.light(
-        primary: MyColors.dartPrimaryColor,
-        onPrimary: Colors.black, // Header text color
-        surface: Colors.white, // Calendar background color
-        onSurface: MyColors.primaryTextColor,
-        
-      ),
+          primary: MyColors.primaryColor,
+          onPrimary: Colors.black,
+          surface: Colors.white,
+          onSurface: MyColors.primaryTextColor,
+          secondary: MyColors.lightPrimaryColor),
       scaffoldBackgroundColor: Colors.white,
       brightness: Brightness.light,
       appBarTheme: MyAppBarTheme.lightAppBarTheme,

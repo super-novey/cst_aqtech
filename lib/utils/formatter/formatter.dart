@@ -12,4 +12,10 @@ class MyFormatter {
     final DateFormat formatter = DateFormat('dd/MM/yyyy');
     return formatter.format(date);
   }
+
+  static String formatCurrency(int amout) {
+    var formatter = NumberFormat('#,###,###');
+    var t = NumberFormat.currency(locale: "vi");
+    return formatter.format(amout) + t.currencySymbol;
+  }
 }

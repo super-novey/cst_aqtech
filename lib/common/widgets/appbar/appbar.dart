@@ -11,14 +11,15 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? leadingOnPressed;
   final Color? iconColor;
 
-  const MyAppBar(
-      {super.key,
-      this.title,
-      this.actions,
-      this.leadingIcon,
-      this.leadingOnPressed,
-      this.showBackArrow = false,
-      this.iconColor = Colors.white});
+  const MyAppBar({
+    super.key,
+    this.title,
+    this.actions,
+    this.leadingIcon,
+    this.leadingOnPressed,
+    this.showBackArrow = false,
+    this.iconColor = Colors.white,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 icon: Icon(
                   Icons.arrow_back_ios,
                   color: iconColor,
+                  size: MySizes.iconMd,
                 ))
             : leadingIcon != null
                 ? IconButton(
