@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class DateRangeController extends GetxController {
   static DateRangeController get instance => Get.find();
-  var dateRange = DateTimeRange(start: DateTime.now(), end: DateTime.now()).obs;
+  var dateRange =
+      DateTimeRange(start: DateTime(DateTime.now().year), end: DateTime.now())
+          .obs;
 
   @override
   void onInit() {

@@ -16,6 +16,6 @@ class MyFormatter {
   static String formatCurrency(int amout) {
     var formatter = NumberFormat('#,###,###');
     var t = NumberFormat.currency(locale: "vi");
-    return formatter.format(amout) + t.currencySymbol;
+    return "${formatter.format(amout)} ${t.currencySymbol}";
   }
 }

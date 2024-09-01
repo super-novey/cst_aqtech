@@ -42,7 +42,11 @@ class BusinessDaysListScreen extends StatelessWidget {
           body: ListView.builder(
               itemCount: 5,
               itemBuilder: (context, index) {
-                return const BusinessDateTile();
+                return BusinessDateTile(
+                  backgroundColor: (index % 2 == 0)
+                      ? MyColors.lightPrimaryColor
+                      : Colors.white,
+                );
               }),
         ));
   }
