@@ -70,7 +70,7 @@ class BussinessDaysUpdate extends StatelessWidget {
                     width: MySizes.spaceBtwItems,
                   ),
                   MyRoundedContainer(
-                    backgroundColor: MyColors.primaryColor,
+                    backgroundColor: MyColors.dartPrimaryColor,
                     child: IconButton(
                         onPressed: () {
                           dateRangeController.showRangeDatePicker();
@@ -141,7 +141,7 @@ class BussinessDaysUpdate extends StatelessWidget {
                       memberListController.memberExpensesController.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding: const EdgeInsets.only(top: 12),
                       child: Row(
                         children: [
                           // Drop down
@@ -204,9 +204,7 @@ class BussinessDaysUpdate extends StatelessWidget {
                   },
                 ),
               ),
-              const SizedBox(
-                height: MySizes.spaceBtwItems,
-              ),
+
               SizedBox(
                   width: double.infinity,
                   child: OutlinedButton(
@@ -215,10 +213,9 @@ class BussinessDaysUpdate extends StatelessWidget {
                       },
                       child: Text(
                         "Thêm nhân sự",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .apply(color: MyColors.accentColor),
+                        style: Theme.of(context).textTheme.headlineSmall!.apply(
+                            color: MyColors.dartPrimaryColor,
+                            fontWeightDelta: 3),
                       ))),
               const SizedBox(
                 height: MySizes.spaceBtwItems,

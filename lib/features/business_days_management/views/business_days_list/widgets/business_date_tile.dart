@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/texts/dashed_line.dart';
-import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/footer_widget.dart';
+import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/member_list_widget.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/bussiness_day_detail/bussiness_day_detail_screen.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
+import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 
 class BusinessDateTile extends StatelessWidget {
-  const BusinessDateTile({super.key, required this.backgroundColor});
+  const BusinessDateTile(
+      {super.key, required this.backgroundColor, required this.businessDate});
 
   final Color backgroundColor;
+  final BusinessDate businessDate;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +58,7 @@ class BusinessDateTile extends StatelessWidget {
                       children: [
                         // Ngày bắt đầu
                         Text(
-                          "01/01/2024",
+                          MyFormatter.formatDateTime(businessDate.dateFrom),
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall!
@@ -70,7 +73,7 @@ class BusinessDateTile extends StatelessWidget {
 
                         // Số lượng ngày
                         Text(
-                          " 5 ngày ",
+                          " ${businessDate.sumDay} ngày ",
                           style: Theme.of(context).textTheme.bodyLarge!.apply(
                               color: MyColors.secondaryTextColor,
                               fontStyle: FontStyle.italic),
@@ -82,7 +85,7 @@ class BusinessDateTile extends StatelessWidget {
                         ),
                         // Ngày kết thúc
                         Text(
-                          "01/01/2024",
+                          MyFormatter.formatDateTime(businessDate.dateTo),
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall!
@@ -95,8 +98,8 @@ class BusinessDateTile extends StatelessWidget {
                     ),
 
                     // Nội dung công tác
-                    const Text(
-                      "DHMO Đại học Mở TPHCM: Triển khai khối lượng giảng dạy",
+                    Text(
+                      businessDate.commissionContent,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -115,7 +118,39 @@ class BusinessDateTile extends StatelessWidget {
                       color: MyColors.dividerColor,
                     ),
 
-                    const FooterWidget()
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            // Phương tiện di chuyển
+                            children: [
+                              const Icon(Icons.motorcycle_sharp),
+                              const SizedBox(
+                                width: MySizes.sm,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  businessDate.transportation,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .apply(color: MyColors.accentColor),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        // Công tác phí
+                        Text(
+                          MyFormatter.formatCurrency(
+                              businessDate.commissionExpenses),
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        )
+                      ],
+                    )
                   ],
                 ),
               )),

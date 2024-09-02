@@ -12,16 +12,17 @@ class BusinessDate {
   String note;
 
   BusinessDate({
-    required this.id,
-    required this.dateFrom,
-    required this.dateTo,
-    required this.sumDay,
-    required this.commissionContent,
-    required this.transportation,
-    required this.memberList,
-    required this.commissionExpenses,
-    required this.note,
-  });
+    this.id = 0,
+    DateTime? dateFrom,
+    DateTime? dateTo,
+    this.sumDay = 1.0,
+    this.commissionContent = "",
+    this.transportation = "",
+    this.memberList = const [],
+    this.commissionExpenses = 0,
+    this.note = "",
+  })  : dateTo = dateTo ?? DateTime.now(),
+        dateFrom = dateFrom ?? DateTime.now();
 
   factory BusinessDate.fromJson(Map<String, dynamic> json) {
     return BusinessDate(
@@ -29,14 +30,29 @@ class BusinessDate {
       dateFrom: DateTime.parse(json['dateFrom']),
       dateTo: DateTime.parse(json['dateTo']),
       sumDay: json['sumDay'].toDouble(),
-      commissionContent: json['comissionContent'],
-      transportation: json['transportation'],
+      commissionContent: json['comissionContent'] ?? "",
+      transportation: json['transportation'] ?? "",
       memberList: (json['memberList'] as List)
           .map((member) => Member.fromJson(member))
           .toList(),
       commissionExpenses: json['commissionExpenses'],
-      note: json['note'],
+      note: json['note'] ?? "",
     );
+  }
+  int countWeekdays(DateTime startDate, DateTime endDate) {
+    int weekdayCount = 0;
+    DateTime currentDate = startDate;
+
+    while (currentDate.isBefore(endDate) ||
+        currentDate.isAtSameMomentAs(endDate)) {
+      if (currentDate.weekday != DateTime.saturday &&
+          currentDate.weekday != DateTime.sunday) {
+        weekdayCount++;
+      }
+      currentDate = currentDate.add(Duration(days: 1));
+    }
+
+    return weekdayCount;
   }
 
   Map<String, dynamic> toJson() {

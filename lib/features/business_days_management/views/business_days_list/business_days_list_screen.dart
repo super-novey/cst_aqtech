@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
+import 'package:hrm_aqtech/common/shimmers/shimmer_list_tile.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/appbar.dart';
+import 'package:hrm_aqtech/features/business_days_management/controllers/bussiness_day_list_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/date_range_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/business_date_tile.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/filter_tool.dart';
@@ -12,6 +14,7 @@ class BusinessDaysListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bussinessDateController = Get.put(BussinessDayListController());
     return Scaffold(
         appBar: MyAppBar(
           showBackArrow: true,
@@ -45,15 +48,22 @@ class BusinessDaysListScreen extends StatelessWidget {
               )
             ];
           },
-          body: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return BusinessDateTile(
-                  backgroundColor: (index % 2 == 0)
-                      ? MyColors.lightPrimaryColor
-                      : Colors.white,
-                );
-              }),
+          body: Obx(
+            () => (bussinessDateController.isLoading.value)
+                ? const ShimmerListTile()
+                : ListView.builder(
+                    itemCount: bussinessDateController.bussinessDateList.length,
+                    itemBuilder: (context, index) {
+                      final tmp =
+                          bussinessDateController.bussinessDateList[index];
+                      return BusinessDateTile(
+                        backgroundColor: (index % 2 == 0)
+                            ? MyColors.lightPrimaryColor
+                            : Colors.white,
+                        businessDate: tmp,
+                      );
+                    }),
+          ),
         ));
   }
 }
