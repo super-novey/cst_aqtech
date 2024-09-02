@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/appbar.dart';
+import 'package:hrm_aqtech/features/business_days_management/controllers/date_range_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/business_date_tile.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/filter_tool.dart';
+import 'package:hrm_aqtech/features/business_days_management/views/bussiness_days_update/bussiness_days_update.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 
 class BusinessDaysListScreen extends StatelessWidget {
@@ -19,7 +22,10 @@ class BusinessDaysListScreen extends StatelessWidget {
           ),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => const BussinessDaysUpdate());
+                  DateRangeController.instance.onClose();
+                },
                 icon: const Icon(
                   Icons.add,
                   color: MyColors.primaryTextColor,

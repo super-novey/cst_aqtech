@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DateRangeController extends GetxController {
-  static DateRangeController get instance => Get.find();
+class NewDateRangeController extends GetxController {
+  //static DateRangeController get instance => Get.find();
   var dateRange =
       DateTimeRange(start: DateTime(DateTime.now().year), end: DateTime.now())
           .obs;
 
   @override
   void onInit() {
+    dateRange =
+        DateTimeRange(start: DateTime(DateTime.now().year), end: DateTime.now())
+            .obs;
     super.onInit();
   }
 
@@ -20,6 +23,7 @@ class DateRangeController extends GetxController {
 
   @override
   void onClose() {
+    // TODO: implement onClose
     super.onClose();
   }
 

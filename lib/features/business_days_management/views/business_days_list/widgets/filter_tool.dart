@@ -12,7 +12,6 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final dateRangeController = Get.put(DateRangeController());
-
     return Padding(
       padding: const EdgeInsets.all(MySizes.defaultSpace),
       child: Column(
@@ -32,7 +31,7 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
               // text hiển thị ngày
               Expanded(
                 child: GestureDetector(
-                  onTap: DateRangeController.instance.showRangeDatePicker,
+                  onTap: dateRangeController.showRangeDatePicker,
                   child: MyRoundedContainer(
                     padding: const EdgeInsets.all(12),
                     borderColor: MyColors.dartPrimaryColor,

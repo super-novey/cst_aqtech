@@ -20,4 +20,8 @@ class Member {
       'memberExpenses': memberExpenses,
     };
   }
+
+  String getNameById() {
+    return "";
+  }
 }

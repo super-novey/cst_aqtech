@@ -7,7 +7,7 @@ class BusinessDate {
   double sumDay;
   String commissionContent;
   String transportation;
-  //List<Member> memberList;
+  List<Member> memberList;
   int commissionExpenses;
   String note;
 
@@ -18,7 +18,7 @@ class BusinessDate {
     required this.sumDay,
     required this.commissionContent,
     required this.transportation,
-    //required this.memberList,
+    required this.memberList,
     required this.commissionExpenses,
     required this.note,
   });
@@ -31,9 +31,9 @@ class BusinessDate {
       sumDay: json['sumDay'].toDouble(),
       commissionContent: json['comissionContent'],
       transportation: json['transportation'],
-      // memberList: (json['memberList'] as List)
-      //     .map((member) => Member.fromJson(member))
-      //     .toList(),
+      memberList: (json['memberList'] as List)
+          .map((member) => Member.fromJson(member))
+          .toList(),
       commissionExpenses: json['commissionExpenses'],
       note: json['note'],
     );
@@ -47,7 +47,7 @@ class BusinessDate {
       'sumDay': sumDay,
       'comissionContent': commissionContent,
       'transportation': transportation,
-      //'memberList': memberList.map((member) => member.toJson()).toList(),
+      'memberList': memberList.map((member) => member.toJson()).toList(),
       'commissionExpenses': commissionExpenses,
       'note': note,
     };
