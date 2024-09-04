@@ -39,21 +39,6 @@ class BusinessDate {
       note: json['note'] ?? "",
     );
   }
-  int countWeekdays(DateTime startDate, DateTime endDate) {
-    int weekdayCount = 0;
-    DateTime currentDate = startDate;
-
-    while (currentDate.isBefore(endDate) ||
-        currentDate.isAtSameMomentAs(endDate)) {
-      if (currentDate.weekday != DateTime.saturday &&
-          currentDate.weekday != DateTime.sunday) {
-        weekdayCount++;
-      }
-      currentDate = currentDate.add(Duration(days: 1));
-    }
-
-    return weekdayCount;
-  }
 
   Map<String, dynamic> toJson() {
     return {

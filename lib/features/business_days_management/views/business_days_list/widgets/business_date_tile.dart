@@ -5,6 +5,7 @@ import 'package:hrm_aqtech/common/widgets/texts/dashed_line.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/member_list_widget.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/bussiness_day_detail/bussiness_day_detail_screen.dart';
+import 'package:hrm_aqtech/features/business_days_management/views/bussiness_days_update/bussiness_days_update.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
@@ -28,7 +29,11 @@ class BusinessDateTile extends StatelessWidget {
         child: Slidable(
           endActionPane: ActionPane(motion: const BehindMotion(), children: [
             SlidableAction(
-              onPressed: (context) {},
+              onPressed: (context) {
+                Get.to(() => BussinessDaysUpdate(
+                      businessDate: businessDate,
+                    ));
+              },
               backgroundColor: MyColors.accentColor,
               foregroundColor: Colors.white,
               borderRadius: const BorderRadius.only(

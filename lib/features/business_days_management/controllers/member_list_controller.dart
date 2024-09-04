@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 
 class MemberListController extends GetxController {
-  var memberNameController = <String>[].obs;
+  var memberNameController = <Employee>[].obs;
+  List<Employee> allEmployees = <Employee>[];
   var memberExpensesController = <TextEditingController>[].obs;
-
-  final List<String> names = [
-    'Option 1',
-    'Option 2',
-    'Option 3'
-  ];
-  
-   // Danh sach ten cac nhan vien
 
   @override
   void onClose() {
@@ -22,8 +16,8 @@ class MemberListController extends GetxController {
   }
 
   void add() {
-    memberExpensesController.add(TextEditingController());
-    memberNameController.add(names.first);
+    memberExpensesController.add(TextEditingController(text: '0'));
+    memberNameController.add(allEmployees[0]);
   }
 
   void remove(int index) {

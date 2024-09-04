@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class BussinessDateField extends StatelessWidget {
-  const BussinessDateField({super.key, required this.title});
+  const BussinessDateField(
+      {super.key, required this.title, required this.controller});
 
   final String title;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,9 @@ class BussinessDateField extends StatelessWidget {
           style:
               Theme.of(context).textTheme.bodyMedium!.apply(fontWeightDelta: 2),
         ),
-        const TextField()
+        TextField(
+          controller: controller,
+        )
       ],
     );
   }

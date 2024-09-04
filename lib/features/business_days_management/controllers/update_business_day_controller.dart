@@ -1,0 +1,73 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hrm_aqtech/data/employees/employee_repository.dart';
+import 'package:hrm_aqtech/features/business_days_management/controllers/member_list_controller.dart';
+import 'package:hrm_aqtech/features/business_days_management/controllers/new_date_range_controller.dart';
+import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
+import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
+import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
+
+class UpdateBusinessDayController extends GetxController {
+  static UpdateBusinessDayController get instance => Get.find();
+  final dateRangeController = Get.put(NewDateRangeController());
+  final memberListController = Get.put(MemberListController());
+  final _employeeRepository = Get.put(EmployeeRepository());
+
+  var isLoading = false.obs;
+
+  var sumDay = TextEditingController().obs;
+  var commissionContent = TextEditingController();
+  var transportation = TextEditingController();
+  var commissionExpenses = TextEditingController();
+  var note = TextEditingController();
+  var isAdd = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void dispose() {
+    sumDay.value.dispose();
+    commissionContent.dispose();
+    transportation.dispose();
+    commissionExpenses.dispose();
+    note.dispose();
+    super.dispose();
+  }
+
+  Future<void> init(BusinessDate businessDay) async {
+    try {
+      isLoading.value = true;
+
+      final isConnected = await NetworkManager.instance.isConnected();
+      if (!isConnected) {
+        return;
+      }
+      sumDay.value.text = businessDay.sumDay.toString();
+      commissionContent.text = businessDay.commissionContent;
+      transportation.text = businessDay.transportation;
+      commissionExpenses.text = businessDay.commissionExpenses.toString();
+      note.text = businessDay.note;
+      dateRangeController.dateRange.value = DateTimeRange(
+          start: businessDay.dateFrom.toLocal(),
+          end: businessDay.dateTo.toLocal());
+      businessDay.dateFrom;
+
+      final employees = await _employeeRepository.getAllEmployees();
+      memberListController.allEmployees.assignAll(employees);
+
+      for (var x in businessDay.memberList) {
+        final foundEmployee = employees.firstWhere(
+          (employee) => employee.id == x.id,
+        );
+        memberListController.memberNameController.add(foundEmployee);
+        memberListController.memberExpensesController
+            .add(TextEditingController(text: x.memberExpenses.toString()));
+      }
+    } finally {
+      isLoading.value = false;
+    }
+  }
+}
