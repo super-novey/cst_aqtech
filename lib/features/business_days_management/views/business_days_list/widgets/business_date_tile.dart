@@ -19,7 +19,9 @@ class BusinessDateTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => const BussinessDayDetailScreen()),
+      onTap: () => Get.to(() => BusinessDayDetailScreen(
+            businessDate: businessDate,
+          )),
       child: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: MySizes.defaultSpace, vertical: MySizes.spaceBtwItems),

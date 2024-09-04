@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/appbar.dart';
 import 'package:hrm_aqtech/common/widgets/container/rounded_container.dart';
+import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
+import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 
-class BussinessDayDetailScreen extends StatelessWidget {
-  const BussinessDayDetailScreen({super.key});
+class BusinessDayDetailScreen extends StatelessWidget {
+  const BusinessDayDetailScreen({super.key, required this.businessDate});
 
+  final BusinessDate businessDate;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,52 +31,51 @@ class BussinessDayDetailScreen extends StatelessWidget {
             borderColor: MyColors.accentColor,
             child: Column(
               children: [
-                const BussinessDateMenu(
+                BussinessDateMenu(
                   title: 'Từ ngày:',
-                  value: '01/03/2024',
+                  value: MyFormatter.formatDateTime(businessDate.dateFrom),
                 ),
                 const SizedBox(
                   height: MySizes.spaceBtwInputFields,
                 ),
-                const BussinessDateMenu(
+                BussinessDateMenu(
                   title: 'Đến ngày:',
-                  value: '01/03/2024',
+                  value: MyFormatter.formatDateTime(businessDate.dateTo),
                 ),
                 const SizedBox(
                   height: MySizes.spaceBtwInputFields,
                 ),
-                const BussinessDateMenu(
+                BussinessDateMenu(
                   title: 'Số lượng ngày:',
-                  value: '1',
+                  value: businessDate.sumDay.toString(),
                 ),
                 const SizedBox(
                   height: MySizes.spaceBtwInputFields,
                 ),
-                const BussinessDateMenu(
+                BussinessDateMenu(
                   title: 'Nội dung công tác:',
-                  value:
-                      'DHMO Đại học Mở TPHCM: Triển khai khối lượng giảng dạy',
+                  value: businessDate.commissionContent,
                 ),
                 const SizedBox(
                   height: MySizes.spaceBtwInputFields,
                 ),
-                const BussinessDateMenu(
+                BussinessDateMenu(
                   title: 'Phương tiện di chuyển:',
-                  value: 'Xe anh Thành',
+                  value: businessDate.transportation,
                 ),
                 const SizedBox(
                   height: MySizes.spaceBtwInputFields,
                 ),
-                const BussinessDateMenu(
+                BussinessDateMenu(
                   title: 'Chi phí công tác:',
-                  value: '0',
+                  value: businessDate.commissionExpenses.toString(),
                 ),
                 const SizedBox(
                   height: MySizes.spaceBtwInputFields,
                 ),
-                const BussinessDateMenu(
+                BussinessDateMenu(
                   title: 'Ghi chú chi phí công tác:',
-                  value: '75000 phí công tác + phí phương tiện 100000',
+                  value: businessDate.note,
                 ),
                 const SizedBox(
                   height: MySizes.spaceBtwInputFields,
@@ -122,24 +124,58 @@ class BussinessDayDetailScreen extends StatelessWidget {
                             ),
                           ),
                         ]),
-                    ...List.generate(
-                        3,
-                        (index) => TableRow(children: [
-                              const TableCell(
-                                  child: Padding(
-                                padding: EdgeInsets.all(MySizes.sm),
-                                child: Text(
-                                  "Nguyễn Phước Thành",
-                                ),
-                              )),
-                              TableCell(
-                                  child: Padding(
-                                padding: const EdgeInsets.all(MySizes.sm),
-                                child: Text(
-                                  MyFormatter.formatCurrency(185000),
-                                ),
-                              )),
-                            ]))
+                    ...List.generate(businessDate.memberList.length, (index) {
+                      final member = businessDate.memberList[index];
+                      return TableRow(children: [
+                        // TableCell(
+                        //     child: Padding(
+                        //   padding: const EdgeInsets.all(MySizes.sm),
+                        //   child: Text(
+                        //     member.id.toString(),
+                        //   ),
+                        // )),
+                        FutureBuilder(
+                            future: member.getNameById(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const TableCell(
+                                    child: Padding(
+                                  padding: EdgeInsets.all(MySizes.sm),
+                                  child: Text(''),
+                                ));
+                              } else if (snapshot.hasError) {
+                                return const TableCell(
+                                    child: Padding(
+                                  padding: EdgeInsets.all(MySizes.sm),
+                                  child: Text(''),
+                                ));
+                              } else if (snapshot.hasData) {
+                                final name = snapshot.data!;
+                                return TableCell(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(MySizes.sm),
+                                  child: Text(
+                                    name,
+                                  ),
+                                ));
+                              } else {
+                                return const TableCell(
+                                    child: Padding(
+                                  padding: EdgeInsets.all(MySizes.sm),
+                                  child: Text(''),
+                                ));
+                              }
+                            }),
+                        TableCell(
+                            child: Padding(
+                          padding: const EdgeInsets.all(MySizes.sm),
+                          child: Text(
+                            MyFormatter.formatCurrency(member.memberExpenses),
+                          ),
+                        )),
+                      ]);
+                    })
                   ],
                 )
               ],
