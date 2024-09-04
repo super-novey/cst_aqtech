@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/container/rounded_container.dart';
+import 'package:hrm_aqtech/features/business_days_management/controllers/bussiness_day_list_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/date_range_controller.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -56,7 +57,9 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                   backgroundColor: MyColors.dartPrimaryColor,
                   child: IconButton(
                     padding: const EdgeInsets.all(0),
-                    onPressed: () {},
+                    onPressed: () {
+                      BussinessDayListController.instance.fetchBussinessDate();
+                    },
                     icon: const Icon(
                       Icons.search,
                       color: Colors.white,

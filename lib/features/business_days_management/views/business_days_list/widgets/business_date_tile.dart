@@ -108,7 +108,9 @@ class BusinessDateTile extends StatelessWidget {
                     ),
 
                     // Danh sách thành viên
-                    const MemberListWidget(),
+                    MemberListWidget(
+                      memberList: businessDate.memberList,
+                    ),
                     const SizedBox(
                       height: MySizes.spaceBtwItems,
                     ),

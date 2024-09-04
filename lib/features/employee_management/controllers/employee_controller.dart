@@ -66,4 +66,5 @@ class EmployeeController extends GetxController {
   void changeFilteredRole(String role) {
     filteredRole.value = role; // cap nhat role de loc
   }
+
 }

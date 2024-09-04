@@ -1,3 +1,5 @@
+import 'package:hrm_aqtech/data/employees/employee_repository.dart';
+
 class Member {
   int id;
   int memberExpenses;
@@ -21,7 +23,8 @@ class Member {
     };
   }
 
-  String getNameById() {
-    return "";
+  Future<String> getNameById() async{
+    final employee = await EmployeeRepository.instance.getById(id);
+    return employee.fullName;
   }
 }
