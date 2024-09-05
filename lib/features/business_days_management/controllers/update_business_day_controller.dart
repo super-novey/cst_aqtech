@@ -60,7 +60,7 @@ class UpdateBusinessDayController extends GetxController {
           end: businessDay.dateTo.toLocal());
       businessDay.dateFrom;
 
-      final employees = await _employeeRepository.getAllEmployees();
+      final employees = await _employeeRepository.getAssignedEmployeeList();
       memberListController.allEmployees.assignAll(employees);
 
       for (var x in businessDay.memberList) {

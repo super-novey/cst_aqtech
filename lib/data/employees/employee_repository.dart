@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/employee_management/models/assigned_employee.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/utils/http/http_client.dart';
 
@@ -50,6 +51,18 @@ class EmployeeRepository extends GetxController {
           .map((employee) => Employee.fromJson(employee))
           .toList();
       return list[0];
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<List<AssignedEmployee>> getAssignedEmployeeList() async {
+    try {
+      final snapshot = await HttpHelper.get("ThongTinCaNhan/NhanVienCongTac");
+      final ls = (snapshot["data"] as List)
+          .map((employee) => AssignedEmployee.fromJson(employee))
+          .toList();
+      return ls;
     } on Exception catch (_) {
       rethrow;
     }
