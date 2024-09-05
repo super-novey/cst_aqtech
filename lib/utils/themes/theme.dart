@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/themes/custom_themes/app_bar_theme.dart';
 import 'package:hrm_aqtech/utils/themes/custom_themes/elevated_button_theme.dart';
 import 'package:hrm_aqtech/utils/themes/custom_themes/outline_button_theme.dart';
@@ -8,6 +9,12 @@ import 'package:hrm_aqtech/utils/themes/custom_themes/text_theme.dart';
 
 class MyTheme {
   static ThemeData lightTheme = ThemeData(
+      colorScheme: const ColorScheme.light(
+          primary: MyColors.primaryColor,
+          onPrimary: Colors.black,
+          surface: Colors.white,
+          onSurface: MyColors.primaryTextColor,
+          secondary: MyColors.lightPrimaryColor),
       scaffoldBackgroundColor: Colors.white,
       brightness: Brightness.light,
       appBarTheme: MyAppBarTheme.lightAppBarTheme,

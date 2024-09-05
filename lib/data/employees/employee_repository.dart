@@ -42,4 +42,16 @@ class EmployeeRepository extends GetxController {
       rethrow;
     }
   }
+
+  Future<Employee> getById(int id) async {
+    try {
+      final snapshot = await HttpHelper.get("ThongTinCaNhan/$id");
+      final list = (snapshot["data"] as List)
+          .map((employee) => Employee.fromJson(employee))
+          .toList();
+      return list[0];
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
 }

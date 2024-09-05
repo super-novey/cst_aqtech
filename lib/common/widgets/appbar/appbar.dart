@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
@@ -11,14 +12,15 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? leadingOnPressed;
   final Color? iconColor;
 
-  const MyAppBar(
-      {super.key,
-      this.title,
-      this.actions,
-      this.leadingIcon,
-      this.leadingOnPressed,
-      this.showBackArrow = false,
-      this.iconColor = Colors.white});
+  const MyAppBar({
+    super.key,
+    this.title,
+    this.actions,
+    this.leadingIcon,
+    this.leadingOnPressed,
+    this.showBackArrow = false,
+    this.iconColor = Colors.white,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +32,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? IconButton(
                 onPressed: () => Get.back(),
                 icon: Icon(
-                  Icons.arrow_back_rounded,
+                  Icons.arrow_back_ios,
                   color: iconColor,
+                  size: MySizes.iconMd,
                 ))
             : leadingIcon != null
                 ? IconButton(

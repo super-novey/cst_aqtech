@@ -58,15 +58,20 @@ class HeplerFunction {
     }
   }
 
-  static String removeDiacritics(String str) {
-    const withDiacritics =
-        'àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ';
-    const withoutDiacritics =
-        'aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyydAAAAAAAAAAAAAAAAAEEEEEEEEEEEIIIIIoooooooooooooooouuuuuuuuuuuyyyyYD';
+  static double calculateWeekdays(DateTime startDate, DateTime endDate) {
+  int totalWeekdays = 0;
+  DateTime currentDate = startDate;
 
-    for (int i = 0; i < withDiacritics.length; i++) {
-      str = str.replaceAll(withDiacritics[i], withoutDiacritics[i]);
+  while (currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate)) {
+    if (currentDate.weekday != DateTime.saturday && currentDate.weekday != DateTime.sunday) {
+      totalWeekdays++;
     }
-    return str;
+    // Chuyển sang ngày tiếp theo
+    currentDate = currentDate.add(Duration(days: 1));
   }
+
+  return totalWeekdays.toDouble();
+}
+
+  
 }

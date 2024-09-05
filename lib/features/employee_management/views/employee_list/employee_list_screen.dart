@@ -6,6 +6,7 @@ import 'package:hrm_aqtech/features/employee_management/controllers/employee_con
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_details/employee_detail.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_list/widgets/employee_tile.dart';
+import 'package:hrm_aqtech/navigation_menu.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -23,20 +24,29 @@ class EmployeeListScreen extends StatelessWidget {
       length: EmployeeRole.values.length + 1, // do co tab All nen +1
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: MyColors.primaryColor,
-            title: const Text("Danh sách nhân sự AQTech"),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    controller.editableController.isAdd.value = true;
-                    controller.editableController.toggleEditting();
-                    Get.to(() => EmployeeDetailScreen(
-                          selectedEmployee: Employee(),
-                        ));
-                  },
-                  icon: const Icon(Icons.person_add))
-            ],
-          ),
+              backgroundColor: MyColors.primaryColor,
+              title: const Text("Danh sách nhân sự AQTech"),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      controller.editableController.isAdd.value = true;
+                      controller.editableController.toggleEditting();
+                      Get.to(() => EmployeeDetailScreen(
+                            selectedEmployee: Employee(),
+                          ));
+                    },
+                    icon: const Icon(Icons.person_add))
+              ],
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: MySizes.iconMd,
+                ),
+                onPressed: () {
+                  Get.offAll(() => const NavigationMenu());
+                },
+              )),
           body: NestedScrollView(
               headerSliverBuilder: (_, innerBoxIsScrolled) {
                 return [
