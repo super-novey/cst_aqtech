@@ -6,6 +6,7 @@ import 'package:hrm_aqtech/features/business_days_management/controllers/date_ra
 import 'package:hrm_aqtech/features/business_days_management/controllers/update_business_day_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/member_model.dart';
+import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/business_days_list_screen.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -17,7 +18,7 @@ class BussinessDayListController extends GetxController {
   final _bussinessDayRepository = Get.put(BussinessDayRepository());
   final _employeeRepository = Get.put(EmployeeRepository());
   final updateBusinessDay = Get.put(UpdateBusinessDayController());
-  
+
   List<BusinessDate> bussinessDateList = <BusinessDate>[].obs;
   List<Employee> employees = <Employee>[].obs;
 
@@ -50,14 +51,6 @@ class BussinessDayListController extends GetxController {
     }
   }
 
-  Future<void> fetchEmployeeInforList(List<Member> members) async {
-    for (var x in members) {
-      employees.add(await _employeeRepository.getById(x.id));
-    }
-    // final e = await _employeeRepository.getById(14);
-    // print(e.fullName);
-  }
-
   void delete(int id) {
     Get.defaultDialog(
         contentPadding: const EdgeInsets.all(MySizes.md),
@@ -68,8 +61,8 @@ class BussinessDayListController extends GetxController {
               await _bussinessDayRepository.deleteBusinessDay(id);
               Loaders.successSnackBar(
                   title: "Thành công!", message: "Xóa ngày công tác");
-              //Navigator.of(Get.overlayContext!).pop();
-              //Get.offAll(() => const EmployeeListScreen());
+              Navigator.of(Get.overlayContext!).pop();
+              BussinessDayListController.instance.fetchBussinessDate();
             },
             style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(0),

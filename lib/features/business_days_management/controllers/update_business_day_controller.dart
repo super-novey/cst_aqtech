@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/bussiness_days/bussiness_day_repository.dart';
 import 'package:hrm_aqtech/data/employees/employee_repository.dart';
+import 'package:hrm_aqtech/features/business_days_management/controllers/bussiness_day_list_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/member_list_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/new_date_range_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/member_model.dart';
+import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/business_days_list_screen.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';
 import 'package:hrm_aqtech/utils/popups/full_screen_loader.dart';
@@ -93,14 +95,14 @@ class UpdateBusinessDayController extends GetxController {
       _getBusinessDayFromForm(businessDay);
       if (isAdd.value) {
         // Xu ly them
-        await BussinessDayRepository.instance.addBusinessDay(businessDay);
         isAdd.value = false; // cap nhat truong idAdd
+
+        await BussinessDayRepository.instance.addBusinessDay(businessDay);
+
         Loaders.successSnackBar(
             title: "Thành công!", message: "Đã thêm ngày công tác");
       } else {
-        // xu ly luu qua api
         await BussinessDayRepository.instance.updateBusinessDay(businessDay);
-        //toggleEditting();
         Loaders.successSnackBar(
             title: "Thành công!", message: "Cập nhật ngày công tác");
       }
@@ -108,6 +110,7 @@ class UpdateBusinessDayController extends GetxController {
       Loaders.errorSnackBar(title: "Oops", message: e.toString());
     } finally {
       FullScreenLoader.stopLoading();
+      //Get.to(() => const BusinessDaysListScreen());
     }
   }
 
