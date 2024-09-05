@@ -5,6 +5,7 @@ import 'package:hrm_aqtech/common/widgets/appbar/tabbar.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_details/employee_detail.dart';
+import 'package:hrm_aqtech/features/employee_management/views/employee_list/widgets/employee_chart.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_list/widgets/employee_tile.dart';
 import 'package:hrm_aqtech/navigation_menu.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
@@ -80,20 +81,27 @@ class EmployeeListScreen extends StatelessWidget {
               },
               body: Obx(() => (controller.isLoading.value)
                   ? const ShimmerListTile()
-                  : ListView.builder(
-                      itemCount: (controller.textSearchLength.value == 0)
-                          ? controller.filteredEmployees.length
-                          : controller.searchResult.length,
-                      itemBuilder: (context, index) {
-                        final employee =
-                            (controller.textSearchLength.value == 0)
-                                ? controller.filteredEmployees[index]
-                                : controller.searchResult[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(MySizes.sm),
-                          child: EmployeeTile(employee: employee),
-                        );
-                      },
+                  : ListView(
+                      children: [
+                        const EmployeeChart(),
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: (controller.textSearchLength.value == 0)
+                              ? controller.filteredEmployees.length
+                              : controller.searchResult.length,
+                          itemBuilder: (context, index) {
+                            final employee =
+                                (controller.textSearchLength.value == 0)
+                                    ? controller.filteredEmployees[index]
+                                    : controller.searchResult[index];
+                            return Padding(
+                              padding: const EdgeInsets.all(MySizes.sm),
+                              child: EmployeeTile(employee: employee),
+                            );
+                          },
+                        ),
+                      ],
                     )))),
     );
   }
