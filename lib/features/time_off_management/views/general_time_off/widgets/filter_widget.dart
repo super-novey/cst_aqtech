@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/time_off_management/controllers/date_time_picker_controller.dart';
-import 'package:hrm_aqtech/features/time_off_management/controllers/filter_controller.dart';
+import 'package:hrm_aqtech/features/time_off_management/controllers/general_time_off_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
@@ -58,7 +58,7 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
                                               ? 'Chọn ngày'
                                               : DateFormat('dd/MM/yyyy').format(
                                                   dateTimePickerController
-                                                      .startDate.value!),
+                                                      .startDate.value),
                                           hintStyle: TextStyle(
                                               color: Colors.grey[410]),
                                           border: InputBorder.none,
@@ -91,9 +91,7 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              
                             ),
-                            
                           ),
                         ],
                       ),
@@ -135,7 +133,7 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
                                               ? 'Chọn ngày'
                                               : DateFormat('dd/MM/yyyy').format(
                                                   dateTimePickerController
-                                                      .endDate.value!),
+                                                      .endDate.value),
                                           hintStyle: TextStyle(
                                               color: Colors.grey[410]),
                                           border: InputBorder.none,
@@ -157,8 +155,8 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
                           ),
                           OutlinedButton.icon(
                             onPressed: () {
-                              FilterController controller = Get.find();
-                              controller.filter();
+                              GeneralTimeOffController.instance
+                                  .fetchGeneralTimeOffs();
                             },
                             label: const Text("Tìm kiếm",
                                 style: TextStyle(color: Colors.black)),
