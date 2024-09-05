@@ -32,7 +32,9 @@ class BussinessDaysUpdate extends StatelessWidget {
           ),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  controller.save(businessDate);
+                },
                 icon: const Icon(
                   Icons.save,
                   color: MyColors.accentColor,

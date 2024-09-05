@@ -4,6 +4,7 @@ import 'package:hrm_aqtech/common/shimmers/shimmer_list_tile.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/appbar.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/bussiness_day_list_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/date_range_controller.dart';
+import 'package:hrm_aqtech/features/business_days_management/controllers/update_business_day_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/business_date_tile.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/filter_tool.dart';
@@ -27,6 +28,7 @@ class BusinessDaysListScreen extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
+                  bussinessDateController.updateBusinessDay.isAdd.value = true;
                   Get.to(() => BussinessDaysUpdate(
                         businessDate: BusinessDate(
                             dateFrom: DateTime.now(), dateTo: DateTime.now()),

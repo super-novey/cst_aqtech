@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/texts/dashed_line.dart';
+import 'package:hrm_aqtech/features/business_days_management/controllers/bussiness_day_list_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/member_list_widget.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/bussiness_day_detail/bussiness_day_detail_screen.dart';
@@ -42,7 +43,9 @@ class BusinessDateTile extends StatelessWidget {
               icon: Icons.edit,
             ),
             SlidableAction(
-              onPressed: (context) {},
+              onPressed: (context) {
+                BussinessDayListController.instance.delete(businessDate.id);
+              },
               icon: Icons.delete,
               borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(MySizes.cardRadiusMd),
