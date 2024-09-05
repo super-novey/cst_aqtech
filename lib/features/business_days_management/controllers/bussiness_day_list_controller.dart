@@ -5,8 +5,6 @@ import 'package:hrm_aqtech/data/employees/employee_repository.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/date_range_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/update_business_day_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
-import 'package:hrm_aqtech/features/business_days_management/models/member_model.dart';
-import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/business_days_list_screen.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -21,6 +19,7 @@ class BussinessDayListController extends GetxController {
 
   List<BusinessDate> bussinessDateList = <BusinessDate>[].obs;
   List<Employee> employees = <Employee>[].obs;
+  RxMap<int, double> memberWorkDays = <int, double>{}.obs;
 
   var isLoading = false.obs;
 
@@ -45,6 +44,7 @@ class BussinessDayListController extends GetxController {
               DateRangeController.instance.dateRange.value.end));
 
       // Sắp xếp dữ liệu theo dateFrom giảm dần
+      updateMemberWorkDays();
       bussinessDateList.sort((a, b) => b.dateFrom.compareTo(a.dateFrom));
     } finally {
       isLoading.value = false;
@@ -75,5 +75,18 @@ class BussinessDayListController extends GetxController {
                     horizontal: MySizes.md, vertical: 0)),
             onPressed: () => Navigator.of(Get.overlayContext!).pop(),
             child: const Text("Quay lại")));
+  }
+
+  void updateMemberWorkDays() {
+    memberWorkDays.clear();
+    for (var businessTrip in bussinessDateList) {
+      for (var member in businessTrip.memberList) {
+        memberWorkDays.update(
+          member.id,
+          (value) => value + businessTrip.sumDay,
+          ifAbsent: () => businessTrip.sumDay,
+        );
+      }
+    }
   }
 }

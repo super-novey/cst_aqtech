@@ -2,7 +2,9 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/employees/employee_repository.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/update_employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
+import 'package:hrm_aqtech/features/employee_management/models/employee_data_chart.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
+import 'package:hrm_aqtech/utils/constants/enums.dart';
 
 class EmployeeController extends GetxController {
   RxString filteredRole = "All".obs; // mac dinh la loc tat ca
@@ -10,6 +12,9 @@ class EmployeeController extends GetxController {
   static EmployeeController get instance => Get.find();
   List<Employee> allEmployees = <Employee>[];
   List<Employee> searchResult = <Employee>[];
+  List<EmployeeData> data = <EmployeeData>[].obs;
+  var touchedIndex = (-1).obs;
+  RxBool isEmployeeDataReady = false.obs;
   RxInt textSearchLength = 0.obs;
   final editableController = Get.put(UpdateEmployeeController());
   final _employeeRepository = Get.put(EmployeeRepository());
@@ -34,6 +39,9 @@ class EmployeeController extends GetxController {
       final employees = await _employeeRepository.getAllEmployees();
       // update the employees list
       allEmployees.assignAll(employees);
+      processEmployeeData();
+
+      isEmployeeDataReady.value = true;
     } finally {
       // stop loader
       isLoading.value = false;
@@ -67,4 +75,31 @@ class EmployeeController extends GetxController {
     filteredRole.value = role; // cap nhat role de loc
   }
 
+  String? getEmployeeNameById(int id) {
+    final employee = allEmployees.firstWhereOrNull((e) => e.id == id);
+    return employee?.fullName;
+  }
+
+  void processEmployeeData() {
+    final employees = allEmployees;
+
+    final roleCounts = <EmployeeRole, int>{};
+    for (var employee in employees) {
+      roleCounts[employee.role] = (roleCounts[employee.role] ?? 0) + 1;
+    }
+
+    data = roleCounts.entries.map((entry) {
+      final percentage =
+          ((entry.value / employees.length) * 100).toStringAsFixed(2);
+      return EmployeeData(
+        xData: entry.key.name,
+        yData: double.parse(percentage),
+        count: entry.value,
+      );
+    }).toList();
+  }
+
+  void updateTouchedIndex(int index) {
+    touchedIndex.value = index;
+  }
 }

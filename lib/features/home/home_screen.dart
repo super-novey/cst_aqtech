@@ -7,6 +7,9 @@ import 'package:hrm_aqtech/common/widgets/texts/section_heading.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/business_days_list_screen.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_list/employee_list_screen.dart';
 import 'package:hrm_aqtech/features/home/widgets/home_appbar.dart';
+import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_list/leave_day_list_screen.dart';
+import 'package:hrm_aqtech/features/online_work_management/views/online_work_day_list/online_work_day_list_screen.dart';
+import 'package:hrm_aqtech/features/over_time_management/views/over_time_list/over_time_list_screen.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/general_time_off/general_time_off_screen.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';
@@ -170,7 +173,9 @@ class HomeScreen extends StatelessWidget {
                           MyVerticalImageText(
                               image: MyImagePaths.iconBeach,
                               title: "Ngày nghỉ\n phép",
-                              onTap: () {}),
+                              onTap: () {
+                                Get.to(const LeaveDayListScreen());
+                              }),
                         ],
                       ),
                     ),
@@ -191,12 +196,14 @@ class HomeScreen extends StatelessWidget {
                               image: MyImagePaths.iconLaptop,
                               title: "Làm việc\n online",
                               onTap: () {
-                                Get.to(const GeneralTimeOffScreen());
+                                Get.to(const OnlineWorkDayListScreen());
                               }),
                           MyVerticalImageText(
                               image: MyImagePaths.iconOT,
                               title: "Làm việc\n ngoài giờ",
-                              onTap: () {}),
+                              onTap: () {
+                                Get.to(const OverTimeListScreen());
+                              }),
                         ],
                       ),
                     ),
