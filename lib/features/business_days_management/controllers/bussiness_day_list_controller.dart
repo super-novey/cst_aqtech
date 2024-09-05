@@ -43,8 +43,8 @@ class BussinessDayListController extends GetxController {
               DateRangeController.instance.dateRange.value.start,
               DateRangeController.instance.dateRange.value.end));
 
-      // Sắp xếp dữ liệu theo dateFrom giảm dần
       updateMemberWorkDays();
+      // Sắp xếp dữ liệu theo dateFrom giảm dần
       bussinessDateList.sort((a, b) => b.dateFrom.compareTo(a.dateFrom));
     } finally {
       isLoading.value = false;
