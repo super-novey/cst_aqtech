@@ -7,6 +7,8 @@ import 'package:hrm_aqtech/features/leave_day_management/models/leave_day_model.
 class LeaveDayController extends GetxController {
   static LeaveDayController get instance => Get.find();
   final isLoading = false.obs;
+  final isShowChart = false.obs;
+
   RxList<LeaveDay> allLeaveDays = <LeaveDay>[].obs;
   RxMap<int, double> memberLeaveDays = <int, double>{}.obs;
   final leaveDayRepository = Get.put(LeaveDayRepository());
@@ -70,5 +72,9 @@ class LeaveDayController extends GetxController {
         ifAbsent: () => leaveDay.sumDay,
       );
     }
+  }
+
+  void toggleShowChart() {
+    isShowChart.value = !isShowChart.value;
   }
 }

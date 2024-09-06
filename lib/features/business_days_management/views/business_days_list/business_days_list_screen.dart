@@ -25,9 +25,25 @@ class BusinessDaysListScreen extends StatelessWidget {
           iconColor: MyColors.primaryTextColor,
           title: Text(
             "Quản lý ngày công tác",
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           actions: [
+            Obx(() {
+              return IconButton(
+                onPressed: () {
+                  bussinessDateController.toggleShowChart();
+                },
+                icon: bussinessDateController.isShowChart.value
+                    ? const Icon(
+                        Icons.bar_chart_rounded,
+                        color: MyColors.primaryColor,
+                      )
+                    : const Icon(
+                        Icons.bar_chart_rounded,
+                        color: MyColors.primaryTextColor,
+                      ),
+              );
+            }),
             IconButton(
                 onPressed: () {
                   bussinessDateController.updateBusinessDay.isAdd.value = true;
@@ -62,6 +78,8 @@ class BusinessDaysListScreen extends StatelessWidget {
                 ? const ShimmerListTile()
                 : ListView(
                     children: [
+                      if (bussinessDateController.isShowChart.value)
+                        const BusinessDayChart(),
                       ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -77,7 +95,6 @@ class BusinessDaysListScreen extends StatelessWidget {
                               businessDate: tmp,
                             );
                           }),
-                      const BusinessDayChart(),
                     ],
                   ),
           ),

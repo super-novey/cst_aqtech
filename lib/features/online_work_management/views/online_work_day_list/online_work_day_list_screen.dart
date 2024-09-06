@@ -35,6 +35,21 @@ class OnlineWorkDayListScreen extends StatelessWidget {
           },
         ),
         actions: [
+          Obx(() {
+            return IconButton(
+              onPressed: () {
+                onlineWorkDayController.toggleShowChart();
+              },
+              icon: onlineWorkDayController.isShowChart.value
+                  ? const Icon(
+                      Icons.bar_chart_rounded,
+                      color: MyColors.dartPrimaryColor,
+                    )
+                  : const Icon(
+                      Icons.bar_chart_rounded,
+                    ),
+            );
+          }),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
@@ -68,6 +83,8 @@ class OnlineWorkDayListScreen extends StatelessWidget {
 
               return ListView(
                 children: [
+                  if (onlineWorkDayController.isShowChart.value)
+                    const OnlineWorkDayChart(),
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -78,7 +95,6 @@ class OnlineWorkDayListScreen extends StatelessWidget {
                       return OnlineWorkDayTile(onlineWorkDay: onlineWorkDay);
                     },
                   ),
-                  const OnlineWorkDayChart(),
                 ],
               );
             }),
