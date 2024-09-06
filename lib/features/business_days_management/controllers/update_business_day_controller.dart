@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/bussiness_days/bussiness_day_repository.dart';
 import 'package:hrm_aqtech/data/employees/employee_repository.dart';
+import 'package:hrm_aqtech/features/business_days_management/controllers/bussiness_day_list_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/member_list_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/new_date_range_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/member_model.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';
+import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 import 'package:hrm_aqtech/utils/popups/full_screen_loader.dart';
 import 'package:hrm_aqtech/utils/popups/loaders.dart';
 
@@ -48,9 +50,10 @@ class UpdateBusinessDayController extends GetxController {
       if (!isConnected) {
         return;
       }
+      // Load du lieu
       memberListController.memberNameController.clear();
       memberListController.memberExpensesController.clear();
-      sumDay.value.text = businessDay.sumDay.toString();
+      sumDay.value.text = MyFormatter.formatDouble(businessDay.sumDay);
       commissionContent.text = businessDay.commissionContent;
       transportation.text = businessDay.transportation;
       commissionExpenses.text = businessDay.commissionExpenses.toString();
@@ -93,14 +96,27 @@ class UpdateBusinessDayController extends GetxController {
       _getBusinessDayFromForm(businessDay);
       if (isAdd.value) {
         // Xu ly them
-        isAdd.value = false; // cap nhat truong idAdd
 
         await BussinessDayRepository.instance.addBusinessDay(businessDay);
-
+        BussinessDayListController.instance.bussinessDateList.add(businessDay);
+        BussinessDayListController.instance.sort();
+        Get.back();
         Loaders.successSnackBar(
             title: "Thành công!", message: "Đã thêm ngày công tác");
+
+        isAdd.value = false; // cap nhat truong idAdd
       } else {
+        print(businessDay.sumDay);
+        // Goi API
         await BussinessDayRepository.instance.updateBusinessDay(businessDay);
+
+        // cap nhat giao dien
+        int index = BussinessDayListController.instance.bussinessDateList
+            .indexWhere((item) => item.id == businessDay.id);
+        BussinessDayListController.instance.bussinessDateList[index] =
+            businessDay;
+        Get.back();
+        // Hien thi tb load thanh cong
         Loaders.successSnackBar(
             title: "Thành công!", message: "Cập nhật ngày công tác");
       }
@@ -108,7 +124,6 @@ class UpdateBusinessDayController extends GetxController {
       Loaders.errorSnackBar(title: "Oops", message: e.toString());
     } finally {
       FullScreenLoader.stopLoading();
-      //Get.to(() => const BusinessDaysListScreen());
     }
   }
 
@@ -127,5 +142,6 @@ class UpdateBusinessDayController extends GetxController {
       memberlist.add(member);
     }
     businessDay.memberList = memberlist;
+    businessDay.commissionExpenses = int.parse(commissionExpenses.text);
   }
 }

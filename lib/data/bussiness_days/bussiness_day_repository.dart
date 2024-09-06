@@ -20,6 +20,19 @@ class BussinessDayRepository extends GetxController {
     }
   }
 
+  Future<List<BusinessDate>> getAllBussinessDayList() async {
+    try {
+      final snapshot = await HttpHelper.get("NgayCongTac");
+
+      final list = (snapshot["data"] as List)
+          .map((date) => BusinessDate.fromJson(date))
+          .toList();
+      return list;
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> addBusinessDay(BusinessDate businessDate) async {
     try {
       await HttpHelper.post("NgayCongTac", [businessDate.toJson()]);
