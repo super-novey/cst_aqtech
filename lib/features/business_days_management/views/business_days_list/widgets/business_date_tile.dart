@@ -85,7 +85,9 @@ class BusinessDateTile extends StatelessWidget {
 
                         // Số lượng ngày
                         Text(
-                          " ${formatDayController.formatDayController(businessDate.sumDay)} ngày ",
+
+                          " ${MyFormatter.formatDouble(businessDate.sumDay)} ngày ",
+
                           style: Theme.of(context).textTheme.bodyLarge!.apply(
                               color: MyColors.secondaryTextColor,
                               fontStyle: FontStyle.italic),

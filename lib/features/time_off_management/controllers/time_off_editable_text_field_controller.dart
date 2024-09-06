@@ -48,7 +48,7 @@ class TimeOffEditableTextFieldController extends GetxController {
     generalTimeOff.reason = reasonController.text;
     generalTimeOff.note = noteController.text;
 
-    TimeOffRepository.instance.updateGeneralTimeOff(generalTimeOff);
+    GeneralTimeOffRepository.instance.updateGeneralTimeOff(generalTimeOff);
     toggleEditing();
   }
 
@@ -79,7 +79,8 @@ class TimeOffEditableTextFieldController extends GetxController {
     generalTimeOff.reason = reasonController.text;
     generalTimeOff.note = noteController.text;
 
-    await TimeOffRepository.instance.createGeneralTimeOff(generalTimeOff);
+    await GeneralTimeOffRepository.instance
+        .createGeneralTimeOff(generalTimeOff);
     Get.back();
   }
 }

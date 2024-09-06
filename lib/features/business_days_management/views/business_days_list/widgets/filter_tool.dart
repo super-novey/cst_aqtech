@@ -24,7 +24,10 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                   showBorder: true,
                   borderColor: MyColors.accentColor,
                   child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        BussinessDayListController.instance
+                            .fetchBussinessDate(true);
+                      },
                       icon: const Icon(Icons.filter_alt_off))),
               const SizedBox(
                 width: MySizes.spaceBtwItems - 2,
@@ -58,7 +61,8 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                   child: IconButton(
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
-                      BussinessDayListController.instance.fetchBussinessDate();
+                      BussinessDayListController.instance
+                          .fetchBussinessDate(false);
                     },
                     icon: const Icon(
                       Icons.search,
