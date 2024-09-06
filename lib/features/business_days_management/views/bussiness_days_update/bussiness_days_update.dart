@@ -6,6 +6,7 @@ import 'package:hrm_aqtech/common/widgets/container/rounded_container.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/update_business_day_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/bussiness_days_update/widgets/bussiness_date_field.dart';
+import 'package:hrm_aqtech/features/employee_management/models/assigned_employee.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -19,6 +20,17 @@ class BussinessDaysUpdate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(UpdateBusinessDayController());
+//     final formatDayController = Get.put(FormatDayController());
+    
+
+//     // Lấy giá trị `sumDay` từ controller và format nó
+//     final double sumDayValue = controller.sumDay.value.text.isNotEmpty
+//         ? double.parse(controller.sumDay.value.text)
+//         : 0.0;
+// final TextEditingController sumDayController = TextEditingController();
+//     // Định dạng giá trị và gán cho TextEditingController
+//     sumDayController.text = formatDayController.formatDayController(sumDayValue);
+
     controller.init(businessDate);
 
     return Scaffold(
@@ -170,16 +182,16 @@ class BussinessDaysUpdate extends StatelessWidget {
                                       dropdownColor: MyColors.iconColor,
                                       items: controller
                                           .memberListController.allEmployees
-                                          .map<DropdownMenuItem<Employee>>(
-                                              (Employee value) {
-                                        return DropdownMenuItem<Employee>(
+                                          .map<DropdownMenuItem<AssignedEmployee>>(
+                                              (AssignedEmployee value) {
+                                        return DropdownMenuItem<AssignedEmployee>(
                                           value: value,
                                           child: Text(
                                             value.fullName,
                                           ),
                                         );
                                       }).toList(),
-                                      onChanged: (Employee? value) {
+                                      onChanged: (AssignedEmployee? value) {
                                         if (value != null) {
                                           controller.memberListController
                                                   .memberNameController[index] =

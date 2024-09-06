@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
+import 'package:hrm_aqtech/features/over_time_management/controllers/format_time_controller.dart';
 import 'package:hrm_aqtech/features/over_time_management/controllers/update_over_time_controller.dart';
 import 'package:hrm_aqtech/features/over_time_management/models/over_time_model.dart';
 import 'package:hrm_aqtech/features/over_time_management/views/over_time_detail/widgets/over_time_datepicker.dart';
@@ -22,6 +23,9 @@ class OverTimeDetailScreen extends StatelessWidget {
     updateOverTimeController.noteController.text = selectedOverTime.note;
     updateOverTimeController.timeController.text =
         selectedOverTime.time.toString();
+    String formattedTime = FormatTimeController()
+        .formatTimeController(selectedOverTime.time);
+    updateOverTimeController.timeController.text = formattedTime;
 
     String selectedEmployeeId = selectedOverTime.memberId.toString();
     final allEmployeeIds =

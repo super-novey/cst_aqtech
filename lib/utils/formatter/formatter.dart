@@ -18,4 +18,12 @@ class MyFormatter {
     var t = NumberFormat.currency(locale: "vi");
     return "${formatter.format(amout)} ${t.currencySymbol}";
   }
+
+  static String formatDouble(double number) {
+    if (number == number.toInt()) {
+      return number.toInt().toString();
+    } else {
+      return number.toString();
+    }
+  }
 }

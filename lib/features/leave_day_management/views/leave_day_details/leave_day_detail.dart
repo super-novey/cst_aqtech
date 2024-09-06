@@ -225,6 +225,7 @@ class LeaveDayDetailScreen extends StatelessWidget {
               EditableTextField(
                 textController: updateLeaveDayController.sumDayController,
                 label: 'Tổng số ngày nghỉ',
+                isNumberInput: true,
               ),
 
               
