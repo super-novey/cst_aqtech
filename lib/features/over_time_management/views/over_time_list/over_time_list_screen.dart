@@ -34,6 +34,21 @@ class OverTimeListScreen extends StatelessWidget {
           },
         ),
         actions: [
+          Obx(() {
+            return IconButton(
+              onPressed: () {
+                overTimeController.toggleShowChart();
+              },
+              icon: overTimeController.isShowChart.value
+                  ? const Icon(
+                      Icons.bar_chart_rounded,
+                      color: MyColors.dartPrimaryColor,
+                    )
+                  : const Icon(
+                      Icons.bar_chart_rounded,
+                    ),
+            );
+          }),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
@@ -67,6 +82,8 @@ class OverTimeListScreen extends StatelessWidget {
 
               return ListView(
                 children: [
+                  if (overTimeController.isShowChart.value)
+                    const OvertimeWorkChart(),
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -76,7 +93,6 @@ class OverTimeListScreen extends StatelessWidget {
                       return OverTimeTile(overTime: overTime);
                     },
                   ),
-                  const OvertimeWorkChart(),
                 ],
               );
             }),

@@ -3,7 +3,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/time_off_management/controllers/general_time_off_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/models/general_time_off_model.dart';
-import 'package:hrm_aqtech/features/time_off_management/views/general_time_off/create_general_time_off.dart/create_general_time_off.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/general_time_off_detail/general_time_off_detail.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -29,8 +28,8 @@ class TimeOffTile extends StatelessWidget {
             endActionPane: ActionPane(motion: const BehindMotion(), children: [
               SlidableAction(
                 onPressed: (context) {
-                  Get.to(() => CreateGeneralTimeOffScreen(
-                      generalTimeOff: GeneralTimeOff.empty()));
+                  Get.to(() =>
+                      GeneralTimeOffDetailScreen(generalTimeOff: timeOff));
                 },
                 backgroundColor: MyColors.accentColor,
                 foregroundColor: Colors.white,

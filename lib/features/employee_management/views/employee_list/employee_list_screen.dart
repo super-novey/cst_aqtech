@@ -28,6 +28,21 @@ class EmployeeListScreen extends StatelessWidget {
               backgroundColor: MyColors.primaryColor,
               title: const Text("Danh sách nhân sự AQTech"),
               actions: [
+                Obx(() {
+                  return IconButton(
+                    onPressed: () {
+                      controller.toggleShowChart();
+                    },
+                    icon: controller.isShowChart.value
+                        ? const Icon(
+                            Icons.bar_chart_rounded,
+                            color: MyColors.dartPrimaryColor,
+                          )
+                        : const Icon(
+                            Icons.bar_chart_rounded,
+                          ),
+                  );
+                }),
                 IconButton(
                     onPressed: () {
                       controller.editableController.isAdd.value = true;
@@ -48,61 +63,67 @@ class EmployeeListScreen extends StatelessWidget {
                   Get.offAll(() => const NavigationMenu());
                 },
               )),
-          body: NestedScrollView(
-              headerSliverBuilder: (_, innerBoxIsScrolled) {
-                return [
-                  SliverAppBar(
-                      automaticallyImplyLeading: false,
-                      pinned: true,
-                      floating: true,
-                      backgroundColor: Colors.white,
-                      expandedHeight: 150,
-                      flexibleSpace: Padding(
-                          padding: const EdgeInsets.all(MySizes.defaultSpace),
-                          child: TextField(
-                            onChanged: (value) {
-                              controller.searchEmployee(query: value);
-                            },
-                            decoration: const InputDecoration(
-                                prefixIcon: Icon(Iconsax.search_normal),
-                                hintText: "Tìm kiếm nhân viên"),
-                          )),
-                      bottom: MyTabbar(
-                          onTap: (index) {
-                            if (index == 0) {
-                              controller.changeFilteredRole("All");
-                            } else {
-                              controller.changeFilteredRole(
-                                  EmployeeRole.values[index - 1].name);
-                            }
-                          },
-                          tabs: createTabs())),
-                ];
-              },
-              body: Obx(() => (controller.isLoading.value)
-                  ? const ShimmerListTile()
-                  : ListView(
-                      children: [
-                        const EmployeeChart(),
-                        ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: (controller.textSearchLength.value == 0)
-                              ? controller.filteredEmployees.length
-                              : controller.searchResult.length,
-                          itemBuilder: (context, index) {
-                            final employee =
-                                (controller.textSearchLength.value == 0)
-                                    ? controller.filteredEmployees[index]
-                                    : controller.searchResult[index];
-                            return Padding(
-                              padding: const EdgeInsets.all(MySizes.sm),
-                              child: EmployeeTile(employee: employee),
-                            );
-                          },
-                        ),
-                      ],
-                    )))),
+          body: NestedScrollView(headerSliverBuilder: (_, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                  automaticallyImplyLeading: false,
+                  pinned: true,
+                  floating: true,
+                  backgroundColor: Colors.white,
+                  expandedHeight: 150,
+                  flexibleSpace: Padding(
+                      padding: const EdgeInsets.all(MySizes.defaultSpace),
+                      child: TextField(
+                        onChanged: (value) {
+                          controller.searchEmployee(query: value);
+                        },
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Iconsax.search_normal),
+                            hintText: "Tìm kiếm nhân viên"),
+                      )),
+                  bottom: MyTabbar(
+                      onTap: (index) {
+                        if (index == 0) {
+                          controller.changeFilteredRole("All");
+                        } else {
+                          controller.changeFilteredRole(
+                              EmployeeRole.values[index - 1].name);
+                        }
+                      },
+                      tabs: createTabs())),
+            ];
+          }, body: Obx(() {
+            if (controller.isLoading.value) {
+              return const ShimmerListTile();
+            } else {
+              if (controller.isShowChart.value) {
+                return const EmployeeChart();
+              } else {
+                return ListView(
+                  children: [
+                    // const EmployeeChart(),
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: (controller.textSearchLength.value == 0)
+                          ? controller.filteredEmployees.length
+                          : controller.searchResult.length,
+                      itemBuilder: (context, index) {
+                        final employee =
+                            (controller.textSearchLength.value == 0)
+                                ? controller.filteredEmployees[index]
+                                : controller.searchResult[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(MySizes.sm),
+                          child: EmployeeTile(employee: employee),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              }
+            }
+          }))),
     );
   }
 
