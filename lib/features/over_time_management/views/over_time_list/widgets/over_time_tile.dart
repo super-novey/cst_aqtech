@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
+import 'package:hrm_aqtech/features/over_time_management/controllers/format_time_controller.dart';
 import 'package:hrm_aqtech/features/over_time_management/controllers/update_over_time_controller.dart';
 import 'package:hrm_aqtech/features/over_time_management/models/over_time_model.dart';
 import 'package:hrm_aqtech/features/over_time_management/views/over_time_detail/over_time_detail.dart';
@@ -17,6 +18,7 @@ class OverTimeTile extends StatelessWidget {
     final updateOverTimeController = Get.put(UpdateOverTimeController());
     final employeeName =
         employeeController.getEmployeeNameById(overTime.memberId);
+    final formatTimeController = Get.put(FormatTimeController());
 
     return Slidable(
       endActionPane: ActionPane(motion: const DrawerMotion(), children: [
@@ -86,7 +88,7 @@ class OverTimeTile extends StatelessWidget {
                             color: Colors.blueGrey),
                         children: [
                           TextSpan(
-                              text: overTime.time.toStringAsFixed(1),
+                              text: formatTimeController.formatTimeController(overTime.time),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey))

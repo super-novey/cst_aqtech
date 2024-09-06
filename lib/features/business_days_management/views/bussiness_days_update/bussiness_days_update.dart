@@ -19,6 +19,17 @@ class BussinessDaysUpdate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(UpdateBusinessDayController());
+//     final formatDayController = Get.put(FormatDayController());
+    
+
+//     // Lấy giá trị `sumDay` từ controller và format nó
+//     final double sumDayValue = controller.sumDay.value.text.isNotEmpty
+//         ? double.parse(controller.sumDay.value.text)
+//         : 0.0;
+// final TextEditingController sumDayController = TextEditingController();
+//     // Định dạng giá trị và gán cho TextEditingController
+//     sumDayController.text = formatDayController.formatDayController(sumDayValue);
+
     controller.init(businessDate);
 
     return Scaffold(
