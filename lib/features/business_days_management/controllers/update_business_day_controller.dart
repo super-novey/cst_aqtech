@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/bussiness_days/bussiness_day_repository.dart';
 import 'package:hrm_aqtech/data/employees/employee_repository.dart';
+
 import 'package:hrm_aqtech/features/business_days_management/controllers/bussiness_day_list_controller.dart';
+
 import 'package:hrm_aqtech/features/business_days_management/controllers/member_list_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/new_date_range_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
@@ -18,6 +20,7 @@ class UpdateBusinessDayController extends GetxController {
   final dateRangeController = Get.put(NewDateRangeController());
   final memberListController = Get.put(MemberListController());
   final _employeeRepository = Get.put(EmployeeRepository());
+  final controllerFormat = Get.put(FormatDayController());
   var isLoading = false.obs;
 
   var sumDay = TextEditingController().obs;
@@ -53,7 +56,9 @@ class UpdateBusinessDayController extends GetxController {
       // Load du lieu
       memberListController.memberNameController.clear();
       memberListController.memberExpensesController.clear();
+
       sumDay.value.text = MyFormatter.formatDouble(businessDay.sumDay);
+
       commissionContent.text = businessDay.commissionContent;
       transportation.text = businessDay.transportation;
       commissionExpenses.text = businessDay.commissionExpenses.toString();
