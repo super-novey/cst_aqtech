@@ -44,9 +44,12 @@ class BussinessDayListController extends GetxController {
                 DateRangeController.instance.dateRange.value.end));
       }
 
+
       // Sắp xếp dữ liệu theo dateFrom giảm dần
       //updateMemberWorkDays();
       sort();
+      updateMemberWorkDays();
+
     } finally {
       isLoading.value = false;
     }
