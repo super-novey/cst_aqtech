@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
+import 'package:hrm_aqtech/features/employee_management/models/assigned_employee.dart';
 
 class MemberListController extends GetxController {
-  var memberNameController = <Employee>[].obs;
-  List<Employee> allEmployees = <Employee>[];
+  var memberNameController = <AssignedEmployee>[].obs;
+  List<AssignedEmployee> allEmployees = <AssignedEmployee>[];
   var memberExpensesController = <TextEditingController>[].obs;
 
   @override

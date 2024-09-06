@@ -6,6 +6,7 @@ import 'package:hrm_aqtech/common/widgets/container/rounded_container.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/update_business_day_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/bussiness_days_update/widgets/bussiness_date_field.dart';
+import 'package:hrm_aqtech/features/employee_management/models/assigned_employee.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -170,16 +171,16 @@ class BussinessDaysUpdate extends StatelessWidget {
                                       dropdownColor: MyColors.iconColor,
                                       items: controller
                                           .memberListController.allEmployees
-                                          .map<DropdownMenuItem<Employee>>(
-                                              (Employee value) {
-                                        return DropdownMenuItem<Employee>(
+                                          .map<DropdownMenuItem<AssignedEmployee>>(
+                                              (AssignedEmployee value) {
+                                        return DropdownMenuItem<AssignedEmployee>(
                                           value: value,
                                           child: Text(
                                             value.fullName,
                                           ),
                                         );
                                       }).toList(),
-                                      onChanged: (Employee? value) {
+                                      onChanged: (AssignedEmployee? value) {
                                         if (value != null) {
                                           controller.memberListController
                                                   .memberNameController[index] =

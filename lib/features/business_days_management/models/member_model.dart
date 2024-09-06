@@ -23,8 +23,9 @@ class Member {
     };
   }
 
-  Future<String> getNameById() async{
-    final employee = await EmployeeRepository.instance.getById(id);
-    return employee.fullName;
+  Future<String> getNameById() async {
+    final employee =
+        await EmployeeRepository.instance.getAssignedEmployeeList();
+    return employee.firstWhere((a) => a.id == id).fullName;
   }
 }
