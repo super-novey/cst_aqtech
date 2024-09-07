@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/update_business_day_controller.dart';
+import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
 
 class NewDateRangeController extends GetxController {
@@ -44,9 +45,8 @@ class NewDateRangeController extends GetxController {
     if (picked != null && picked != dateRange.value) {
       dateRange.value = picked;
       UpdateBusinessDayController.instance.sumDay.value.text =
-          HeplerFunction.calculateWeekdays(
-                  dateRange.value.start, dateRange.value.end)
-              .toString();
+          MyFormatter.formatDouble(HeplerFunction.calculateWeekdays(
+              dateRange.value.start, dateRange.value.end));
     }
   }
 }

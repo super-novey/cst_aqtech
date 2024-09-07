@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/leave_day/leave_day_repository.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/leave_day_management/controllers/format_sum_day_controller.dart';
+import 'package:hrm_aqtech/features/leave_day_management/controllers/leave_day_controller.dart';
 import 'package:hrm_aqtech/features/leave_day_management/models/leave_day_model.dart';
 import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_list/leave_day_list_screen.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
@@ -57,19 +58,19 @@ class UpdateLeaveDayController extends GetxController {
       if (isAdd) {
         await LeaveDayRepository.instance.addLeaveDay(newLeaveDay);
         this.isAdd.value = false;
+        LeaveDayController.instance.fetchLeaveDays(); //####
+
+        Get.back();
         Loaders.successSnackBar(
             title: "Thành công!", message: "Xin nghỉ phép thành công");
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offAll(() => const LeaveDayListScreen());
-        });
       } else {
         await LeaveDayRepository.instance.updateLeaveDay(newLeaveDay);
         toggleEditting();
+        LeaveDayController.instance.fetchLeaveDays(); //####
+
+        Get.back();
         Loaders.successSnackBar(
             title: "Thành công!", message: "Chỉnh sửa thành công");
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offAll(() => const LeaveDayListScreen());
-        });
       }
     } catch (e) {
       Loaders.errorSnackBar(title: "Oops", message: e.toString());
@@ -86,9 +87,11 @@ class UpdateLeaveDayController extends GetxController {
       confirm: ElevatedButton(
         onPressed: () async {
           await LeaveDayRepository.instance.deleteLeaveDay(id);
+          LeaveDayController.instance.fetchLeaveDays(); //####
+          Navigator.of(Get.overlayContext!).pop();
+
           Loaders.successSnackBar(
               title: "Thành công!", message: "Xóa thành công");
-          Get.offAll(() => const LeaveDayListScreen());
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(0),
@@ -118,15 +121,14 @@ class UpdateLeaveDayController extends GetxController {
       }
 
       await LeaveDayRepository.instance.approvalLeaveDay(id, approvalStatus);
+      LeaveDayController.instance.fetchLeaveDays();
+
+      Get.back();
 
       Loaders.successSnackBar(
         title: "Thành công!",
         message: "Duyệt ngày phép thành công",
       );
-
-      Future.delayed(const Duration(seconds: 1), () {
-        Get.offAll(() => const LeaveDayListScreen());
-      });
     } catch (e) {
       Loaders.errorSnackBar(
         title: "Oops",

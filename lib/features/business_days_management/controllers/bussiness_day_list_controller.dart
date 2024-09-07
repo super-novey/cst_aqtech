@@ -45,12 +45,10 @@ class BussinessDayListController extends GetxController {
                 DateRangeController.instance.dateRange.value.end));
       }
 
-
       // Sắp xếp dữ liệu theo dateFrom giảm dần
       //updateMemberWorkDays();
       sort();
       updateMemberWorkDays();
-
     } finally {
       isLoading.value = false;
     }
@@ -68,8 +66,9 @@ class BussinessDayListController extends GetxController {
         confirm: ElevatedButton(
             onPressed: () async {
               await _bussinessDayRepository.deleteBusinessDay(id);
+              fetchBussinessDate(false);
               Navigator.of(Get.overlayContext!).pop();
-              bussinessDateList.removeWhere((item) => item.id == id);
+              //bussinessDateList.removeWhere((item) => item.id == id);
               Loaders.successSnackBar(
                   title: "Thành công!", message: "Xóa ngày công tác");
             },

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/online_work/online_work_day_repository.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/online_work_management/controllers/format_sum_day_controller.dart';
+import 'package:hrm_aqtech/features/online_work_management/controllers/online_work_day_controller.dart';
 import 'package:hrm_aqtech/features/online_work_management/models/online_work_day_model.dart';
 import 'package:hrm_aqtech/features/online_work_management/views/online_work_day_list/online_work_day_list_screen.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
@@ -43,22 +44,27 @@ class UpdateOnlineWorkDayController extends GetxController {
       getOnlineWorkDay(newOnlineWorkDay);
       if (isAdd) {
         await OnlineWorkDayRepository.instance.addOnlineWork(newOnlineWorkDay);
+        OnlineWorkDayController.instance.fetchOnlineWorkDays();
         this.isAdd.value = false;
+        Get.back();
         Loaders.successSnackBar(
             title: "Thành công!",
             message: "Xin phép làm việc online thành công");
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offAll(() => const OnlineWorkDayListScreen());
-        });
+
+        // Future.delayed(const Duration(seconds: 1), () {
+        //   Get.offAll(() => const OnlineWorkDayListScreen());
+        // });
       } else {
         await OnlineWorkDayRepository.instance
             .updateOnlineWork(newOnlineWorkDay);
+        OnlineWorkDayController.instance.fetchOnlineWorkDays();
         toggleEditting();
+        Get.back();
         Loaders.successSnackBar(
             title: "Thành công!", message: "Chỉnh sửa thành công");
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offAll(() => const OnlineWorkDayListScreen());
-        });
+        // Future.delayed(const Duration(seconds: 1), () {
+        //   Get.offAll(() => const OnlineWorkDayListScreen());
+        // });
       }
     } catch (e) {
       Loaders.errorSnackBar(title: "Oops", message: e.toString());
@@ -75,9 +81,14 @@ class UpdateOnlineWorkDayController extends GetxController {
       confirm: ElevatedButton(
         onPressed: () async {
           await OnlineWorkDayRepository.instance.deleteOnlineWork(id);
+          OnlineWorkDayController.instance.fetchOnlineWorkDays();
+          Navigator.of(Get.overlayContext!).pop();
+
           Loaders.successSnackBar(
               title: "Thành công!", message: "Xóa thành công");
-          Get.offAll(() => const OnlineWorkDayListScreen());
+          OnlineWorkDayController.instance.fetchOnlineWorkDays();
+
+          // Get.offAll(() => const OnlineWorkDayListScreen());
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(0),
@@ -142,16 +153,17 @@ class UpdateOnlineWorkDayController extends GetxController {
         return;
       }
 
-      await OnlineWorkDayRepository.instance.approvalOnlineWorkDay(id, approvalStatus);
+      await OnlineWorkDayRepository.instance
+          .approvalOnlineWorkDay(id, approvalStatus);
+
+      OnlineWorkDayController.instance.fetchFilteredOnlineWorkDays();
+
+      Get.back();
 
       Loaders.successSnackBar(
         title: "Thành công!",
         message: "Trạng thái ngày phép đã được cập nhật thành công",
       );
-
-      Future.delayed(const Duration(seconds: 1), () {
-        Get.offAll(() => const OnlineWorkDayListScreen());
-      });
     } catch (e) {
       Loaders.errorSnackBar(
         title: "Oops",

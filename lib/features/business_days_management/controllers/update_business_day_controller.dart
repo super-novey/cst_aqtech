@@ -20,7 +20,7 @@ class UpdateBusinessDayController extends GetxController {
   final dateRangeController = Get.put(NewDateRangeController());
   final memberListController = Get.put(MemberListController());
   final _employeeRepository = Get.put(EmployeeRepository());
-  final controllerFormat = Get.put(FormatDayController());
+
   var isLoading = false.obs;
 
   var sumDay = TextEditingController().obs;
@@ -103,23 +103,24 @@ class UpdateBusinessDayController extends GetxController {
         // Xu ly them
 
         await BussinessDayRepository.instance.addBusinessDay(businessDay);
-        BussinessDayListController.instance.bussinessDateList.add(businessDay);
-        BussinessDayListController.instance.sort();
+        BussinessDayListController.instance.fetchBussinessDate(false);
+        // BussinessDayListController.instance.bussinessDateList.add(businessDay);
+        // BussinessDayListController.instance.sort();
         Get.back();
         Loaders.successSnackBar(
             title: "Thành công!", message: "Đã thêm ngày công tác");
 
         isAdd.value = false; // cap nhat truong idAdd
       } else {
-        print(businessDay.sumDay);
         // Goi API
         await BussinessDayRepository.instance.updateBusinessDay(businessDay);
+        BussinessDayListController.instance.fetchBussinessDate(false);
 
         // cap nhat giao dien
-        int index = BussinessDayListController.instance.bussinessDateList
-            .indexWhere((item) => item.id == businessDay.id);
-        BussinessDayListController.instance.bussinessDateList[index] =
-            businessDay;
+        // int index = BussinessDayListController.instance.bussinessDateList
+        //     .indexWhere((item) => item.id == businessDay.id);
+        // BussinessDayListController.instance.bussinessDateList[index] =
+        //     businessDay;
         Get.back();
         // Hien thi tb load thanh cong
         Loaders.successSnackBar(

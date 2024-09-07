@@ -3,7 +3,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/texts/dashed_line.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/bussiness_day_list_controller.dart';
-import 'package:hrm_aqtech/features/business_days_management/controllers/format_day_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/member_list_widget.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/bussiness_day_detail/bussiness_day_detail_screen.dart';
@@ -18,10 +17,9 @@ class BusinessDateTile extends StatelessWidget {
 
   final Color backgroundColor;
   final BusinessDate businessDate;
-  
+
   @override
   Widget build(BuildContext context) {
-    final formatDayController = Get.put(FormatDayController());
     return GestureDetector(
       onTap: () => Get.to(() => BusinessDayDetailScreen(
             businessDate: businessDate,
@@ -85,9 +83,7 @@ class BusinessDateTile extends StatelessWidget {
 
                         // Số lượng ngày
                         Text(
-
                           " ${MyFormatter.formatDouble(businessDate.sumDay)} ngày ",
-
                           style: Theme.of(context).textTheme.bodyLarge!.apply(
                               color: MyColors.secondaryTextColor,
                               fontStyle: FontStyle.italic),
