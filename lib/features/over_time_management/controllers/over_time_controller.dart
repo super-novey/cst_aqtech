@@ -7,7 +7,6 @@ import 'package:hrm_aqtech/features/over_time_management/models/over_time_model.
 class OverTimeController extends GetxController {
   static OverTimeController get instance => Get.find();
   final isLoading = false.obs;
-  final isShowChart = false.obs;
 
   RxList<OverTime> allOverTime = <OverTime>[].obs;
   RxMap<int, double> memberOvertimeHours = <int, double>{}.obs;
@@ -74,9 +73,5 @@ class OverTimeController extends GetxController {
         ifAbsent: () => workOvertime.time.toDouble(),
       );
     }
-  }
-
-  void toggleShowChart() {
-    isShowChart.value = !isShowChart.value;
   }
 }

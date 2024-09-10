@@ -52,7 +52,7 @@ class GeneralTimeOffScreen extends StatelessWidget {
               floating: true,
               backgroundColor: Colors.white,
               expandedHeight: 150,
-              bottom: FilterWidget(), // Customize as per your need
+              bottom: FilterWidget(),
             ),
           ];
         },

@@ -53,7 +53,9 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
                                         autofocus: false,
                                         decoration: InputDecoration(
                                           hintText: dateTimePickerController
-                                                      .startDate.value ==
+                                                      .startDate
+                                                      // ignore: unnecessary_null_comparison
+                                                      .value ==
                                                   null
                                               ? 'Chọn ngày'
                                               : DateFormat('dd/MM/yyyy').format(
@@ -128,7 +130,9 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
                                         autofocus: false,
                                         decoration: InputDecoration(
                                           hintText: dateTimePickerController
-                                                      .endDate.value ==
+                                                      .endDate
+                                                      // ignore: unnecessary_null_comparison
+                                                      .value ==
                                                   null
                                               ? 'Chọn ngày'
                                               : DateFormat('dd/MM/yyyy').format(
