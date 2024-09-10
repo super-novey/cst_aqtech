@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/update_employee_controller.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class DatePicker extends StatelessWidget {
   const DatePicker({super.key, required this.controler, required this.label});
@@ -10,26 +11,27 @@ class DatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: GestureDetector(
-            onTap: () => _selectDate(context, controler),
-            child: AbsorbPointer(
-              child: TextField(
-                controller: controler,
-                enabled: (UpdateEmployeeController.instance.isEditting.value),
-                decoration: InputDecoration(
-                  label: Text(
-                    label,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
+    return Obx(
+       () => Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: controler,
+              enabled: (UpdateEmployeeController.instance.isEditting.value),
+              
+              decoration: InputDecoration(
+                label: Text(
+                  label,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
+              onTap: () {
+                _selectDate(context, controler);
+              },
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
