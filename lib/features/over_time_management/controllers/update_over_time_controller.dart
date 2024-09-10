@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/over_time/over_time_repository.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
+import 'package:hrm_aqtech/features/over_time_management/controllers/over_time_controller.dart';
 import 'package:hrm_aqtech/features/over_time_management/models/over_time_model.dart';
-import 'package:hrm_aqtech/features/over_time_management/views/over_time_list/over_time_list_screen.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/popups/full_screen_loader.dart';
@@ -39,20 +39,26 @@ class UpdateOverTimeController extends GetxController {
       if (isAdd) {
         await OverTimeRepository.instance.addOverTime(newOverTime);
         this.isAdd.value = false;
+        OverTimeController.instance.fetchOverTime();
+        Get.back();
         Loaders.successSnackBar(
             title: "Thành công!",
             message: "Thêm thời gian làm việc thành công");
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offAll(() => const OverTimeListScreen());
-        });
+
+        // Future.delayed(const Duration(seconds: 1), () {
+        //   Get.offAll(() => const OverTimeListScreen());
+        // });
       } else {
         await OverTimeRepository.instance.updateOverTime(newOverTime);
         toggleEditting();
+
+        OverTimeController.instance.fetchOverTime();
+        Get.back();
         Loaders.successSnackBar(
             title: "Thành công!", message: "Chỉnh sửa thành công");
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offAll(() => const OverTimeListScreen());
-        });
+        // Future.delayed(const Duration(seconds: 1), () {
+        //   Get.offAll(() => const OverTimeListScreen());
+        // });
       }
     } catch (e) {
       Loaders.errorSnackBar(title: "Oops", message: e.toString());
@@ -69,9 +75,14 @@ class UpdateOverTimeController extends GetxController {
       confirm: ElevatedButton(
         onPressed: () async {
           await OverTimeRepository.instance.deleteOverTime(id);
+          OverTimeController.instance.fetchFilteredOverTime();
+
+          Navigator.of(Get.overlayContext!).pop();
+
           Loaders.successSnackBar(
               title: "Thành công!", message: "Xóa thành công");
-          Get.offAll(() => const OverTimeListScreen());
+
+          // Get.offAll(() => const OverTimeListScreen());
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(0),

@@ -45,26 +45,6 @@ class DatePicker extends StatelessWidget {
       initialDate: initialDate,
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: Colors.teal, // Color of the selected date
-            hintColor: Colors
-                .teal, // Color of the accent (e.g., the border around the date)
-            buttonTheme:
-                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
-            dialogBackgroundColor:
-                Colors.teal, // Background color of the date picker dialog
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.teal, // Color of the buttons
-              ),
-            ),
-            dividerColor: Colors.teal, // Color of the divider
-          ),
-          child: child!,
-        );
-      },
     );
 
     if (pickedDate != null) {

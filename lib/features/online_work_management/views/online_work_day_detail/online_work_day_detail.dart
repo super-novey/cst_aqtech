@@ -25,13 +25,14 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
     updateOnlineWorkDayController.dateToController.text =
         MyFormatter.formatDate(selectedOnlineWorkDay.dateTo.toString());
 
-    updateOnlineWorkDayController.reasonController.text = selectedOnlineWorkDay.reason;
-    updateOnlineWorkDayController.noteController.text = selectedOnlineWorkDay.note;
+    updateOnlineWorkDayController.reasonController.text =
+        selectedOnlineWorkDay.reason;
+    updateOnlineWorkDayController.noteController.text =
+        selectedOnlineWorkDay.note;
 
-    String formattedSumDay =
-        FormatSumDayOnlineWorkController().formatOnlineWorkDay(selectedOnlineWorkDay.sumDay);
+    String formattedSumDay = FormatSumDayOnlineWorkController()
+        .formatOnlineWorkDay(selectedOnlineWorkDay.sumDay);
     updateOnlineWorkDayController.sumDayController.text = formattedSumDay;
-
 
     String selectedEmployeeId = selectedOnlineWorkDay.memberId.toString();
     final allEmployeeIds =
@@ -39,8 +40,7 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
     if (allEmployeeIds.contains(selectedEmployeeId)) {
       updateOnlineWorkDayController.selectedEmployee.value = selectedEmployeeId;
     } else {
-      updateOnlineWorkDayController.selectedEmployee.value =
-          null; 
+      updateOnlineWorkDayController.selectedEmployee.value = null;
     }
     updateOnlineWorkDayController.selectedApprovalStatus.value =
         selectedOnlineWorkDay.approvalStatus;
@@ -70,9 +70,11 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
               onPressed: () {
                 if (updateOnlineWorkDayController.isEditting.value) {
                   if (updateOnlineWorkDayController.isAdd.value) {
-                    updateOnlineWorkDayController.save(selectedOnlineWorkDay, true);
+                    updateOnlineWorkDayController.save(
+                        selectedOnlineWorkDay, true);
                   } else {
-                    updateOnlineWorkDayController.save(selectedOnlineWorkDay, false);
+                    updateOnlineWorkDayController.save(
+                        selectedOnlineWorkDay, false);
                   }
                 } else {
                   updateOnlineWorkDayController.toggleEditting();
@@ -97,12 +99,8 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Trạng thái",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                  ),
+                  Text("Trạng thái",
+                      style: Theme.of(context).textTheme.bodySmall!),
                   const SizedBox(
                     height: 2,
                   ),
@@ -119,14 +117,16 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                           value: updateOnlineWorkDayController
                               .selectedApprovalStatus.value,
                           dropdownColor: MyColors.iconColor,
-                          onChanged: updateOnlineWorkDayController.isEditting.value
-                              ? (ApprovalStatus? status) {
-                                  if (status != null) {
-                                    updateOnlineWorkDayController
-                                        .selectedApprovalStatus.value = status;
-                                  }
-                                }
-                              : null,
+                          onChanged:
+                              updateOnlineWorkDayController.isEditting.value
+                                  ? (ApprovalStatus? status) {
+                                      if (status != null) {
+                                        updateOnlineWorkDayController
+                                            .selectedApprovalStatus
+                                            .value = status;
+                                      }
+                                    }
+                                  : null,
                           items: ApprovalStatus.values
                               .map((ApprovalStatus status) {
                             return DropdownMenuItem<ApprovalStatus>(
@@ -146,18 +146,15 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                   ),
                 ],
               ),
-               const SizedBox(
-                    height: MySizes.sm,
-                  ),
+              const SizedBox(
+                height: MySizes.sm,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Họ tên",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        ,
+                    style: Theme.of(context).textTheme.bodySmall!,
                   ),
                   const SizedBox(
                     height: 2,
@@ -172,15 +169,16 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                     child: Obx(
                       () => DropdownButtonHideUnderline(
                         child: DropdownButton<String?>(
-                          value:
-                              updateOnlineWorkDayController.selectedEmployee.value,
+                          value: updateOnlineWorkDayController
+                              .selectedEmployee.value,
                           dropdownColor: MyColors.iconColor,
-                          onChanged: updateOnlineWorkDayController.isEditting.value
-                              ? (String? employeeId) {
-                                  updateOnlineWorkDayController
-                                      .selectedEmployee.value = employeeId;
-                                }
-                              : null,
+                          onChanged:
+                              updateOnlineWorkDayController.isEditting.value
+                                  ? (String? employeeId) {
+                                      updateOnlineWorkDayController
+                                          .selectedEmployee.value = employeeId;
+                                    }
+                                  : null,
                           items: employeeController.allEmployees
                               .map((Employee employee) {
                             return DropdownMenuItem<String?>(
@@ -188,7 +186,8 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(MySizes.sm),
                                 child: Text(
-                                  employee.fullName, style: const TextStyle(fontSize: 14),
+                                  employee.fullName,
+                                  style: const TextStyle(fontSize: 14),
                                 ),
                               ),
                             );
@@ -199,12 +198,12 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                   ),
                 ],
               ),
-               const SizedBox(
-                    height: MySizes.sm,
-                  ),
-                   const SizedBox(
-                    height: MySizes.sm,
-                  ),
+              const SizedBox(
+                height: MySizes.sm,
+              ),
+              const SizedBox(
+                height: MySizes.sm,
+              ),
               OnlineWorkDayDatePicker(
                 controller: updateOnlineWorkDayController.dateFromController,
                 label: "Ngày bắt đầu nghỉ",
@@ -222,9 +221,8 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
               OnlineWorkDayTextFiled(
                 textController: updateOnlineWorkDayController.sumDayController,
                 label: 'Tổng số ngày nghỉ',
+                isNumberInput: true,
               ),
-
-              
               const SizedBox(
                 height: MySizes.spaceBtwInputFields,
               ),
@@ -242,7 +240,6 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: MySizes.spaceBtwInputFields,
               ),
-          
             ],
           ),
         ),
