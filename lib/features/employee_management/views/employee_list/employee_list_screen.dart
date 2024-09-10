@@ -28,21 +28,14 @@ class EmployeeListScreen extends StatelessWidget {
               backgroundColor: MyColors.primaryColor,
               title: const Text("Danh sách nhân sự AQTech"),
               actions: [
-                Obx(() {
-                  return IconButton(
-                    onPressed: () {
-                      controller.toggleShowChart();
-                    },
-                    icon: controller.isShowChart.value
-                        ? const Icon(
-                            Icons.bar_chart_rounded,
-                            color: MyColors.dartPrimaryColor,
-                          )
-                        : const Icon(
-                            Icons.bar_chart_rounded,
-                          ),
-                  );
-                }),
+                IconButton(
+                  onPressed: () {
+                    Get.to(() => const EmployeeChart());
+                  },
+                  icon: const Icon(
+                    Icons.bar_chart_rounded,
+                  ),
+                ),
                 IconButton(
                     onPressed: () {
                       controller.editableController.isAdd.value = true;
@@ -96,32 +89,27 @@ class EmployeeListScreen extends StatelessWidget {
             if (controller.isLoading.value) {
               return const ShimmerListTile();
             } else {
-              if (controller.isShowChart.value) {
-                return const EmployeeChart();
-              } else {
-                return ListView(
-                  children: [
-                    // const EmployeeChart(),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: (controller.textSearchLength.value == 0)
-                          ? controller.filteredEmployees.length
-                          : controller.searchResult.length,
-                      itemBuilder: (context, index) {
-                        final employee =
-                            (controller.textSearchLength.value == 0)
-                                ? controller.filteredEmployees[index]
-                                : controller.searchResult[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(MySizes.sm),
-                          child: EmployeeTile(employee: employee),
-                        );
-                      },
-                    ),
-                  ],
-                );
-              }
+              return ListView(
+                children: [
+                  // const EmployeeChart(),
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: (controller.textSearchLength.value == 0)
+                        ? controller.filteredEmployees.length
+                        : controller.searchResult.length,
+                    itemBuilder: (context, index) {
+                      final employee = (controller.textSearchLength.value == 0)
+                          ? controller.filteredEmployees[index]
+                          : controller.searchResult[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(MySizes.sm),
+                        child: EmployeeTile(employee: employee),
+                      );
+                    },
+                  ),
+                ],
+              );
             }
           }))),
     );

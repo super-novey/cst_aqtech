@@ -1,24 +1,23 @@
-// widgets/DayOff_days_chart.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/chart/bar_chart.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
-import 'package:hrm_aqtech/features/leave_day_management/controllers/leave_day_controller.dart';
+import 'package:hrm_aqtech/features/over_time_management/controllers/over_time_controller.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 
-class LeaveDayChart extends StatelessWidget {
-  const LeaveDayChart({super.key});
+class OvertimeWorkChart extends StatelessWidget {
+  const OvertimeWorkChart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LeaveDayController());
+    final controller = Get.put(OverTimeController());
     final employeeController = Get.put(EmployeeController());
-    final data = controller.memberLeaveDays;
 
+    final data = controller.memberOvertimeHours;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.primaryColor,
-        title: const Text("Ngày nghỉ phép"),
+        title: const Text("Làm việc ngoài giờ"),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
@@ -32,11 +31,10 @@ class LeaveDayChart extends StatelessWidget {
         ),
       ),
       body: CommonBarChart(
-        title: 'Biểu đồ thống kê ngày nghỉ phép',
+        title: 'Biểu đồ thống kê làm việc ngoài giờ',
         data: data,
         getEmployeeName: (id) =>
-            employeeController.getEmployeeNameById(id) ??
-            'Unknown', // Handle null values
+            employeeController.getEmployeeNameById(id) ?? 'Unknown',
         formatTooltip: (days) => '${days.toString()} ngày',
       ),
     );

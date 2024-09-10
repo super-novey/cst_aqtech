@@ -7,7 +7,7 @@ import 'package:hrm_aqtech/features/over_time_management/models/over_time_model.
 import 'package:hrm_aqtech/features/over_time_management/views/over_time_detail/over_time_detail.dart';
 import 'package:hrm_aqtech/features/over_time_management/views/over_time_list/widgets/date_range_over_time_widget.dart';
 import 'package:hrm_aqtech/features/over_time_management/views/over_time_list/widgets/over_time_tile.dart';
-import 'package:hrm_aqtech/features/over_time_management/views/over_time_list/widgets/over_time_work.dart';
+import 'package:hrm_aqtech/features/over_time_management/views/over_time_list/widgets/over_time_work_chart.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 
 class OverTimeListScreen extends StatelessWidget {
@@ -34,21 +34,13 @@ class OverTimeListScreen extends StatelessWidget {
           },
         ),
         actions: [
-          Obx(() {
-            return IconButton(
+          IconButton(
               onPressed: () {
-                overTimeController.toggleShowChart();
+                Get.to(() => const OvertimeWorkChart());
               },
-              icon: overTimeController.isShowChart.value
-                  ? const Icon(
-                      Icons.bar_chart_rounded,
-                      color: MyColors.dartPrimaryColor,
-                    )
-                  : const Icon(
-                      Icons.bar_chart_rounded,
-                    ),
-            );
-          }),
+              icon: const Icon(
+                Icons.bar_chart_rounded,
+              )),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
@@ -82,8 +74,6 @@ class OverTimeListScreen extends StatelessWidget {
 
               return ListView(
                 children: [
-                  if (overTimeController.isShowChart.value)
-                    const OvertimeWorkChart(),
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

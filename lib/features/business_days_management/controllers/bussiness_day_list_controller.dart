@@ -12,13 +12,14 @@ class BussinessDayListController extends GetxController {
   static BussinessDayListController get instance => Get.find();
 
   final _bussinessDayRepository = Get.put(BussinessDayRepository());
+  final _employeeRepository = Get.put(EmployeeRepository());
+
   final updateBusinessDay = Get.put(UpdateBusinessDayController());
 
   List<BusinessDate> bussinessDateList = <BusinessDate>[].obs;
   RxMap<int, double> memberWorkDays = <int, double>{}.obs;
 
   var isLoading = false.obs;
-  final isShowChart = false.obs;
 
   @override
   void onInit() {
@@ -46,9 +47,12 @@ class BussinessDayListController extends GetxController {
       }
 
       // Sắp xếp dữ liệu theo dateFrom giảm dần
-      //updateMemberWorkDays();
+
       sort();
-      updateMemberWorkDays();
+      if (memberWorkDays.isEmpty) {
+        updateMemberWorkDays();
+      }
+
     } finally {
       isLoading.value = false;
     }
@@ -96,9 +100,5 @@ class BussinessDayListController extends GetxController {
         );
       }
     }
-  }
-
-  void toggleShowChart() {
-    isShowChart.value = !isShowChart.value;
   }
 }

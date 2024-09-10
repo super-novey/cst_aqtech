@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/time_off_management/controllers/time_off_editable_text_field_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/models/general_time_off_model.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
+import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 import 'package:intl/intl.dart';
 
 class GeneralTimeOffDetailScreen extends StatelessWidget {
@@ -180,7 +181,6 @@ class GeneralTimeOffDetailScreen extends StatelessWidget {
     required bool isEditing,
     required Function(DateTime) onDateSelected,
   }) {
-    final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
 
     return GestureDetector(
       onTap: isEditing
@@ -213,12 +213,12 @@ class GeneralTimeOffDetailScreen extends StatelessWidget {
             children: [
               if (isEditing)
                 Text(
-                  dateFormat.format(selectedDate), // Format the date
+                  MyFormatter.formatDateTime(selectedDate), // Format the date
                   style: const TextStyle(fontSize: 16, color: Colors.black),
                 ),
               if (!isEditing)
                 Text(
-                  dateFormat.format(selectedDate), // Format the date
+                  MyFormatter.formatDateTime(selectedDate), // Format the date
                   style: const TextStyle(fontSize: 16, color: Colors.grey),
                 ),
               if (isEditing) const Icon(Icons.calendar_month_outlined),

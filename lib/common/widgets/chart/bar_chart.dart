@@ -20,9 +20,15 @@ class CommonBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataEntries = data.entries.toList();
+    late double barItemWidth = 60.0;
+    final chartWidth = dataEntries.isEmpty
+        ? MediaQuery.of(context).size.width - 60.0
+        : dataEntries.length * barItemWidth +
+            MediaQuery.of(context).size.width -
+            60.0;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
+      padding: const EdgeInsets.symmetric(vertical: 32.0),
       child: Column(
         children: [
           Text(
@@ -32,119 +38,137 @@ class CommonBarChart extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 32),
           SizedBox(
-            height: 400,
+            height: 550,
             child: dataEntries.isEmpty
-                ? const Center(child: Text('No data available'))
-                : BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.spaceAround,
-                      gridData: const FlGridData(show: false),
-                      titlesData: FlTitlesData(
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 60,
-                            getTitlesWidget: (value, meta) {
-                              final memberId = dataEntries[value.toInt()].key;
-                              final employeeName = getEmployeeName(memberId);
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: SizedBox(
-                                  width: 40.0,
-                                  child: Text(
-                                    employeeName,
-                                    style: const TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                    overflow:
-                                        TextOverflow.visible, // Allow wrapping
-                                    maxLines: 5, // Limit to two lines
-                                    softWrap: true, // Enable wrapping
-                                  ),
+                ? const Center(child: Text('Không có dữ liệu'))
+                : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SizedBox(
+                      width: chartWidth,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 86.0, left: 20.0, right: 20.0),
+                        child: BarChart(
+                          BarChartData(
+                            alignment: BarChartAlignment.spaceAround,
+                            gridData: const FlGridData(show: false),
+                            titlesData: FlTitlesData(
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 60,
+                                  getTitlesWidget: (value, meta) {
+                                    if (value.toInt() < dataEntries.length) {
+                                      final memberId =
+                                          dataEntries[value.toInt()].key;
+                                      final employeeName =
+                                          getEmployeeName(memberId);
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: SizedBox(
+                                          width: barItemWidth,
+                                          child: Text(
+                                            employeeName,
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.visible,
+                                            maxLines: 5,
+                                            softWrap: true,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    return const SizedBox
+                                        .shrink(); // Handle out of range values
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 40,
-                            getTitlesWidget: (value, meta) {
-                              if ((value + 1) % 0.5 == 0) {
-                                return Text(
-                                  value.toStringAsFixed(1),
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                );
-                              }
-                              return const SizedBox.shrink();
-                            },
-                          ),
-                        ),
-                        rightTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        topTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                      ),
-                      borderData: FlBorderData(
-                        show: true,
-                        border: Border.all(
-                          color: const Color(0xff37434d),
-                          width: 1,
-                        ),
-                      ),
-                      barGroups: dataEntries.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final totalDays = entry.value.value;
-
-                        return BarChartGroupData(
-                          x: index,
-                          barRods: [
-                            BarChartRodData(
-                              toY: totalDays,
-                              color: MyColors.primaryColor,
-                              width: HeplerFunction.calculateBarWidth(
-                                  context, dataEntries.length),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                          ],
-                        );
-                      }).toList(),
-                      barTouchData: BarTouchData(
-                        enabled: true,
-                        touchTooltipData: BarTouchTooltipData(
-                          tooltipPadding: const EdgeInsets.all(8),
-                          tooltipMargin: 8,
-                          getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                            final memberId = dataEntries[group.x.toInt()].key;
-                            final employeeName = getEmployeeName(memberId);
-                            return BarTooltipItem(
-                              '$employeeName\n',
-                              const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
                               ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: formatTooltip(rod.toY),
-                                  style: const TextStyle(
-                                    color: Colors.yellowAccent,
-                                    fontSize: 12,
-                                  ),
+                              leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 40,
+                                  getTitlesWidget: (value, meta) {
+                                    if ((value + 1) % 0.5 == 0) {
+                                      return Text(
+                                        value.toStringAsFixed(1),
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                    }
+                                    return const SizedBox.shrink();
+                                  },
                                 ),
-                              ],
-                            );
-                          },
+                              ),
+                              rightTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              topTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                            ),
+                            borderData: FlBorderData(
+                              show: true,
+                              border: Border.all(
+                                color: const Color(0xff37434d),
+                                width: 1,
+                              ),
+                            ),
+                            barGroups: dataEntries.asMap().entries.map((entry) {
+                              final index = entry.key;
+                              final totalDays = entry.value.value;
+                              barItemWidth = HeplerFunction.calculateBarWidth(
+                                  context, dataEntries.length);
+                              return BarChartGroupData(
+                                x: index,
+                                barRods: [
+                                  BarChartRodData(
+                                    toY: totalDays,
+                                    color: MyColors.primaryColor,
+                                    width: barItemWidth,
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                            barTouchData: BarTouchData(
+                              enabled: true,
+                              touchTooltipData: BarTouchTooltipData(
+                                tooltipPadding: const EdgeInsets.all(8),
+                                tooltipMargin: 8,
+                                getTooltipItem:
+                                    (group, groupIndex, rod, rodIndex) {
+                                  final memberId =
+                                      dataEntries[group.x.toInt()].key;
+                                  final employeeName =
+                                      getEmployeeName(memberId);
+                                  return BarTooltipItem(
+                                    '$employeeName\n',
+                                    const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: formatTooltip(rod.toY),
+                                        style: const TextStyle(
+                                          color: Colors.yellowAccent,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),

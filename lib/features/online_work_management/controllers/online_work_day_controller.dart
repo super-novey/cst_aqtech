@@ -7,7 +7,6 @@ import 'package:hrm_aqtech/features/online_work_management/models/online_work_da
 class OnlineWorkDayController extends GetxController {
   static OnlineWorkDayController get instance => Get.find();
   final isLoading = false.obs;
-  final isShowChart = false.obs;
 
   RxList<OnlineWork> allOnlineWorkDays = <OnlineWork>[].obs;
   RxMap<int, double> memberWorkDays = <int, double>{}.obs;
@@ -73,9 +72,5 @@ class OnlineWorkDayController extends GetxController {
         ifAbsent: () => workOnline.sumDay,
       );
     }
-  }
-
-  void toggleShowChart() {
-    isShowChart.value = !isShowChart.value;
   }
 }

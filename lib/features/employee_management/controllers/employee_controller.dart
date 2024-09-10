@@ -9,7 +9,6 @@ import 'package:hrm_aqtech/utils/constants/enums.dart';
 class EmployeeController extends GetxController {
   RxString filteredRole = "All".obs; // mac dinh la loc tat ca
   final isLoading = false.obs;
-  final isShowChart = false.obs;
   static EmployeeController get instance => Get.find();
   List<Employee> allEmployees = <Employee>[];
   List<Employee> searchResult = <Employee>[];
@@ -102,9 +101,5 @@ class EmployeeController extends GetxController {
 
   void updateTouchedIndex(int index) {
     touchedIndex.value = index;
-  }
-
-  void toggleShowChart() {
-    isShowChart.value = !isShowChart.value;
   }
 }

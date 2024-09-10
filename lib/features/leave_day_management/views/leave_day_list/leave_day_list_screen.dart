@@ -35,21 +35,13 @@ class LeaveDayListScreen extends StatelessWidget {
           },
         ),
         actions: [
-          Obx(() {
-            return IconButton(
+          IconButton(
               onPressed: () {
-                leaveDayController.toggleShowChart();
+                Get.to(() => const LeaveDayChart());
               },
-              icon: leaveDayController.isShowChart.value
-                  ? const Icon(
-                      Icons.bar_chart_rounded,
-                      color: MyColors.dartPrimaryColor,
-                    )
-                  : const Icon(
-                      Icons.bar_chart_rounded,
-                    ),
-            );
-          }),
+              icon: const Icon(
+                Icons.bar_chart_rounded,
+              )),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
@@ -82,8 +74,6 @@ class LeaveDayListScreen extends StatelessWidget {
 
               return ListView(
                 children: [
-                  if (leaveDayController.isShowChart.value)
-                    const LeaveDayChart(),
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

@@ -165,8 +165,8 @@ class HeplerFunction {
   }
 
   static double calculateBarWidth(BuildContext context, int numberOfBars) {
-    const double maxWidth = 40.0;
-    const double minWidth = 10.0;
+    const double maxWidth = 100.0;
+    const double minWidth = 50.0;
     final double chartWidth = MediaQuery.of(context).size.width - 60.0;
     final double width = (chartWidth / numberOfBars) - 8.0;
     return width.clamp(minWidth, maxWidth);
