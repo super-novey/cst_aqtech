@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/bussiness_days/bussiness_day_repository.dart';
+import 'package:hrm_aqtech/data/employees/employee_repository.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/date_range_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/update_business_day_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
@@ -52,7 +53,6 @@ class BussinessDayListController extends GetxController {
       if (memberWorkDays.isEmpty) {
         updateMemberWorkDays();
       }
-
     } finally {
       isLoading.value = false;
     }
