@@ -103,7 +103,7 @@ class UpdateBusinessDayController extends GetxController {
         // Xu ly them
 
         await BussinessDayRepository.instance.addBusinessDay(businessDay);
-        BussinessDayListController.instance.fetchBussinessDate(false);
+        BussinessDayListController.instance.fetchBussinessDate(true);
         // BussinessDayListController.instance.bussinessDateList.add(businessDay);
         // BussinessDayListController.instance.sort();
         Get.back();
@@ -114,7 +114,7 @@ class UpdateBusinessDayController extends GetxController {
       } else {
         // Goi API
         await BussinessDayRepository.instance.updateBusinessDay(businessDay);
-        BussinessDayListController.instance.fetchBussinessDate(false);
+        BussinessDayListController.instance.fetchBussinessDate(true);
 
         // cap nhat giao dien
         // int index = BussinessDayListController.instance.bussinessDateList

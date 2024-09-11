@@ -4,6 +4,7 @@ import 'package:hrm_aqtech/bindings/general_bindings.dart';
 import 'package:hrm_aqtech/features/authentication/views/onboarding/onboarding_screen.dart';
 import 'package:hrm_aqtech/utils/themes/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -23,6 +24,11 @@ class App extends StatelessWidget {
         Locale('vi'), // Vietnamese
       ],
       localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        MonthYearPickerLocalizations
+            .delegate, // Thêm delegate của month_year_picker
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
