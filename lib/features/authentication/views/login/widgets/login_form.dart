@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:hrm_aqtech/features/home/home_screen.dart';
 import 'package:hrm_aqtech/navigation_menu.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
-import 'package:iconsax/iconsax.dart';
+
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -18,7 +19,7 @@ class LoginForm extends StatelessWidget {
         TextFormField(
           obscureText: false,
           decoration: const InputDecoration(
-              hintText: "Tên đăng nhập", prefixIcon: Icon(Iconsax.user)),
+              hintText: "Tên đăng nhập", prefixIcon: Icon(Icons.person)),
         ),
         const SizedBox(
           height: MySizes.spaceBtwItems,
@@ -27,8 +28,8 @@ class LoginForm extends StatelessWidget {
           obscureText: true,
           decoration: const InputDecoration(
               hintText: "Mật khẩu",
-              prefixIcon: Icon(Iconsax.lock),
-              suffix: Icon(Iconsax.eye_slash)),
+              prefixIcon: Icon(Icons.lock),
+              suffix: Icon(Icons.remove_red_eye)),
         ),
         const SizedBox(
           height: MySizes.spaceBtwSections,
@@ -37,7 +38,7 @@ class LoginForm extends StatelessWidget {
         SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-                onPressed: () => Get.to(() => const NavigationMenu()),
+                onPressed: () => Get.to(() => const HomeScreen()),
                 child: const Text("Đăng nhập")))
       ],
     ));

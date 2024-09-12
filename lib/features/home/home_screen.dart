@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           MySectionHeading(
                               textColor: MyColors.dartPrimaryColor,
-                              title: "Kết quả định lượng công việc trong năm"),
+                              title: "Kết quả định lượng công việc"),
                           SizedBox(
                             height: MySizes.spaceBtwItems,
                           ),
@@ -222,7 +222,7 @@ class HomeScreen extends StatelessWidget {
                       child: GridView.count(
                         padding: const EdgeInsets.all(0),
                         physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: 4,
+                        crossAxisCount: 3,
                         children: [
                           MyVerticalImageText(
                               image: MyImagePaths.iconEmployee,
