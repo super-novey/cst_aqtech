@@ -127,31 +127,31 @@ class LunchStatisticScreen extends StatelessWidget {
                             DataCell(
                               Text(
                                 '${controller.totalIndividualDayOff}',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                             DataCell(
                               Text(
                                 '${controller.totalWorkingOnline}',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                             DataCell(
                               Text(
                                 '${controller.totalCommissionDay}',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                             DataCell(
                               Text(
                                 '${controller.totalAQDayOff}',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                             DataCell(
                               Text(
                                 '${controller.totalDaysRemaining}',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             )
                           ],

@@ -30,10 +30,6 @@ class UpdateBusinessDayController extends GetxController {
   var note = TextEditingController();
   var isAdd = false.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void dispose() {
