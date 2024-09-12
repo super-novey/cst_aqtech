@@ -51,6 +51,8 @@ class MyVerticalImageText extends StatelessWidget {
             Text(
               textAlign: TextAlign.center,
               title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.labelMedium!.apply(
                     color: textColor,
                   ),

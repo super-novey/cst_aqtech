@@ -19,15 +19,6 @@ class BussinessDaysUpdate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(UpdateBusinessDayController());
-//     final formatDayController = Get.put(FormatDayController());
-
-//     // Lấy giá trị `sumDay` từ controller và format nó
-//     final double sumDayValue = controller.sumDay.value.text.isNotEmpty
-//         ? double.parse(controller.sumDay.value.text)
-//         : 0.0;
-// final TextEditingController sumDayController = TextEditingController();
-//     // Định dạng giá trị và gán cho TextEditingController
-//     sumDayController.text = formatDayController.formatDayController(sumDayValue);
 
     controller.init(businessDate);
 
@@ -166,40 +157,39 @@ class BussinessDaysUpdate extends StatelessWidget {
                         child: Row(
                           children: [
                             // Drop down
-                            Expanded(
-                              flex: 3,
-                              child: MyRoundedContainer(
-                                showBorder: true,
-                                borderColor: Colors.grey,
-                                radius: MySizes.borderRadiusLg,
-                                child: DropdownButtonHideUnderline(
-                                  child: Obx(
-                                    () => DropdownButton(
-                                      value: controller.memberListController
-                                          .memberNameController[index],
-                                      dropdownColor: MyColors.iconColor,
-                                      items: controller
-                                          .memberListController.allEmployees
-                                          .map<
-                                                  DropdownMenuItem<
-                                                      AssignedEmployee>>(
-                                              (AssignedEmployee value) {
-                                        return DropdownMenuItem<
-                                            AssignedEmployee>(
-                                          value: value,
-                                          child: Text(
-                                            value.fullName,
-                                          ),
-                                        );
-                                      }).toList(),
-                                      onChanged: (AssignedEmployee? value) {
-                                        if (value != null) {
-                                          controller.memberListController
-                                                  .memberNameController[index] =
-                                              value;
-                                        }
-                                      },
-                                    ),
+
+=======
+                            MyRoundedContainer(
+                              showBorder: true,
+                              borderColor: Colors.grey,
+                              radius: MySizes.borderRadiusLg,
+                              child: DropdownButtonHideUnderline(
+                                child: Obx(
+                                  () => DropdownButton(
+                                    value: controller.memberListController
+                                        .memberNameController[index],
+                                    dropdownColor: MyColors.iconColor,
+                                    items: controller
+                                        .memberListController.allEmployees
+                                        .map<
+                                                DropdownMenuItem<
+                                                    AssignedEmployee>>(
+                                            (AssignedEmployee value) {
+                                      return DropdownMenuItem<AssignedEmployee>(
+                                        value: value,
+                                        child: Text(
+                                          value.fullName,
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (AssignedEmployee? value) {
+                                      if (value != null) {
+                                        controller.memberListController
+                                                .memberNameController[index] =
+                                            value;
+                                      }
+                                    },
+
                                   ),
                                 ),
                               ),
@@ -208,19 +198,18 @@ class BussinessDaysUpdate extends StatelessWidget {
                               width: 10,
                             ),
                             Expanded(
-                                flex: 1,
                                 child: TextField(
-                                  controller: controller.memberListController
-                                      .memberExpensesController[index],
-                                  //keyboardType: TextInputType.number,
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]')),
-                                  ],
-                                )),
-                            const SizedBox(
-                              width: 10,
-                            ),
+                              controller: controller.memberListController
+                                  .memberExpensesController[index],
+                              //keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9]')),
+                              ],
+                            )),
+                            // const SizedBox(
+                            //   width: 10,
+                            // ),
                             IconButton(
                                 onPressed: () {
                                   controller.memberListController.remove(index);

@@ -4,7 +4,7 @@ import 'package:hrm_aqtech/features/employee_management/views/employee_list/empl
 import 'package:hrm_aqtech/features/home/home_screen.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/general_time_off/general_time_off_screen.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
-import 'package:iconsax/iconsax.dart';
+
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -12,7 +12,6 @@ class NavigationMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(NavigationController());
-
     return Scaffold(
       bottomNavigationBar: Obx(
         () => NavigationBar(
@@ -31,19 +30,19 @@ class NavigationMenu extends StatelessWidget {
                   label: 'Trang chủ'),
               NavigationDestination(
                   icon: Icon(
-                    Iconsax.timer,
+                    Icons.timer,
                     color: MyColors.accentColor,
                   ),
                   label: 'Nghỉ phép'),
               NavigationDestination(
                   icon: Icon(
-                    Iconsax.timer,
+                    Icons.timer,
                     color: MyColors.accentColor,
                   ),
                   label: 'Home'),
               NavigationDestination(
                   icon: Icon(
-                    Iconsax.chart,
+                    Icons.timer,
                     color: MyColors.accentColor,
                   ),
                   label: 'Thống kê'),

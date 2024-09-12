@@ -7,21 +7,9 @@ class DateRangeController extends GetxController {
       DateTimeRange(start: DateTime(DateTime.now().year), end: DateTime.now())
           .obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  @override
-  void onReady() {
-    // TODO: implement onReady
-    super.onReady();
-  }
+  
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> showRangeDatePicker() async {
     DateTimeRange? picked = await showDateRangePicker(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/online_work_management/controllers/update_online_work_day_controller.dart';
+import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:intl/intl.dart';
 
 class OnlineWorkDayDatePicker extends StatelessWidget {
@@ -23,9 +24,11 @@ class OnlineWorkDayDatePicker extends StatelessWidget {
             child: TextFormField(
               controller: controller,
               enabled: UpdateOnlineWorkDayController.instance.isEditting.value,
+              readOnly: true,
               decoration: InputDecoration(
                 labelText: label,
                 hintStyle: const TextStyle(color: Colors.grey),
+                suffixIcon: const Icon(Icons.calendar_month_outlined, color: MyColors.primaryTextColor,),
               ),
               onTap: () {
                 _selectDate(context, controller);

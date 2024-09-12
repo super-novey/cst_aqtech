@@ -6,10 +6,6 @@ class DateTimePickerController extends GetxController {
   var endDate = DateTime.now().obs;
 
   static DateTimePickerController get instance => Get.find();
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   void selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(

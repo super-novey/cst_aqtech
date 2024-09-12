@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/bussiness_days/bussiness_day_repository.dart';
-import 'package:hrm_aqtech/data/employees/employee_repository.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/date_range_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/update_business_day_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
@@ -13,8 +12,6 @@ class BussinessDayListController extends GetxController {
   static BussinessDayListController get instance => Get.find();
 
   final _bussinessDayRepository = Get.put(BussinessDayRepository());
-  // ignore: unused_field
-  final _employeeRepository = Get.put(EmployeeRepository());
 
   final updateBusinessDay = Get.put(UpdateBusinessDayController());
 
@@ -37,7 +34,7 @@ class BussinessDayListController extends GetxController {
       if (!isConnected) {
         return;
       }
-
+      bussinessDateList.clear();
       if (isAll) {
         bussinessDateList
             .assignAll(await _bussinessDayRepository.getAllBussinessDayList());
