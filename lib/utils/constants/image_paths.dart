@@ -24,4 +24,7 @@ class MyImagePaths {
   static const String iconCase = "assets/icons/case.png";
   static const String iconSleepy = "assets/icons/sleepy.png";
   static const String iconCalender = "assets/icons/calendar.png";
+  static const String iconClock = "assets/icons/clock.png";
+  static const String iconWorkCase = "assets/icons/work-case.png";
+  static const String iconPersonalWork = "assets/icons/personal-work.png";
 }

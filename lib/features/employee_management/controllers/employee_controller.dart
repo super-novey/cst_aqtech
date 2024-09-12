@@ -80,6 +80,12 @@ class EmployeeController extends GetxController {
     return employee?.fullName;
   }
 
+  String? getTfsNameById(String id) {
+    final employee =
+        allEmployees.firstWhereOrNull((e) => e.id.toString() == id);
+    return employee?.tfsName;
+  }
+
   void processEmployeeData() {
     final employees = allEmployees;
 

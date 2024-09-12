@@ -20,75 +20,76 @@ class BusinessDaysListScreen extends StatelessWidget {
     final employeeController = Get.put(EmployeeController());
     final bussinessDateController = Get.put(BussinessDayListController());
     return Scaffold(
-        appBar: MyAppBar(
-          showBackArrow: true,
-          iconColor: MyColors.primaryTextColor,
-          title: Text(
-            "Quản lý ngày công tác",
-            style: Theme.of(context).textTheme.headlineSmall,
+      appBar: MyAppBar(
+        showBackArrow: true,
+        iconColor: MyColors.primaryTextColor,
+        title: Text(
+          "Quản lý ngày công tác",
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(() => const BusinessDayChart());
+            },
+            icon: const Icon(
+              Icons.bar_chart_rounded,
+              color: MyColors.primaryTextColor,
+            ),
           ),
-          actions: [
-            IconButton(
+          IconButton(
               onPressed: () {
-                Get.to(() => const BusinessDayChart());
+                bussinessDateController.updateBusinessDay.isAdd.value = true;
+                Get.to(() => BussinessDaysUpdate(
+                      businessDate: BusinessDate(
+                          dateFrom: DateTime.now(), dateTo: DateTime.now()),
+                    ));
+                DateRangeController.instance.onClose();
               },
               icon: const Icon(
-                Icons.bar_chart_rounded,
+                Icons.add,
                 color: MyColors.primaryTextColor,
-              ),
-            ),
-            IconButton(
-                onPressed: () {
-                  bussinessDateController.updateBusinessDay.isAdd.value = true;
-                  Get.to(() => BussinessDaysUpdate(
-                        businessDate: BusinessDate(
-                            dateFrom: DateTime.now(), dateTo: DateTime.now()),
-                      ));
-                  DateRangeController.instance.onClose();
-                },
-                icon: const Icon(
-                  Icons.add,
-                  color: MyColors.primaryTextColor,
-                ))
-          ],
+              ))
+        ],
+      ),
+      body: NestedScrollView(
+        headerSliverBuilder: (_, innerBoxIsScrolled) {
+          return [
+            const SliverAppBar(
+              automaticallyImplyLeading: false,
+              pinned: true,
+              floating: true,
+              backgroundColor: Colors.white,
+              expandedHeight: 100,
+              bottom: Filter(),
+            )
+          ];
+        },
+        body: Obx(
+          () => (bussinessDateController.isLoading.value ||
+                  !employeeController.isEmployeeDataReady.value)
+              ? const ShimmerListTile()
+              : ListView(
+                  children: [
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount:
+                            bussinessDateController.bussinessDateList.length,
+                        itemBuilder: (context, index) {
+                          final tmp =
+                              bussinessDateController.bussinessDateList[index];
+                          return BusinessDateTile(
+                            backgroundColor: (index % 2 == 0)
+                                ? MyColors.lightPrimaryColor
+                                : Colors.white,
+                            businessDate: tmp,
+                          );
+                        }),
+                  ],
+                ),
         ),
-        body: NestedScrollView(
-          headerSliverBuilder: (_, innerBoxIsScrolled) {
-            return [
-              const SliverAppBar(
-                automaticallyImplyLeading: false,
-                pinned: true,
-                floating: true,
-                backgroundColor: Colors.white,
-                expandedHeight: 100,
-                bottom: Filter(),
-              )
-            ];
-          },
-          body: Obx(
-            () => (bussinessDateController.isLoading.value ||
-                    !employeeController.isEmployeeDataReady.value)
-                ? const ShimmerListTile()
-                : ListView(
-                    children: [
-                      ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount:
-                              bussinessDateController.bussinessDateList.length,
-                          itemBuilder: (context, index) {
-                            final tmp = bussinessDateController
-                                .bussinessDateList[index];
-                            return BusinessDateTile(
-                              backgroundColor: (index % 2 == 0)
-                                  ? MyColors.lightPrimaryColor
-                                  : Colors.white,
-                              businessDate: tmp,
-                            );
-                          }),
-                    ],
-                  ),
-          ),
-        ));
+      ),
+    );
   }
 }

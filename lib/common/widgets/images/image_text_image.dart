@@ -28,7 +28,7 @@ class MyVerticalImageText extends StatelessWidget {
             // circular icon
             Container(
               width: 50,
-              height: 50,
+              height: 55,
               padding: const EdgeInsets.all(MySizes.sm),
               decoration: BoxDecoration(
                   color: backgroundColor,

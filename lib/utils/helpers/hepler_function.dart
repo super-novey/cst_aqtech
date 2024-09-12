@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hrm_aqtech/features/daily_report/views/widgets/aq_case_report_bar_chart.dart';
 import 'package:hrm_aqtech/features/daily_report/views/widgets/case_progress_bar_chart.dart';

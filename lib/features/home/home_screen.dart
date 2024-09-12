@@ -8,6 +8,7 @@ import 'package:hrm_aqtech/features/business_days_management/views/business_days
 import 'package:hrm_aqtech/features/daily_report/views/daily_report_screen.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_list/employee_list_screen.dart';
 import 'package:hrm_aqtech/features/home/widgets/home_appbar.dart';
+import 'package:hrm_aqtech/features/individual_work_management/views/individual_work_screen.dart';
 import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_list/leave_day_list_screen.dart';
 import 'package:hrm_aqtech/features/online_work_management/views/online_work_day_list/online_work_day_list_screen.dart';
 import 'package:hrm_aqtech/features/over_time_management/views/over_time_list/over_time_list_screen.dart';
@@ -248,9 +249,11 @@ class HomeScreen extends StatelessWidget {
                               title: "Nghỉ phép\n năm",
                               onTap: () {}),
                           MyVerticalImageText(
-                              image: MyImagePaths.iconCalender,
-                              title: "Nghỉ phép\n năm",
-                              onTap: () {}),
+                              image: MyImagePaths.iconPersonalWork,
+                              title: "Kết quả làm việc\n cá nhân",
+                              onTap: () {
+                                Get.to(() => const IndividualWorkScreen());
+                              }),
                         ],
                       ),
                     ),
