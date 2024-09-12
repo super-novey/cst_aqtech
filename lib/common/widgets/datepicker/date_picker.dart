@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/update_employee_controller.dart';
+import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
@@ -18,12 +19,14 @@ class DatePicker extends StatelessWidget {
             child: TextField(
               controller: controler,
               enabled: (UpdateEmployeeController.instance.isEditting.value),
-              
+              readOnly: true,
               decoration: InputDecoration(
                 label: Text(
                   label,
                   style: Theme.of(context).textTheme.headlineSmall,
+                  
                 ),
+                suffixIcon: const Icon(Icons.calendar_month_outlined, color: MyColors.primaryTextColor,),
               ),
               onTap: () {
                 _selectDate(context, controler);
