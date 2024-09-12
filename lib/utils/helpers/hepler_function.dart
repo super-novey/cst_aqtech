@@ -1,5 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:hrm_aqtech/features/daily_report/views/widgets/aq_case_report_bar_chart.dart';
+import 'package:hrm_aqtech/features/daily_report/views/widgets/case_progress_bar_chart.dart';
+import 'package:hrm_aqtech/features/daily_report/views/widgets/case_waiting_time_bar_chart.dart';
+import 'package:hrm_aqtech/features/daily_report/views/widgets/case_waiting_time_pie_chart.dart';
+import 'package:hrm_aqtech/features/daily_report/views/widgets/dev_report_bar_chart.dart';
+import 'package:hrm_aqtech/features/daily_report/views/widgets/sup_case_report_bar_chart.dart';
+import 'package:hrm_aqtech/features/daily_report/views/widgets/sup_case_report_pie_chart.dart';
+import 'package:hrm_aqtech/features/daily_report/views/widgets/time_distribution_bar_chart.dart';
+import 'package:hrm_aqtech/features/daily_report/views/widgets/work_progress_bar_chart.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 
 class HeplerFunction {
@@ -169,5 +178,57 @@ class HeplerFunction {
     final double chartWidth = MediaQuery.of(context).size.width - 60.0;
     final double width = (chartWidth / numberOfBars) - 8.0;
     return width.clamp(minWidth, maxWidth);
+  }
+
+  static String displayNameOfChart(Chart chart) {
+    switch (chart) {
+      case Chart.aqcase:
+        return "Biểu đồ tổng hợp AQ Report";
+      case Chart.caseProgress:
+        return "Biểu đồ tiến độ xử lý case";
+      case Chart.caseWaiting:
+        return "Phân bố số case theo thời gian chờ";
+      case Chart.caseWaitingPieChart:
+        return "Phân bố số case theo thời gian chờ";
+      case Chart.devReport:
+        return "Biểu đồ phân bổ thời gian";
+      case Chart.supCase:
+        return "Biểu đồ SUP Report";
+      case Chart.supCasePieChart:
+        return "Biểu đồ phân bổ tiến độ xử lý";
+      case Chart.timeDistribution:
+        return "Biểu đồ phân bổ thời gian";
+      case Chart.workProgress:
+        return "Biểu đồ tiến độ công việc";
+      default:
+        return "";
+    }
+  }
+
+  static Widget chooseChart(Chart chart) {
+    switch (chart) {
+      case Chart.aqcase:
+        return const AqCaseReportBarChart();
+      case Chart.caseProgress:
+        return const CaseProgressBarChart();
+      case Chart.caseWaiting:
+        return const CaseWaitingTimeBarChart();
+      case Chart.caseWaitingPieChart:
+        return const CaseWaitingTimePieChart();
+      case Chart.devReport:
+        return const DevReportBarChart();
+      case Chart.supCase:
+        return const SupCaseReportBarChart();
+      case Chart.supCasePieChart:
+        return const SupCaseReportPieChart();
+      case Chart.timeDistribution:
+        return const TimeDistributionBarChart();
+      case Chart.workProgress:
+        return const WorkProgressBarChart();
+      default:
+        return const Center(
+          child: Text('Chon 1 bieu do'),
+        );
+    }
   }
 }
