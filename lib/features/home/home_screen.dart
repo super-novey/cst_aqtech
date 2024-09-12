@@ -5,6 +5,7 @@ import 'package:hrm_aqtech/common/widgets/header/primary_header_container.dart';
 import 'package:hrm_aqtech/common/widgets/images/image_text_image.dart';
 import 'package:hrm_aqtech/common/widgets/texts/section_heading.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/business_days_list_screen.dart';
+import 'package:hrm_aqtech/features/daily_report/views/daily_report_screen.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_list/employee_list_screen.dart';
 import 'package:hrm_aqtech/features/home/widgets/home_appbar.dart';
 import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_list/leave_day_list_screen.dart';
@@ -226,7 +227,7 @@ class HomeScreen extends StatelessWidget {
                           MyVerticalImageText(
                               image: MyImagePaths.iconEmployee,
                               title: "Nhân sự\n AQ",
-                              onTap: () {}),
+                              onTap: () {Get.to( const DailyReportScreen());}),
                           MyVerticalImageText(
                               image: MyImagePaths.iconLunch,
                               title: "Tiền ăn\n trưa",
@@ -238,6 +239,10 @@ class HomeScreen extends StatelessWidget {
                           MyVerticalImageText(
                               image: MyImagePaths.iconSleepy,
                               title: "Làm việc\n ngoài giờ",
+                              onTap: () {}),
+                          MyVerticalImageText(
+                              image: MyImagePaths.iconCalender,
+                              title: "Nghỉ phép\n năm",
                               onTap: () {}),
                           MyVerticalImageText(
                               image: MyImagePaths.iconCalender,
