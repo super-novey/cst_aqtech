@@ -35,7 +35,6 @@ class DailyReportRepository {
       "data": "2024-09-22T00:00:00.0000000", 
     };
       final response = await HttpHelper.post("ThongKe/w-supCaseReport", request);
-      print(response);
       List<dynamic> data = response['data'] as List<dynamic>;
       return data.map((item) => SupCaseReport.fromJson(item)).toList();
     } on Exception catch (_) {
@@ -49,7 +48,6 @@ class DailyReportRepository {
       "data": "2024-09-22T00:00:00.0000000", 
     };
       final response = await HttpHelper.post("ThongKe/w-coderCaseReport", [request]);
-      print(response);
       List<dynamic> data = response['data'] as List<dynamic>;
       return data.map((item) => CoderCaseReport.fromJson(item)).toList();
     } on Exception catch (_) {

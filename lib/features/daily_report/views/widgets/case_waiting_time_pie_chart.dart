@@ -1,4 +1,3 @@
-//Phân bố số case theo thời gian chờ
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/daily_report/controllers/case_waiting_time_controller.dart';
