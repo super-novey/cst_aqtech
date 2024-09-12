@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 
@@ -158,7 +156,7 @@ class HeplerFunction {
         totalWeekdays++;
       }
       // Chuyển sang ngày tiếp theo
-      currentDate = currentDate.add(Duration(days: 1));
+      currentDate = currentDate.add(const Duration(days: 1));
     }
 
     return totalWeekdays.toDouble();

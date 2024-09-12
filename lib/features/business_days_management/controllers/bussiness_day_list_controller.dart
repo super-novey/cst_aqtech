@@ -13,6 +13,7 @@ class BussinessDayListController extends GetxController {
   static BussinessDayListController get instance => Get.find();
 
   final _bussinessDayRepository = Get.put(BussinessDayRepository());
+  // ignore: unused_field
   final _employeeRepository = Get.put(EmployeeRepository());
 
   final updateBusinessDay = Get.put(UpdateBusinessDayController());
