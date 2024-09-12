@@ -17,17 +17,9 @@ class NewDateRangeController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    // TODO: implement onReady
-    super.onReady();
-  }
+  
 
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
-  }
+  
 
   Future<void> showRangeDatePicker() async {
     DateTimeRange? picked = await showDateRangePicker(

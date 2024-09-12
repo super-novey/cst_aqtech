@@ -11,6 +11,7 @@ import 'package:hrm_aqtech/features/home/widgets/home_appbar.dart';
 import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_list/leave_day_list_screen.dart';
 import 'package:hrm_aqtech/features/online_work_management/views/online_work_day_list/online_work_day_list_screen.dart';
 import 'package:hrm_aqtech/features/over_time_management/views/over_time_list/over_time_list_screen.dart';
+import 'package:hrm_aqtech/features/statistic/views/lunch_statistic/lunch_statistic_screen.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/general_time_off/general_time_off_screen.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';
@@ -45,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           MySectionHeading(
                               textColor: MyColors.dartPrimaryColor,
-                              title: "Kết quả định lượng công việc trong năm"),
+                              title: "Kết quả định lượng công việc"),
                           SizedBox(
                             height: MySizes.spaceBtwItems,
                           ),
@@ -222,7 +223,7 @@ class HomeScreen extends StatelessWidget {
                       child: GridView.count(
                         padding: const EdgeInsets.all(0),
                         physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: 4,
+                        crossAxisCount: 3,
                         children: [
                           MyVerticalImageText(
                               image: MyImagePaths.iconEmployee,
@@ -231,7 +232,9 @@ class HomeScreen extends StatelessWidget {
                           MyVerticalImageText(
                               image: MyImagePaths.iconLunch,
                               title: "Tiền ăn\n trưa",
-                              onTap: () {}),
+                              onTap: () {
+                                Get.to(const LunchStatisticScreen());
+                              }),
                           MyVerticalImageText(
                               image: MyImagePaths.iconCase,
                               title: "Tiền công\n tác phí",

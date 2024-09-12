@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/container/rounded_container.dart';
-import 'package:hrm_aqtech/features/business_days_management/controllers/bussiness_day_list_controller.dart';
-import 'package:hrm_aqtech/features/business_days_management/controllers/date_range_controller.dart';
+import 'package:hrm_aqtech/features/statistic/controllers/LunchStatisticController/filter_date_controller.dart';
+import 'package:hrm_aqtech/features/statistic/controllers/LunchStatisticController/lunch_statistic_controller.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/devices/device_utils.dart';
-import 'package:hrm_aqtech/utils/formatter/formatter.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
-class Filter extends StatelessWidget implements PreferredSizeWidget {
-  const Filter({super.key});
+class LunchFilter extends StatelessWidget implements PreferredSizeWidget {
+  const LunchFilter({super.key});
   @override
   Widget build(BuildContext context) {
-    final dateRangeController = Get.put(DateRangeController());
+    final LunchFilterDateController monthYearController =
+        Get.put(LunchFilterDateController());
     return Padding(
       padding: const EdgeInsets.all(MySizes.defaultSpace),
       child: Column(
@@ -24,30 +25,30 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                   showBorder: true,
                   borderColor: MyColors.accentColor,
                   child: IconButton(
-                      onPressed: () {
-                        BussinessDayListController.instance
-                            .fetchBussinessDate(true);
-                      },
+                      onPressed: () {},
                       icon: const Icon(Icons.filter_alt_off))),
               const SizedBox(
                 width: MySizes.spaceBtwItems - 2,
               ),
               // text hiển thị ngày
               Expanded(
-                child: GestureDetector(
-                  onTap: dateRangeController.showRangeDatePicker,
-                  child: MyRoundedContainer(
-                    padding: const EdgeInsets.all(12),
-                    borderColor: MyColors.dartPrimaryColor,
-                    showBorder: true,
-                    child: Obx(
-                      () => Text(
-                        "${MyFormatter.formatDateTime(dateRangeController.dateRange.value.start)} - ${MyFormatter.formatDateTime(dateRangeController.dateRange.value.end)}",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ),
+                child: TextField(
+                  controller: monthYearController.dateController,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
+                  onTap: () async {
+                    DateTime? pickedDate = await showMonthYearPicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(DateTime.now().year - 20),
+                      lastDate: DateTime(DateTime.now().year + 20),
+                    );
+                    if (pickedDate != null) {
+                      monthYearController.updateDate(pickedDate);
+                    }
+                  },
                 ),
               ),
 
@@ -61,8 +62,7 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                   child: IconButton(
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
-                      BussinessDayListController.instance
-                          .fetchBussinessDate(false);
+                      LunchStatisticController.instance.fetchLunchStatistics();
                     },
                     icon: const Icon(
                       Icons.search,
@@ -77,7 +77,6 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  
   Size get preferredSize =>
-      Size.fromHeight(MyDeviceUtils.getAppBarHeight() * 2.5);
+      Size.fromHeight(MyDeviceUtils.getAppBarHeight() * 2);
 }

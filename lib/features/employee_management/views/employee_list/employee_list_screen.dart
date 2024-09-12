@@ -11,7 +11,7 @@ import 'package:hrm_aqtech/navigation_menu.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
-import 'package:iconsax/iconsax.dart';
+
 
 class EmployeeListScreen extends StatelessWidget {
   const EmployeeListScreen({super.key});
@@ -71,7 +71,7 @@ class EmployeeListScreen extends StatelessWidget {
                           controller.searchEmployee(query: value);
                         },
                         decoration: const InputDecoration(
-                            prefixIcon: Icon(Iconsax.search_normal),
+                            prefixIcon: Icon(Icons.search),
                             hintText: "Tìm kiếm nhân viên"),
                       )),
                   bottom: MyTabbar(
