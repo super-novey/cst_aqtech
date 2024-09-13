@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/statistic/models/commissionday_statistic.dart';
 import 'package:hrm_aqtech/utils/http/http_client.dart';
 
-class CommissiondayStatisticRepository {
+class CommissiondayStatisticRepository extends GetxController {
   static CommissiondayStatisticRepository get instance => Get.find();
 
   Future<List<CommissionDay>> getCommissionDayStatistic(

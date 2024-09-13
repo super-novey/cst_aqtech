@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/container/rounded_container.dart';
-import 'package:hrm_aqtech/features/statistic/controllers/CommissionDayControllers/commissionday_filter_date_controller.dart';
-import 'package:hrm_aqtech/features/statistic/controllers/CommissionDayControllers/commissionday_statistic_controller.dart';
-import 'package:hrm_aqtech/features/statistic/controllers/CommissionDayControllers/quarter_dropdown_controller.dart';
+import 'package:hrm_aqtech/features/statistic/controllers/OverTimeControllers/overtime_filter_date_controller.dart';
+import 'package:hrm_aqtech/features/statistic/controllers/OverTimeControllers/overtime_quarter_dropdown_controller.dart';
+import 'package:hrm_aqtech/features/statistic/controllers/OverTimeControllers/overtime_statistic_controller.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
-class CommissiondayFilter extends StatelessWidget
-    implements PreferredSizeWidget {
-  const CommissiondayFilter({super.key});
+class OvertimeFilter extends StatelessWidget implements PreferredSizeWidget {
+  const OvertimeFilter({super.key});
   @override
   Widget build(BuildContext context) {
-    final CommissiondayFilterDateController yearController =
-        Get.put(CommissiondayFilterDateController());
-    final quarterDropDownController = Get.put(QuarterDropdownController());
+    final yearController = Get.put(OvertimeFilterDateController());
+    final quarterDropDownController =
+        Get.put(OvertimeQuarterDropdownController());
     return Padding(
       padding: const EdgeInsets.all(MySizes.defaultSpace),
       child: Column(
@@ -82,8 +81,8 @@ class CommissiondayFilter extends StatelessWidget
                   child: IconButton(
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
-                      CommissiondayStatisticController.instance
-                          .fetchCommissionStatistics();
+                      OvertimeStatisticController.instance
+                          .fetchOvertimeStatistics();
                     },
                     icon: const Icon(
                       Icons.search,

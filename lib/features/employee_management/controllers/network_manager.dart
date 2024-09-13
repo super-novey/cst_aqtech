@@ -23,9 +23,10 @@ class NetworkManager extends GetxController {
     _connectionStatus.value = result;
     if (result.contains(ConnectivityResult.none)) {
       Loaders.customToast(message: 'Không có kết nối!');
-    } else {
-      Loaders.customToast(message: "Đã có kết nối!");
     }
+    // else {
+    //   Loaders.customToast(message: "Đã có kết nối!");
+    // }
   }
 
   Future<bool> isConnected() async {
