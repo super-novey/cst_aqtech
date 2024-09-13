@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/appbar.dart';
-import 'package:hrm_aqtech/features/statistic/controllers/LunchStatisticController/lunch_statistic_controller.dart';
-import 'package:hrm_aqtech/features/statistic/views/lunch_statistic/widgets/lunch_filter.dart';
+import 'package:hrm_aqtech/features/statistic/controllers/CommissionDayControllers/commissionday_statistic_controller.dart';
+import 'package:hrm_aqtech/features/statistic/views/commissionday_statistic/widgets/commissionday_filter.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 
-class LunchStatisticScreen extends StatelessWidget {
-  const LunchStatisticScreen({super.key});
+class CommissiondayStatisticScreen extends StatelessWidget {
+  const CommissiondayStatisticScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LunchStatisticController());
+    final controller = Get.put(CommissiondayStatisticController());
 
     return Scaffold(
       appBar: MyAppBar(
         showBackArrow: true,
         iconColor: MyColors.primaryTextColor,
         title: Text(
-          "Thống kê tính tiền ăn trưa theo tháng",
+          "Thống kê tính tiền công tác phí theo quý",
           style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
@@ -30,7 +30,7 @@ class LunchStatisticScreen extends StatelessWidget {
                 floating: true,
                 backgroundColor: Colors.white,
                 expandedHeight: 100,
-                bottom: LunchFilter(),
+                bottom: CommissiondayFilter(),
               )
             ];
           },
@@ -50,35 +50,17 @@ class LunchStatisticScreen extends StatelessWidget {
                             headingRowAlignment: MainAxisAlignment.center,
                             label: Text(
                               textAlign: TextAlign.center,
-                              'Tổng số ngày phép\n(trọn ngày)',
-                              maxLines: 2,
+                              'Tổng số ngày công tác',
                             )),
                         DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
                             label: Text(
                               textAlign: TextAlign.center,
-                              'Tổng số ngày online\n(trọn ngày)',
+                              'Tổng số ngày công tác phí',
                               maxLines: 2,
                             )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Tổng số ngày công tác\n(trọn ngày)',
-                              maxLines: 2,
-                            )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Tổng số ngày nghỉ chung\n(nếu có)',
-                              maxLines: 2,
-                            )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text('Số ngày còn lại')),
                       ], rows: [
-                        ...controller.lunchStatisticList
+                        ...controller.commissionStatisticList
                             .asMap()
                             .entries
                             .map((entry) {
@@ -102,42 +84,20 @@ class LunchStatisticScreen extends StatelessWidget {
                                     stat.fullName)),
                                 DataCell(Text(
                                     textAlign: TextAlign.center,
-                                    stat.totalIndividualDayOff.toString())),
-                                DataCell(Text(
-                                    textAlign: TextAlign.center,
                                     stat.totalCommissionDay.toString())),
                                 DataCell(Text(
                                     textAlign: TextAlign.center,
-                                    stat.totalWorkingOnline.toString())),
-                                DataCell(Text(
-                                    textAlign: TextAlign.center,
-                                    stat.totalAQDayOff.toString())),
-                                DataCell(Text(
-                                    "${21 - stat.totalCommissionDay - stat.totalIndividualDayOff - stat.totalAQDayOff - stat.totalWorkingOnline}"))
+                                    stat.totalCommissionPayment.toString())),
                               ]);
                         }),
 
-                        // Hàng tổng cộng
+                        // // Hàng tổng cộng
                         DataRow(
                           cells: [
                             const DataCell(Text('')),
                             const DataCell(Text('Tổng cộng',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontWeight: FontWeight.bold))),
-                            DataCell(
-                              Text(
-                                '${controller.totalIndividualDayOff}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                '${controller.totalWorkingOnline}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
                             DataCell(
                               Text(
                                 '${controller.totalCommissionDay}',
@@ -147,18 +107,11 @@ class LunchStatisticScreen extends StatelessWidget {
                             ),
                             DataCell(
                               Text(
-                                '${controller.totalAQDayOff}',
+                                '${controller.totalCommissionPayment}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-                            DataCell(
-                              Text(
-                                '${controller.totalDaysRemaining}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            )
                           ],
                         ),
                       ]),

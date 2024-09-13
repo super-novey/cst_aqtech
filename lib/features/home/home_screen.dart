@@ -12,6 +12,7 @@ import 'package:hrm_aqtech/features/individual_work_management/views/individual_
 import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_list/leave_day_list_screen.dart';
 import 'package:hrm_aqtech/features/online_work_management/views/online_work_day_list/online_work_day_list_screen.dart';
 import 'package:hrm_aqtech/features/over_time_management/views/over_time_list/over_time_list_screen.dart';
+import 'package:hrm_aqtech/features/statistic/views/commissionday_statistic/commissionday_statistic_screen.dart';
 import 'package:hrm_aqtech/features/statistic/views/lunch_statistic/lunch_statistic_screen.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/general_time_off/general_time_off_screen.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
@@ -229,7 +230,9 @@ class HomeScreen extends StatelessWidget {
                           MyVerticalImageText(
                               image: MyImagePaths.iconEmployee,
                               title: "Nhân sự\n AQ",
-                              onTap: () {Get.to( const DailyReportScreen());}),
+                              onTap: () {
+                                Get.to(const DailyReportScreen());
+                              }),
                           MyVerticalImageText(
                               image: MyImagePaths.iconLunch,
                               title: "Tiền ăn\n trưa",
@@ -239,7 +242,10 @@ class HomeScreen extends StatelessWidget {
                           MyVerticalImageText(
                               image: MyImagePaths.iconCase,
                               title: "Tiền công\n tác phí",
-                              onTap: () {}),
+                              onTap: () {
+                                Get.to(
+                                    () => const CommissiondayStatisticScreen());
+                              }),
                           MyVerticalImageText(
                               image: MyImagePaths.iconSleepy,
                               title: "Làm việc\n ngoài giờ",
@@ -249,7 +255,7 @@ class HomeScreen extends StatelessWidget {
                               title: "Nghỉ phép\n năm",
                               onTap: () {}),
                           MyVerticalImageText(
-                              image: MyImagePaths.iconPersonalWork,
+                              image: MyImagePaths.iconBeach,
                               title: "Kết quả làm việc\n cá nhân",
                               onTap: () {
                                 Get.to(() => const IndividualWorkScreen());

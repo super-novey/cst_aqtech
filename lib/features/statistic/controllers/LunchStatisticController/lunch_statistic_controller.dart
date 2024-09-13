@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/statistic/lunch_statistic_repository.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
-import 'package:hrm_aqtech/features/statistic/controllers/LunchStatisticController/filter_date_controller.dart';
+import 'package:hrm_aqtech/features/statistic/controllers/LunchStatisticController/lunch_filter_date_controller.dart';
 import 'package:hrm_aqtech/features/statistic/models/lunch_statistics.dart';
 
 class LunchStatisticController extends GetxController {
