@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/appbar.dart';
 import 'package:hrm_aqtech/features/statistic/controllers/LeaveDayControllers/leaveday_filter_date_controller.dart';
 import 'package:hrm_aqtech/features/statistic/controllers/LeaveDayControllers/leaveday_statistic_controller.dart';
@@ -15,6 +13,7 @@ class LeaveDayStatisticScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LeavedayStatisticController());
+
     return Scaffold(
       appBar: MyAppBar(
         showBackArrow: true,
@@ -25,112 +24,166 @@ class LeaveDayStatisticScreen extends StatelessWidget {
         ),
       ),
       body: NestedScrollView(
-          headerSliverBuilder: (_, innerBoxIsScrolled) {
-            return [
-              const SliverAppBar(
-                automaticallyImplyLeading: false,
-                pinned: true,
-                floating: true,
-                backgroundColor: Colors.white,
-                expandedHeight: 100,
-                bottom: LeavedayFilter(),
-              )
-            ];
-          },
-          body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Obx(
-                () => (controller.isLoading.value)
-                    ? const CircularProgressIndicator()
-                    : DataTable(columns: const <DataColumn>[
+        headerSliverBuilder: (_, innerBoxIsScrolled) {
+          return [
+            const SliverAppBar(
+              automaticallyImplyLeading: false,
+              pinned: true,
+              floating: true,
+              backgroundColor: Colors.white,
+              expandedHeight: 100,
+              bottom: LeavedayFilter(),
+            )
+          ];
+        },
+        body: Obx(
+          () => (controller.isLoading.value)
+              ? const Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SizedBox(
+                    width: MediaQuery.of(context)
+                        .size
+                        .width, // Set width to match screen
+                    child: PaginatedDataTable(
+                      columns: <DataColumn>[
                         DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text('Nick name')),
-                        DataColumn(label: Text('Tên đầy đủ')),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
                             label: Text(
-                              textAlign: TextAlign.center,
-                              'Hạn mức nghỉ phép',
-                            )),
+                              'Nick name',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            headingRowAlignment: MainAxisAlignment.center),
                         DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Tổng ngày nghỉ phép',
-                            )),
+                          label: Text(
+                            'Tên đầy đủ',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          headingRowAlignment: MainAxisAlignment.center,
+                        ),
                         DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Tên số ngày phép còn lại',
-                            )),
+                          label: Text(
+                            'Hạn mức nghỉ phép',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          headingRowAlignment: MainAxisAlignment.center,
+                        ),
                         DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Hạn mức % online',
-                            )),
+                          label: Text(
+                            'Tổng ngày nghỉ phép',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          headingRowAlignment: MainAxisAlignment.center,
+                        ),
                         DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Hạn mức số ngày online',
-                            )),
+                          label: Text(
+                            'Tên số ngày phép còn lại',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          headingRowAlignment: MainAxisAlignment.center,
+                        ),
                         DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Số ngày online',
-                            )),
+                          label: Text(
+                            'Hạn mức % online',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          headingRowAlignment: MainAxisAlignment.center,
+                        ),
                         DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Số ngày online còn lại',
-                            )),
-                      ], rows: [
-                        ...controller.leadayStatisticList
-                            .asMap()
-                            .entries
-                            .map((entry) {
-                          int index = entry.key;
-                          var stat = entry.value;
-                          return DataRow(
-                              color: WidgetStateProperty.resolveWith<Color>(
-                                  (Set<WidgetState> states) {
-                                // Nếu chỉ số dòng là chẵn thì thay đổi màu nền
-                                return index % 2 == 0
-                                    ? MyColors.lightPrimaryColor
-                                        .withOpacity(0.4)
-                                    : Colors.white;
-                              }),
-                              cells: <DataCell>[
-                                DataCell(Text(stat.nickName)),
-                                DataCell(Text(stat.fullName)),
-                                DataCell(Text(stat.leaveQuota.toString())),
-                                DataCell(Text(MyFormatter.formatDouble(
-                                    stat.totalLeaveDays))),
-                                DataCell(Text(MyFormatter.formatDouble(
-                                    stat.remainingLeaveDays))),
-                                DataCell(
-                                    Text("${stat.onlineQuotaPercentage}%")),
-                                DataCell(Text(
-                                    "${stat.getTotalOnlineQuotaDays(LeavedayFilterDateController.instance.selectedYear.value)}")),
-                                DataCell(Text(MyFormatter.formatDouble(
-                                    stat.usedOnlineDays))),
-                                DataCell(Text(MyFormatter.formatDouble(
-                                    stat.getRemainingOnlineDays(
-                                        LeavedayFilterDateController
-                                            .instance.selectedYear.value)))),
-                              ]);
-                        }),
-                      ]),
-              ),
-            ),
-          )),
+                          label: Text(
+                            'Hạn mức số ngày online',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          headingRowAlignment: MainAxisAlignment.center,
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Số ngày online',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          headingRowAlignment: MainAxisAlignment.center,
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Số ngày online còn lại',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          headingRowAlignment: MainAxisAlignment.center,
+                        ),
+                      ],
+                      source: LeaveDayDataSource(controller),
+                      rowsPerPage: 10,
+                      columnSpacing: 30,
+                      horizontalMargin: 20,
+                      showCheckboxColumn: false,
+                    ),
+                  ),
+                ),
+        ),
+      ),
     );
   }
+}
+
+class LeaveDayDataSource extends DataTableSource {
+  final LeavedayStatisticController controller;
+  int? selectedIndex; // To track the selected row
+
+  LeaveDayDataSource(this.controller);
+
+  @override
+  DataRow? getRow(int index) {
+    if (index >= controller.leadayStatisticList.length) return null;
+    final stat = controller.leadayStatisticList[index];
+
+    return DataRow.byIndex(
+      index: index,
+      selected: selectedIndex == index, // Highlight if selected
+      onSelectChanged: (bool? selected) {
+        if (selected == true) {
+          // Update selected index and notify listeners to refresh the table
+          selectedIndex = index;
+          notifyListeners(); // Calls to refresh the UI
+        }
+      },
+      color: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) {
+          if (selectedIndex == index) {
+            return MyColors.accentColor.withOpacity(0.3); // Highlighted color
+          }
+          return index % 2 == 0
+              ? MyColors.lightPrimaryColor.withOpacity(0.4)
+              : Colors.white;
+        },
+      ),
+      cells: <DataCell>[
+        DataCell(Center(child: Text(stat.nickName))),
+        DataCell(Center(child: Text(stat.fullName))),
+        DataCell(Center(child: Text(stat.leaveQuota.toString()))),
+        DataCell(
+            Center(child: Text(MyFormatter.formatDouble(stat.totalLeaveDays)))),
+        DataCell(Center(
+            child: Text(MyFormatter.formatDouble(stat.remainingLeaveDays)))),
+        DataCell(Center(child: Text("${stat.onlineQuotaPercentage}%"))),
+        DataCell(Center(
+            child: Text(
+                "${stat.getTotalOnlineQuotaDays(LeavedayFilterDateController.instance.selectedYear.value)}"))),
+        DataCell(
+            Center(child: Text(MyFormatter.formatDouble(stat.usedOnlineDays)))),
+        DataCell(
+          Center(
+              child: Text(MyFormatter.formatDouble(stat.getRemainingOnlineDays(
+                  LeavedayFilterDateController.instance.selectedYear.value)))),
+        )
+      ],
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => controller.leadayStatisticList.length;
+
+  @override
+  int get selectedRowCount => selectedIndex != null ? 1 : 0;
 }

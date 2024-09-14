@@ -14,7 +14,7 @@ class LeaveDayRepository extends GetxController {
         url += "?query_dateFrom=$dateFrom&query_dateTo=$dateTo";
       }
       final snapshot = await HttpHelper.get(url);
-      print(snapshot);
+  
       final list = (snapshot["data"] as List)
           .map((leaveDay) => LeaveDay.fromJson(leaveDay))
           .toList();

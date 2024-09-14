@@ -10,10 +10,6 @@ class FilterController extends GetxController {
 
   var isFilterDataReady = false.obs;
 
-  @override
-  onInit() {
-    super.onInit();
-  }
 
   void updateYear(int newYear) {
     year.value = newYear;

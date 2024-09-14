@@ -11,7 +11,7 @@ class OvertimeStatisticRepository extends GetxController {
     try {
       final snapshot = await HttpHelper.get(
           "LamViecNgoaiGio/ThongKeTienLamViecNgoaiGio?query_dateFrom=${date.start.toIso8601String()}&query_dateTo=${date.end.toIso8601String()}&year=$year");
-      print(snapshot);
+
       final list = (snapshot["data"] as List)
           .map((sta) => OverTimeStatistic.fromJson(sta))
           .toList();

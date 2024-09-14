@@ -28,10 +28,6 @@ class IndividualWorkController extends GetxController {
     soGioLamThieu: [],
   ).obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   Future<void> fetchIndividualWork(String user, String year) async {
     try {
