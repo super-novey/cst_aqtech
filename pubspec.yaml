@@ -27,7 +27,6 @@ dependencies:
   month_year_picker: ^0.4.0+1
   pie_chart: ^5.4.0
 
-  flutter_localizations: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

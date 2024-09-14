@@ -24,7 +24,7 @@ class DevReportBarChart extends StatelessWidget {
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: SizedBox(
-              width: 900,
+              width: 800,
               child: Padding(
                 padding: const EdgeInsets.only(top: 24, left: 8, right: 8),
                 child: BarChart(
@@ -35,13 +35,13 @@ class DevReportBarChart extends StatelessWidget {
                         .fold(
                             0,
                             (max, item) =>
-                                item.canXuLy > max ? item.canXuLy + 1 : max)
+                                item.canXuLy > max ? item.canXuLy + 2 : max)
                         .toDouble(),
                     titlesData: FlTitlesData(
                       bottomTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
-                          reservedSize: 60,
+                          reservedSize: 65,
                           getTitlesWidget: (value, meta) {
                             final index = value.toInt();
                             if (index < data.length) {
@@ -107,13 +107,13 @@ class DevReportBarChart extends StatelessWidget {
                         x: index,
                         barRods: [
                           BarChartRodData(
-                            toY: item.canXuLy.toDouble(),
+                            toY: item.soCaseTrongNgay.toDouble(),
                             color: Colors.blue,
                             width: barItemWidth,
                             borderRadius: BorderRadius.zero,
                           ),
                           BarChartRodData(
-                            toY: item.soCaseTrongNgay.toDouble(),
+                            toY: item.canXuLy.toDouble(),
                             color: Colors.orange,
                             width: barItemWidth,
                             borderRadius: BorderRadius.zero,
@@ -123,7 +123,7 @@ class DevReportBarChart extends StatelessWidget {
                             color: Colors.red,
                             width: barItemWidth,
                             borderRadius: BorderRadius.zero,
-                          )
+                          ),
                         ],
                       );
                     }).toList(),
@@ -139,15 +139,14 @@ class DevReportBarChart extends StatelessWidget {
                             String tooltipText;
                             switch (rodIndex) {
                               case 0:
-                                tooltipText = 'Cần xử lý: ${item.tgCanXyLy}';
+                                tooltipText = 'Số case trong ngày: ${item.soCaseTrongNgay}';
                                 break;
                               case 1:
                                 tooltipText =
-                                    'Số case trong ngày: ${item.luongGioTrongNgay}';
+                                    'Cần xử lý: ${item.canXuLy}';
                                 break;
                               case 2:
-                                tooltipText =
-                                    'Xử lý trễ: ${item.luongGioTrongNgay}';
+                                tooltipText = 'Xử lý trễ: ${item.xuLyTre}';
                                 break;
                               default:
                                 tooltipText = '';

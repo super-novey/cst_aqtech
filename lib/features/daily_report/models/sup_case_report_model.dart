@@ -5,6 +5,7 @@ class SupCaseReport {
   final int phanTichTre;
   final int testTre;
   final int caseLamTrongNgay;
+  final List<dynamic>? caseList;
 
   SupCaseReport({
     required this.assignedTo,
@@ -13,6 +14,7 @@ class SupCaseReport {
     required this.phanTichTre,
     required this.testTre,
     required this.caseLamTrongNgay,
+    this.caseList,
   });
 
   // Chuyển từ JSON sang đối tượng Dart
@@ -29,8 +31,8 @@ class SupCaseReport {
       xuLyTre: json['xuLyTre'] ?? 0,
       phanTichTre: json['phanTichTre'] ?? 0,
       testTre: json['testTre'] ?? 0,
-      caseLamTrongNgay: 5
-      //caseLamTrongNgay: json['caseLamTrongNgay'] ?? 0,
+      caseLamTrongNgay: json['caseLamTrongNgay'] ?? 0,
+      caseList: json['caseList'] != null ? List<dynamic>.from(json['caseList']) : null,
     );
   }
 
@@ -43,6 +45,7 @@ class SupCaseReport {
       'phanTichTre': phanTichTre,
       'testTre': testTre,
       'caseLamTrongNgay': caseLamTrongNgay,
+      'caseList': caseList,
     };
   }
 }

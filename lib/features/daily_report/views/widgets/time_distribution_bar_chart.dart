@@ -35,7 +35,7 @@ class TimeDistributionBarChart extends StatelessWidget {
                           .fold(
                               0,
                               (max, item) =>
-                                  item.tgCanXyLy > max ? item.tgCanXyLy + 1 : max)
+                                  item.tgCanXyLy > max ? item.tgCanXyLy + 4 : max)
                           .toDouble(),
                       titlesData: FlTitlesData(
                         bottomTitles: AxisTitles(
