@@ -35,7 +35,7 @@ class CaseProgressBarChart extends StatelessWidget {
                         .fold(
                             0,
                             (max, item) =>
-                                item.canXuLy > max ? item.canXuLy + 1 : max)
+                                item.canXuLy > max ? item.canXuLy + 2 : max)
                         .toDouble(),
                     titlesData: FlTitlesData(
                       bottomTitles: AxisTitles(
@@ -49,7 +49,7 @@ class CaseProgressBarChart extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                     top: 8, left: 8, right: 8),
                                 child: SizedBox(
-                                  width: 60,
+                                  width: 65,
                                   child: Text(
                                     data[index].assignedTo,
                                     style: const TextStyle(
@@ -107,13 +107,13 @@ class CaseProgressBarChart extends StatelessWidget {
                         x: index,
                         barRods: [
                           BarChartRodData(
-                            toY: item.canXuLy.toDouble(),
+                            toY: item.soCaseTrongNgay.toDouble(),
                             color: Colors.blue,
                             width: barItemWidth,
                             borderRadius: BorderRadius.zero,
                           ),
                           BarChartRodData(
-                            toY: item.soCaseTrongNgay.toDouble(),
+                            toY: item.canXuLy.toDouble(),
                             color: Colors.orange,
                             width: barItemWidth,
                             borderRadius: BorderRadius.zero,
@@ -139,11 +139,11 @@ class CaseProgressBarChart extends StatelessWidget {
                             String tooltipText;
                             switch (rodIndex) {
                               case 0:
-                                tooltipText = 'Cần xử lý: ${item.canXuLy}';
+                                tooltipText = 'Số case trong ngày: ${item.soCaseTrongNgay}';
                                 break;
                               case 1:
                                 tooltipText =
-                                    'Số case trong ngày: ${item.soCaseTrongNgay}';
+                                    'Cần xử lý: ${item.canXuLy}';
                                 break;
                               case 2:
                                 tooltipText = 'Xử lý trễ: ${item.xuLyTre}';

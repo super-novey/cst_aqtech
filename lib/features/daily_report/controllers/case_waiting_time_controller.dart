@@ -27,4 +27,7 @@ class CaseWaitingTimeController extends GetxController {
       isLoading(false);
     }
   }
+   int getTotalSoCase() {
+    return caseWaitingTimeList.fold(0, (sum, item) => sum + item.soCase);
+  }
 }

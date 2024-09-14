@@ -33,7 +33,7 @@ class CaseWaitingTimeBarChart extends StatelessWidget {
                     gridData: const FlGridData(show: false),
                     maxY: data
                         .fold(
-                            0, (max, item) => item.soCase > max ? item.soCase + 4 : max)
+                            0, (max, item) => item.soCase > max ? item.soCase + 2 : max)
                         .toDouble(),
                     titlesData: FlTitlesData(
                       bottomTitles: AxisTitles(

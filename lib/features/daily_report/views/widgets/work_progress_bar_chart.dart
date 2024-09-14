@@ -157,19 +157,19 @@ class WorkProgressBarChart extends StatelessWidget {
                           final item = data[index];
                           String tooltipText;
                           switch (rodIndex) {
-                            // case 0:
-                            //   tooltipText = 'Số case đã xử lý: ${item.caseLamTrongNgay}';
-                            //   break;
                             case 0:
-                              tooltipText = 'Cần xử lý: ${item.canXuLy}';
+                              tooltipText = 'Số case đã xử lý: ${item.caseLamTrongNgay}';
                               break;
                             case 1:
-                              tooltipText = 'Xử lý trễ: ${item.xuLyTre}';
+                              tooltipText = 'Cần xử lý: ${item.canXuLy}';
                               break;
                             case 2:
-                              tooltipText = 'Phân tích trễ: ${item.phanTichTre}';
+                              tooltipText = 'Xử lý trễ: ${item.xuLyTre}';
                               break;
                             case 3:
+                              tooltipText = 'Phân tích trễ: ${item.phanTichTre}';
+                              break;
+                            case 4:
                               tooltipText = 'Test trễ: ${item.testTre}';
                               break;
                             default:

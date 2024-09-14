@@ -212,7 +212,7 @@ class HeplerFunction {
       case Chart.caseWaitingPieChart:
         return "Phân bố số case theo thời gian chờ";
       case Chart.devReport:
-        return "Biểu đồ phân bổ thời gian";
+        return "Biểu đồ DEV Report";
       case Chart.supCase:
         return "Biểu đồ SUP Report";
       case Chart.supCasePieChart:
