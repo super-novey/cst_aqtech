@@ -13,6 +13,7 @@ import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_list/le
 import 'package:hrm_aqtech/features/online_work_management/views/online_work_day_list/online_work_day_list_screen.dart';
 import 'package:hrm_aqtech/features/over_time_management/views/over_time_list/over_time_list_screen.dart';
 import 'package:hrm_aqtech/features/statistic/views/commissionday_statistic/commissionday_statistic_screen.dart';
+import 'package:hrm_aqtech/features/statistic/views/leave_day_statistic/leave_day_statistic_screen.dart';
 import 'package:hrm_aqtech/features/statistic/views/lunch_statistic/lunch_statistic_screen.dart';
 import 'package:hrm_aqtech/features/statistic/views/overtime_statistic/overtime_statistic_screen.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/general_time_off/general_time_off_screen.dart';
@@ -256,7 +257,9 @@ class HomeScreen extends StatelessWidget {
                           MyVerticalImageText(
                               image: MyImagePaths.iconCalender,
                               title: "Nghỉ phép\n năm",
-                              onTap: () {}),
+                              onTap: () {
+                                Get.to(() => const LeaveDayStatisticScreen());
+                              }),
                           MyVerticalImageText(
                               image: MyImagePaths.iconPersonalWork,
                               title: "Kết quả làm việc\n cá nhân",

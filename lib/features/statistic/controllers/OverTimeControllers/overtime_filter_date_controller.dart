@@ -23,7 +23,9 @@ class OvertimeFilterDateController extends GetxController {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          title: const Text("Chọn năm"),
           content: SizedBox(
+            width: 300,
             height: 300,
             child: YearPicker(
               firstDate: DateTime(DateTime.now().year - 20),

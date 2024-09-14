@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CommissiondayFilterDateController extends GetxController {
-  static CommissiondayFilterDateController get instance => Get.find();
+class LeavedayFilterDateController extends GetxController {
+  static LeavedayFilterDateController get instance => Get.find();
 
   var selectedYear = DateTime.now().year.obs;
   TextEditingController yearController = TextEditingController();
