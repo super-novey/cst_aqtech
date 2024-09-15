@@ -34,49 +34,51 @@ class CommissiondayStatisticScreen extends StatelessWidget {
             )
           ];
         },
-        body: Obx(
-          () => (controller.isLoading.value)
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: SizedBox(
-                    width: MediaQuery.of(context)
-                        .size
-                        .width, // Set width to match screen
-                    child: PaginatedDataTable(
-                      columns: <DataColumn>[
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              'Nick name',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text('Tên đầy đủ',
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall)),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              style: Theme.of(context).textTheme.headlineSmall,
-                              'Tổng số ngày công tác',
-                            )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              'Tổng số ngày công tác phí',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            )),
-                      ],
-                      source: CommisstionDayDataSource(controller),
-                      rowsPerPage: 10,
-                      columnSpacing: 30,
-                      horizontalMargin: 20,
-                      showCheckboxColumn: false,
+        body: SingleChildScrollView(
+          child: Obx(
+            () => (controller.isLoading.value)
+                ? const Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SizedBox(
+                      width: MediaQuery.of(context)
+                          .size
+                          .width, // Set width to match screen
+                      child: PaginatedDataTable(
+                        columns: <DataColumn>[
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text(
+                                'Nick name',
+                                style: Theme.of(context).textTheme.headlineSmall,
+                              )),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text('Tên đầy đủ',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall)),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text(
+                                style: Theme.of(context).textTheme.headlineSmall,
+                                'Tổng số ngày công tác',
+                              )),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text(
+                                'Tổng số ngày công tác phí',
+                                style: Theme.of(context).textTheme.headlineSmall,
+                              )),
+                        ],
+                        source: CommisstionDayDataSource(controller),
+                        rowsPerPage: 10,
+                        columnSpacing: 30,
+                        horizontalMargin: 20,
+                        showCheckboxColumn: false,
+                      ),
                     ),
                   ),
-                ),
+          ),
         ),
       ),
     );

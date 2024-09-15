@@ -203,17 +203,17 @@ class ApprovalOnlineWorkDayScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                "${MyFormatter.formatDate(selectedOnlineWorkDay.dateFrom.toString())}"),
+                                MyFormatter.formatDate(selectedOnlineWorkDay.dateFrom.toString())),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
                             Text(
-                                "${MyFormatter.formatDate(selectedOnlineWorkDay.dateTo.toString())}"),
+                                MyFormatter.formatDate(selectedOnlineWorkDay.dateTo.toString())),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
                             Text(
-                                "${formatSumDayOnlineWorkController.formatOnlineWorkDay(selectedOnlineWorkDay.sumDay)}"),
+                                formatSumDayOnlineWorkController.formatOnlineWorkDay(selectedOnlineWorkDay.sumDay)),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),

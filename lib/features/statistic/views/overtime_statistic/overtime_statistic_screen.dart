@@ -35,45 +35,50 @@ class OvertimeStatisticScreen extends StatelessWidget {
             )
           ];
         },
-        body: Obx(
-          () => (controller.isLoading.value)
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: SizedBox(
-                    width: MediaQuery.of(context)
-                        .size
-                        .width, // Set width to match screen
-                    child: PaginatedDataTable(
-                      columns: <DataColumn>[
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              'Nick name',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              'Tên đầy đủ',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Tổng số giờ',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            )),
-                      ],
-                      source: OverTimeDataSource(controller),
-                      rowsPerPage: 10,
-                      columnSpacing: 30,
-                      horizontalMargin: 20,
-                      showCheckboxColumn: false,
+        body: SingleChildScrollView(
+          child: Obx(
+            () => (controller.isLoading.value)
+                ? const Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SizedBox(
+                      width: MediaQuery.of(context)
+                          .size
+                          .width, // Set width to match screen
+                      child: PaginatedDataTable(
+                        columns: <DataColumn>[
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text(
+                                'Nick name',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
+                              )),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text(
+                                'Tên đầy đủ',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
+                              )),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text(
+                                textAlign: TextAlign.center,
+                                'Tổng số giờ',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
+                              )),
+                        ],
+                        source: OverTimeDataSource(controller),
+                        rowsPerPage: 10,
+                        columnSpacing: 30,
+                        horizontalMargin: 20,
+                        showCheckboxColumn: false,
+                      ),
                     ),
                   ),
-                ),
+          ),
         ),
       ),
     );

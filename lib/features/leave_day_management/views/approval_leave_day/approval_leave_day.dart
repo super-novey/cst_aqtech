@@ -230,17 +230,17 @@ void fetchLeaveDayDetails() {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                "${MyFormatter.formatDate(selectedLeaveDay.dateFrom.toString())}"),
+                                MyFormatter.formatDate(selectedLeaveDay.dateFrom.toString())),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
                             Text(
-                                "${MyFormatter.formatDate(selectedLeaveDay.dateTo.toString())}"),
+                                MyFormatter.formatDate(selectedLeaveDay.dateTo.toString())),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
                             Text(
-                                "${formatSumDayController.formatLeaveDay(selectedLeaveDay.sumDay)}"),
+                                formatSumDayController.formatLeaveDay(selectedLeaveDay.sumDay)),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
