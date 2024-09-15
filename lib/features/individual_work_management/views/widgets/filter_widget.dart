@@ -24,6 +24,7 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // Employee Dropdown
               MyRoundedContainer(
                 showBorder: true,
                 borderColor: MyColors.primaryColor,
@@ -31,6 +32,7 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                   final dropdownValues = employeeController.allEmployees
                       .map((employee) => employee.id.toString())
                       .toList();
+
                   if (controller.selectedEmployee.value != null &&
                       !dropdownValues
                           .contains(controller.selectedEmployee.value)) {
@@ -85,6 +87,7 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                   );
                 }),
               ),
+              // Year Picker
               GestureDetector(
                 onTap: () {
                   controller.selectYear(context);

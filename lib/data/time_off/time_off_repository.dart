@@ -8,12 +8,14 @@ class GeneralTimeOffRepository extends GetxController {
   Future<List<GeneralTimeOff>> getAllGeneralTimeOffs(
       DateTime startDate, DateTime endDate) async {
     try {
+      print(
+          "NgayPhepChung?query_dateFrom=${startDate.toIso8601String()}&query_dateTo=${endDate.toIso8601String()}");
       final snapshot = await HttpHelper.get(
           "NgayPhepChung?query_dateFrom=${startDate.toIso8601String()}&query_dateTo=${endDate.toIso8601String()}");
-
       final list = (snapshot["data"] as List)
           .map((data) => GeneralTimeOff.fromJson(data))
           .toList();
+      // print(list);
       return list;
     } on Exception catch (_) {
       rethrow;

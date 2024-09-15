@@ -37,16 +37,23 @@ class IndividualWorkScreen extends StatelessWidget {
           },
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.bar_chart_rounded),
-            onPressed: () {
-              Get.to(() => const IndividualWorkChart());
-            },
-          ),
+          Obx(() {
+            return IconButton(
+              icon: const Icon(Icons.bar_chart_rounded),
+              onPressed: controller.isChartReady.value
+                  ? () {
+                      Get.to(() => const IndividualWorkChart());
+                    }
+                  : null, // Disable the button until ready
+              color: controller.isChartReady.value
+                  ? Colors.white
+                  : MyColors
+                      .primaryColor, // Change color to indicate disabled state
+            );
+          }),
         ],
       ),
       body: Obx(() {
-        // Ensure data fetching happens once employee data is ready
         if (employeeController.isEmployeeDataReady.value &&
             !filterController.isFilterDataReady.value) {
           String? initialEmployeeId = employeeController.allEmployees.isNotEmpty
@@ -61,7 +68,8 @@ class IndividualWorkScreen extends StatelessWidget {
           }
         }
 
-        if (!employeeController.isEmployeeDataReady.value) {
+        if (!employeeController.isEmployeeDataReady.value ||
+            !controller.isChartReady.value) {
           return const ShimmerListTile();
         }
 

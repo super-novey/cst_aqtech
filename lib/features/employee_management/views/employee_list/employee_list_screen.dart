@@ -12,7 +12,6 @@ import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 
-
 class EmployeeListScreen extends StatelessWidget {
   const EmployeeListScreen({super.key});
 
@@ -36,6 +35,20 @@ class EmployeeListScreen extends StatelessWidget {
                     Icons.bar_chart_rounded,
                   ),
                 ),
+                Obx(() {
+                  return IconButton(
+                    icon: const Icon(Icons.bar_chart_rounded),
+                    onPressed: (!controller.isLoading.value)
+                        ? () {
+                            Get.to(() => const EmployeeChart());
+                          }
+                        : null, // Disable the button until ready
+                    color: (!controller.isLoading.value)
+                        ? Colors.white
+                        : Colors
+                            .grey, // Change color to indicate disabled state
+                  );
+                }),
                 IconButton(
                     onPressed: () {
                       controller.editableController.isAdd.value = true;

@@ -1,12 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/time_off/time_off_repository.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/time_off_management/controllers/date_time_picker_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/models/general_time_off_model.dart';
+import 'package:hrm_aqtech/utils/constants/image_paths.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
+import 'package:hrm_aqtech/utils/popups/full_screen_loader.dart';
 import 'package:hrm_aqtech/utils/popups/loaders.dart';
 
 class GeneralTimeOffController extends GetxController {
@@ -36,12 +36,7 @@ class GeneralTimeOffController extends GetxController {
         DateTimePickerController.instance.startDate.value,
         DateTimePickerController.instance.endDate.value,
       );
-      log(DateTimePickerController.instance.startDate.value.toString());
-      log(DateTimePickerController.instance.endDate.value.toString());
       generalTimeOffs.assignAll(timeOffs);
-      for (var element in generalTimeOffs) {
-        log('General Time Off Item: ${element.reason.toString()}');
-      }
     } catch (_) {
     } finally {
       isLoading.value = false;
@@ -52,6 +47,7 @@ class GeneralTimeOffController extends GetxController {
     try {
       isLoading.value = true;
       await _timeOffRepository.updateGeneralTimeOff(timeOff);
+      await fetchGeneralTimeOffs();
     } catch (_) {
     } finally {
       isLoading.value = false;
@@ -66,6 +62,7 @@ class GeneralTimeOffController extends GetxController {
         confirm: ElevatedButton(
             onPressed: () async {
               await _timeOffRepository.deleteTimeOff(id);
+              await fetchGeneralTimeOffs();
               Loaders.successSnackBar(
                   title: "Thành công!", message: "Xóa ngày nghỉ thành công");
 
@@ -86,8 +83,10 @@ class GeneralTimeOffController extends GetxController {
 
   Future<void> createTimeOff(GeneralTimeOff timeOff) async {
     try {
+      FullScreenLoader.openDialog("Đang xử lý...", MyImagePaths.docerAnimation);
       isLoading.value = true;
       await _timeOffRepository.createGeneralTimeOff(timeOff);
+      await fetchGeneralTimeOffs();
     } catch (_) {
     } finally {
       isLoading.value = false;

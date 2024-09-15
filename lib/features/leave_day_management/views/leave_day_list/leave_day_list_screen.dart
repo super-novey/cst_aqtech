@@ -35,13 +35,21 @@ class LeaveDayListScreen extends StatelessWidget {
           },
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                Get.to(() => const LeaveDayChart());
-              },
-              icon: const Icon(
-                Icons.bar_chart_rounded,
-              )),
+          Obx(() {
+            return IconButton(
+              icon: const Icon(Icons.bar_chart_rounded),
+              onPressed: (leaveDayController.isChartReady.value &&
+                      employeeController.isEmployeeDataReady.value)
+                  ? () {
+                      Get.to(() => const LeaveDayChart());
+                    }
+                  : null, // Disable the button until ready
+              color: (leaveDayController.isChartReady.value &&
+                      employeeController.isEmployeeDataReady.value)
+                  ? Colors.white
+                  : Colors.grey, // Change color to indicate disabled state
+            );
+          }),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
@@ -64,7 +72,8 @@ class LeaveDayListScreen extends StatelessWidget {
           Expanded(
             child: Obx(() {
               if (leaveDayController.isLoading.value ||
-                  !employeeController.isEmployeeDataReady.value) {
+                  !employeeController.isEmployeeDataReady.value ||
+                  !leaveDayController.isChartReady.value) {
                 return const Center(child: CircularProgressIndicator());
               }
 

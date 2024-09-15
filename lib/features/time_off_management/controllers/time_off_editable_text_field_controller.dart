@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/time_off/time_off_repository.dart';
 import 'package:hrm_aqtech/features/time_off_management/models/general_time_off_model.dart';
+import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 import 'package:intl/intl.dart';
 
 class TimeOffEditableTextFieldController extends GetxController {
@@ -11,7 +12,7 @@ class TimeOffEditableTextFieldController extends GetxController {
 
   var dateFrom = Rx<DateTime>(DateTime.now());
   var dateTo = Rx<DateTime>(DateTime.now());
-  var sumDay = Rx<int>(1);
+  var sumDay = Rx<double>(0.0);
 
   var isEditing = false.obs;
 
@@ -31,7 +32,7 @@ class TimeOffEditableTextFieldController extends GetxController {
     dateToController.text =
         DateFormat('dd/MM/yyyy').format(generalTimeOff.dateTo);
 
-    sumDayController.text = generalTimeOff.sumDay.toString();
+    sumDayController.text = MyFormatter.formatDouble(generalTimeOff.sumDay);
     dateFrom.value = generalTimeOff.dateFrom;
     dateTo.value = generalTimeOff.dateTo;
     sumDay.value = generalTimeOff.sumDay;
@@ -43,12 +44,12 @@ class TimeOffEditableTextFieldController extends GetxController {
   Future<void> saveChanges() async {
     generalTimeOff.dateFrom = dateFrom.value;
     generalTimeOff.dateTo = dateTo.value;
-    generalTimeOff.sumDay =
-        generalTimeOff.dateTo.difference(generalTimeOff.dateFrom).inDays;
+    generalTimeOff.sumDay = double.parse(sumDayController.text);
     generalTimeOff.reason = reasonController.text;
     generalTimeOff.note = noteController.text;
 
-    GeneralTimeOffRepository.instance.updateGeneralTimeOff(generalTimeOff);
+    await GeneralTimeOffRepository.instance
+        .updateGeneralTimeOff(generalTimeOff);
     toggleEditing();
   }
 
@@ -57,7 +58,7 @@ class TimeOffEditableTextFieldController extends GetxController {
   }
 
   void _updateSumDay() {
-    int count = 0;
+    double count = 0.0;
     DateTime startDate = dateFrom.value;
     DateTime endDate = dateTo.value;
 
@@ -69,7 +70,7 @@ class TimeOffEditableTextFieldController extends GetxController {
       startDate = startDate.add(const Duration(days: 1));
     }
     sumDay.value = count;
-    sumDayController.text = sumDay.value.toString();
+    sumDayController.text = MyFormatter.formatDouble(sumDay.value);
   }
 
   Future<void> saveToCreate() async {

@@ -132,7 +132,7 @@ class CommonBarChart extends StatelessWidget {
                                     toY: totalDays,
                                     color: MyColors.primaryColor,
                                     width: barItemWidth,
-                                    borderRadius: BorderRadius.circular(12.0),
+                                    borderRadius: BorderRadius.circular(0.0),
                                   ),
                                 ],
                               );
