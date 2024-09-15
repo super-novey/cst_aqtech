@@ -44,14 +44,28 @@ class LeavedayStatisticController extends GetxController {
       final dateTo = DateTime(
           LeavedayFilterDateController.instance.selectedYear.value, 12, 31);
 
-      employeeList.assignAll(await _employeeRepository.getAllEmployees());
-      leaveDayList.assignAll(await _leaveDayRepository.getAllLeaveDays(
-          dateFrom: dateFrom.toIso8601String(),
-          dateTo: dateTo.toIso8601String()));
-      onlineWorkList.assignAll(await _onlineWorkRepository.getAllOnlineWorkDays(
-          dateFrom: dateFrom.toIso8601String(),
-          dateTo: dateTo.toIso8601String()));
-          
+      final result = await Future.wait([
+        _employeeRepository.getAllEmployees(),
+        _leaveDayRepository.getAllLeaveDays(
+            dateFrom: dateFrom.toIso8601String(),
+            dateTo: dateTo.toIso8601String()),
+        _onlineWorkRepository.getAllOnlineWorkDays(
+            dateFrom: dateFrom.toIso8601String(),
+            dateTo: dateTo.toIso8601String())
+      ]);
+
+      employeeList.assignAll(result[0] as List<Employee>);
+      leaveDayList.assignAll(result[1] as List<LeaveDay>);
+      onlineWorkList.assignAll(result[2] as List<OnlineWork>);
+
+      // employeeList.assignAll(await _employeeRepository.getAllEmployees());
+      // leaveDayList.assignAll(await _leaveDayRepository.getAllLeaveDays(
+      //     dateFrom: dateFrom.toIso8601String(),
+      //     dateTo: dateTo.toIso8601String()));
+      // onlineWorkList.assignAll(await _onlineWorkRepository.getAllOnlineWorkDays(
+      //     dateFrom: dateFrom.toIso8601String(),
+      //     dateTo: dateTo.toIso8601String()));
+
       updateMemberDayOffDays();
       updateMemberWorkDays();
     } finally {

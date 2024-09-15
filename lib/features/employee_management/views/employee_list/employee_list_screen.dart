@@ -7,11 +7,9 @@ import 'package:hrm_aqtech/features/employee_management/models/employee_model.da
 import 'package:hrm_aqtech/features/employee_management/views/employee_details/employee_detail.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_list/widgets/employee_chart.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_list/widgets/employee_tile.dart';
-import 'package:hrm_aqtech/navigation_menu.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
-
 
 class EmployeeListScreen extends StatelessWidget {
   const EmployeeListScreen({super.key});
@@ -53,7 +51,7 @@ class EmployeeListScreen extends StatelessWidget {
                   size: MySizes.iconMd,
                 ),
                 onPressed: () {
-                  Get.offAll(() => const NavigationMenu());
+                  Get.back();
                 },
               )),
           body: NestedScrollView(headerSliverBuilder: (_, innerBoxIsScrolled) {

@@ -13,6 +13,7 @@ class EmployeeRepository extends GetxController {
       final list = (snapshot["data"] as List)
           .map((employee) => Employee.fromJson(employee))
           .toList();
+
       return list;
     } on Exception catch (_) {
       rethrow;

@@ -36,88 +36,91 @@ class LeaveDayStatisticScreen extends StatelessWidget {
             )
           ];
         },
-        body: Obx(
-          () => (controller.isLoading.value)
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: SizedBox(
-                    width: MediaQuery.of(context)
-                        .size
-                        .width, // Set width to match screen
-                    child: PaginatedDataTable(
-                      columns: <DataColumn>[
-                        DataColumn(
+        body: SingleChildScrollView(
+          child: Obx(
+            () => (controller.isLoading.value)
+                ? const Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SizedBox(
+                      width: MediaQuery.of(context)
+                          .size
+                          .width, // Set width to match screen
+                      child: PaginatedDataTable(
+                        columns: <DataColumn>[
+                          DataColumn(
+                              label: Text(
+                                'Nick name',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
+                              ),
+                              headingRowAlignment: MainAxisAlignment.center),
+                          DataColumn(
                             label: Text(
-                              'Nick name',
+                              'Tên đầy đủ',
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
-                            headingRowAlignment: MainAxisAlignment.center),
-                        DataColumn(
-                          label: Text(
-                            'Tên đầy đủ',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                            headingRowAlignment: MainAxisAlignment.center,
                           ),
-                          headingRowAlignment: MainAxisAlignment.center,
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Hạn mức nghỉ phép',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                          DataColumn(
+                            label: Text(
+                              'Hạn mức nghỉ phép',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            headingRowAlignment: MainAxisAlignment.center,
                           ),
-                          headingRowAlignment: MainAxisAlignment.center,
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Tổng ngày nghỉ phép',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                          DataColumn(
+                            label: Text(
+                              'Tổng ngày nghỉ phép',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            headingRowAlignment: MainAxisAlignment.center,
                           ),
-                          headingRowAlignment: MainAxisAlignment.center,
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Tên số ngày phép còn lại',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                          DataColumn(
+                            label: Text(
+                              'Tên số ngày phép còn lại',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            headingRowAlignment: MainAxisAlignment.center,
                           ),
-                          headingRowAlignment: MainAxisAlignment.center,
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Hạn mức % online',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                          DataColumn(
+                            label: Text(
+                              'Hạn mức % online',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            headingRowAlignment: MainAxisAlignment.center,
                           ),
-                          headingRowAlignment: MainAxisAlignment.center,
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Hạn mức số ngày online',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                          DataColumn(
+                            label: Text(
+                              'Hạn mức số ngày online',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            headingRowAlignment: MainAxisAlignment.center,
                           ),
-                          headingRowAlignment: MainAxisAlignment.center,
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Số ngày online',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                          DataColumn(
+                            label: Text(
+                              'Số ngày online',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            headingRowAlignment: MainAxisAlignment.center,
                           ),
-                          headingRowAlignment: MainAxisAlignment.center,
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Số ngày online còn lại',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                          DataColumn(
+                            label: Text(
+                              'Số ngày online còn lại',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            headingRowAlignment: MainAxisAlignment.center,
                           ),
-                          headingRowAlignment: MainAxisAlignment.center,
-                        ),
-                      ],
-                      source: LeaveDayDataSource(controller),
-                      rowsPerPage: 10,
-                      columnSpacing: 30,
-                      horizontalMargin: 20,
-                      showCheckboxColumn: false,
+                        ],
+                        source: LeaveDayDataSource(controller),
+                        rowsPerPage: 10,
+                        columnSpacing: 30,
+                        horizontalMargin: 20,
+                        showCheckboxColumn: false,
+                      ),
                     ),
                   ),
-                ),
+          ),
         ),
       ),
     );
