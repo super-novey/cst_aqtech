@@ -19,6 +19,7 @@ class BussinessDayListController extends GetxController {
   RxMap<int, double> memberWorkDays = <int, double>{}.obs;
 
   var isLoading = false.obs;
+  var isChartReady = false.obs;
 
   @override
   void onInit() {
@@ -53,6 +54,7 @@ class BussinessDayListController extends GetxController {
       }
     } finally {
       isLoading.value = false;
+      isChartReady.value = true;
     }
   }
 

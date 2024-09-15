@@ -35,13 +35,21 @@ class OnlineWorkDayListScreen extends StatelessWidget {
           },
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                Get.to(() => const OnlineWorkDayChart());
-              },
-              icon: const Icon(
-                Icons.bar_chart_rounded,
-              )),
+          Obx(() {
+            return IconButton(
+              icon: const Icon(Icons.bar_chart_rounded),
+              onPressed: (onlineWorkDayController.isChartReady.value &&
+                      employeeController.isEmployeeDataReady.value)
+                  ? () {
+                      Get.to(() => const OnlineWorkDayChart());
+                    }
+                  : null, // Disable the button until ready
+              color: (onlineWorkDayController.isChartReady.value &&
+                      employeeController.isEmployeeDataReady.value)
+                  ? Colors.white
+                  : Colors.grey, // Change color to indicate disabled state
+            );
+          }),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
@@ -64,7 +72,8 @@ class OnlineWorkDayListScreen extends StatelessWidget {
           Expanded(
             child: Obx(() {
               if (onlineWorkDayController.isLoading.value ||
-                  !employeeController.isEmployeeDataReady.value) {
+                  !employeeController.isEmployeeDataReady.value ||
+                  !onlineWorkDayController.isChartReady.value) {
                 return const Center(child: CircularProgressIndicator());
               }
 

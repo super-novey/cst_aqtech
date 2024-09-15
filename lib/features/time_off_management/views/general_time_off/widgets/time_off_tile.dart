@@ -89,7 +89,7 @@ class TimeOffTile extends StatelessWidget {
                             color: Colors.blueGrey),
                         children: [
                           TextSpan(
-                              text: timeOff.sumDay.toString(),
+                              text: MyFormatter.formatDouble(timeOff.sumDay),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey))

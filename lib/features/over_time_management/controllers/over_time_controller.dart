@@ -7,6 +7,7 @@ import 'package:hrm_aqtech/features/over_time_management/models/over_time_model.
 class OverTimeController extends GetxController {
   static OverTimeController get instance => Get.find();
   final isLoading = false.obs;
+  var isChartReady = false.obs;
 
   RxList<OverTime> allOverTime = <OverTime>[].obs;
   RxMap<int, double> memberOvertimeHours = <int, double>{}.obs;
@@ -37,6 +38,7 @@ class OverTimeController extends GetxController {
     } finally {
       // stop loader
       isLoading.value = false;
+      isChartReady.value = true; // Set chart ready flag to true
     }
   }
 
@@ -60,6 +62,7 @@ class OverTimeController extends GetxController {
     } finally {
       // stop loader
       isLoading.value = false;
+      isChartReady.value = true;
     }
   }
 

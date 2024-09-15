@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/common/shimmers/shimmer_list_tile.dart';
 import 'package:hrm_aqtech/features/time_off_management/controllers/general_time_off_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/models/general_time_off_model.dart';
-import 'package:hrm_aqtech/features/time_off_management/views/general_time_off/create_general_time_off.dart/create_general_time_off.dart';
+import 'package:hrm_aqtech/features/time_off_management/views/create_general_time_off.dart/create_general_time_off.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/general_time_off/widgets/filter_widget.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/general_time_off/widgets/time_off_tile.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
@@ -58,10 +59,7 @@ class GeneralTimeOffScreen extends StatelessWidget {
         },
         body: Obx(() {
           if (controller.isLoading.value) {
-            return const Center(
-                child: CircularProgressIndicator(
-              color: MyColors.primaryColor,
-            ));
+            return const Center(child: ShimmerListTile());
           } else {
             return ListView.builder(
               shrinkWrap: true,

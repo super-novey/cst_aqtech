@@ -28,15 +28,21 @@ class BusinessDaysListScreen extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              Get.to(() => const BusinessDayChart());
-            },
-            icon: const Icon(
-              Icons.bar_chart_rounded,
-              color: MyColors.primaryTextColor,
-            ),
-          ),
+          Obx(() {
+            return IconButton(
+              icon: const Icon(Icons.bar_chart_rounded),
+              onPressed: (bussinessDateController.isChartReady.value &&
+                      employeeController.isEmployeeDataReady.value)
+                  ? () {
+                      Get.to(() => const BusinessDayChart());
+                    }
+                  : null, // Disable the button until ready
+              color: (bussinessDateController.isChartReady.value &&
+                      employeeController.isEmployeeDataReady.value)
+                  ? MyColors.primaryTextColor
+                  : Colors.grey, // Change color to indicate disabled state
+            );
+          }),
           IconButton(
               onPressed: () {
                 bussinessDateController.updateBusinessDay.isAdd.value = true;
@@ -67,7 +73,8 @@ class BusinessDaysListScreen extends StatelessWidget {
         },
         body: Obx(
           () => (bussinessDateController.isLoading.value ||
-                  !employeeController.isEmployeeDataReady.value)
+                  !employeeController.isEmployeeDataReady.value ||
+                  !bussinessDateController.isChartReady.value)
               ? const ShimmerListTile()
               : ListView(
                   children: [

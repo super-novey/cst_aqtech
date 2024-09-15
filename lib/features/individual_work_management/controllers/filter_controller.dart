@@ -4,15 +4,12 @@ import 'package:get/get.dart';
 class FilterController extends GetxController {
   static FilterController get instance => Get.find();
 
-  RxInt year = DateTime.now().year.obs;
-
-  var selectedEmployee = Rxn<String>();
-
-  var isFilterDataReady = false.obs;
-
+  RxInt year = DateTime.now().year.obs; // Track the selected year
+  var selectedEmployee = Rxn<String>(); // Track selected employee ID
+  var isFilterDataReady = false.obs; // Track filter data readiness
 
   void updateYear(int newYear) {
-    year.value = newYear;
+    year.value = newYear; // Update the selected year
   }
 
   void selectYear(BuildContext context) {
@@ -27,9 +24,9 @@ class FilterController extends GetxController {
             child: YearPicker(
               firstDate: DateTime(1),
               lastDate: DateTime(2300),
-              selectedDate: DateTime(year.value),
+              selectedDate: DateTime(year.value), // Use current year
               onChanged: (DateTime dateTime) {
-                updateYear(dateTime.year); // Corrected method call
+                updateYear(dateTime.year); // Update year on selection
                 Get.back(); // Close the dialog
               },
             ),

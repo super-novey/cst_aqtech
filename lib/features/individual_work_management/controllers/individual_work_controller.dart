@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/individual_work/individual_work_repository.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
@@ -15,6 +13,7 @@ class IndividualWorkController extends GetxController {
   final FilterController filterController = Get.find();
 
   var isLoading = false.obs;
+  var isChartReady = false.obs;
 
   Rx<IndividualWork> individualWork = IndividualWork(
     soGioLamViecTrongTuan: [],
@@ -28,7 +27,6 @@ class IndividualWorkController extends GetxController {
     soGioLamThieu: [],
   ).obs;
 
-
   Future<void> fetchIndividualWork(String user, String year) async {
     try {
       isLoading.value = true;
@@ -37,15 +35,12 @@ class IndividualWorkController extends GetxController {
       if (!isConnected) {
         return;
       }
-      log('user: $user');
-      log('year: $year');
       var tfsName = EmployeeController.instance.getTfsNameById(user);
-      log('year: $tfsName');
-
       var data = await repository.fetchIndividualWork(tfsName ?? '', year);
       individualWork.value = data;
     } finally {
       isLoading.value = false;
+      isChartReady.value = true;
     }
   }
 }

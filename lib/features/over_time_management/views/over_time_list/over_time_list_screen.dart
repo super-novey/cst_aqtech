@@ -34,13 +34,21 @@ class OverTimeListScreen extends StatelessWidget {
           },
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                Get.to(() => const OvertimeWorkChart());
-              },
-              icon: const Icon(
-                Icons.bar_chart_rounded,
-              )),
+          Obx(() {
+            return IconButton(
+              icon: const Icon(Icons.bar_chart_rounded),
+              onPressed: (overTimeController.isChartReady.value &&
+                      employeeController.isEmployeeDataReady.value)
+                  ? () {
+                      Get.to(() => const OvertimeWorkChart());
+                    }
+                  : null, // Disable the button until ready
+              color: (overTimeController.isChartReady.value &&
+                      employeeController.isEmployeeDataReady.value)
+                  ? Colors.white
+                  : Colors.grey, // Change color to indicate disabled state
+            );
+          }),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
