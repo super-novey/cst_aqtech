@@ -171,6 +171,28 @@ class HeplerFunction {
     return totalWeekdays.toDouble();
   }
 
+  static int calculateWorkingDaysInYear(int year) {
+    int workingDays = 0;
+
+    // Duyệt qua tất cả các ngày trong năm
+    for (int month = 1; month <= 12; month++) {
+      int daysInMonth =
+          DateTime(year, month + 1, 0).day; // Lấy số ngày trong tháng
+
+      for (int day = 1; day <= daysInMonth; day++) {
+        DateTime date = DateTime(year, month, day);
+
+        // Kiểm tra nếu không phải thứ 7 (Saturday) và Chủ Nhật (Sunday)
+        if (date.weekday != DateTime.saturday &&
+            date.weekday != DateTime.sunday) {
+          workingDays++;
+        }
+      }
+    }
+
+    return workingDays;
+  }
+
   static double calculateBarWidth(BuildContext context, int numberOfBars) {
     const double maxWidth = 100.0;
     const double minWidth = 50.0;
@@ -190,7 +212,7 @@ class HeplerFunction {
       case Chart.caseWaitingPieChart:
         return "Phân bố số case theo thời gian chờ";
       case Chart.devReport:
-        return "Biểu đồ phân bổ thời gian";
+        return "Biểu đồ DEV Report";
       case Chart.supCase:
         return "Biểu đồ SUP Report";
       case Chart.supCasePieChart:

@@ -22,144 +22,197 @@ class LunchStatisticScreen extends StatelessWidget {
         ),
       ),
       body: NestedScrollView(
-          headerSliverBuilder: (_, innerBoxIsScrolled) {
-            return [
-              const SliverAppBar(
-                automaticallyImplyLeading: false,
-                pinned: true,
-                floating: true,
-                backgroundColor: Colors.white,
-                expandedHeight: 100,
-                bottom: LunchFilter(),
-              )
-            ];
-          },
-          body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Obx(
-                () => (controller.isLoading.value)
-                    ? const CircularProgressIndicator()
-                    : DataTable(columns: const <DataColumn>[
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text('Nick name')),
-                        DataColumn(label: Text('Tên đầy đủ')),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Tổng số ngày phép\n(trọn ngày)',
-                              maxLines: 2,
-                            )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Tổng số ngày online\n(trọn ngày)',
-                              maxLines: 2,
-                            )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Tổng số ngày công tác\n(trọn ngày)',
-                              maxLines: 2,
-                            )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text(
-                              textAlign: TextAlign.center,
-                              'Tổng số ngày nghỉ chung\n(nếu có)',
-                              maxLines: 2,
-                            )),
-                        DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text('Số ngày còn lại')),
-                      ], rows: [
-                        ...controller.lunchStatisticList
-                            .asMap()
-                            .entries
-                            .map((entry) {
-                          int index = entry.key;
-                          var stat = entry.value;
-                          return DataRow(
-                              color: WidgetStateProperty.resolveWith<Color>(
-                                  (Set<WidgetState> states) {
-                                // Nếu chỉ số dòng là chẵn thì thay đổi màu nền
-                                return index % 2 == 0
-                                    ? MyColors.lightPrimaryColor
-                                        .withOpacity(0.4)
-                                    : Colors.white;
-                              }),
-                              cells: <DataCell>[
-                                DataCell(Text(
-                                    textAlign: TextAlign.center,
-                                    stat.nickName)),
-                                DataCell(Text(
-                                    textAlign: TextAlign.center,
-                                    stat.fullName)),
-                                DataCell(Text(
-                                    textAlign: TextAlign.center,
-                                    stat.totalIndividualDayOff.toString())),
-                                DataCell(Text(
-                                    textAlign: TextAlign.center,
-                                    stat.totalCommissionDay.toString())),
-                                DataCell(Text(
-                                    textAlign: TextAlign.center,
-                                    stat.totalWorkingOnline.toString())),
-                                DataCell(Text(
-                                    textAlign: TextAlign.center,
-                                    stat.totalAQDayOff.toString())),
-                                DataCell(Text(
-                                    "${21 - stat.totalCommissionDay - stat.totalIndividualDayOff - stat.totalAQDayOff - stat.totalWorkingOnline}"))
-                              ]);
-                        }),
-
-                        // Hàng tổng cộng
-                        DataRow(
-                          cells: [
-                            const DataCell(Text('')),
-                            const DataCell(Text('Tổng cộng',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontWeight: FontWeight.bold))),
-                            DataCell(
-                              Text(
-                                '${controller.totalIndividualDayOff}',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                '${controller.totalWorkingOnline}',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                '${controller.totalCommissionDay}',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                '${controller.totalAQDayOff}',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                '${controller.totalDaysRemaining}',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          ],
-                        ),
-                      ]),
-              ),
-            ),
-          )),
+        headerSliverBuilder: (_, innerBoxIsScrolled) {
+          return [
+            const SliverAppBar(
+              automaticallyImplyLeading: false,
+              pinned: true,
+              floating: true,
+              backgroundColor: Colors.white,
+              expandedHeight: 100,
+              bottom: LunchFilter(),
+            )
+          ];
+        },
+        body: SingleChildScrollView(
+          child: Obx(
+            () => (controller.isLoading.value)
+                ? const Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SizedBox(
+                      width: MediaQuery.of(context)
+                          .size
+                          .width, // Set width to match screen
+                      child: PaginatedDataTable(
+                        columns: <DataColumn>[
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text('Nick name',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall)),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text('Tên đầy đủ',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall)),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text(
+                                  textAlign: TextAlign.center,
+                                  'Tổng số ngày phép\n(trọn ngày)',
+                                  maxLines: 2,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall)),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text(
+                                  textAlign: TextAlign.center,
+                                  'Tổng số ngày online\n(trọn ngày)',
+                                  maxLines: 2,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall)),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text(
+                                  textAlign: TextAlign.center,
+                                  'Tổng số ngày công tác\n(trọn ngày)',
+                                  maxLines: 2,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall)),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text(
+                                  textAlign: TextAlign.center,
+                                  'Tổng số ngày nghỉ chung\n(nếu có)',
+                                  maxLines: 2,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall)),
+                          DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text('Số ngày còn lại',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall)),
+                        ],
+                        source: LunchDataSource(controller),
+                        rowsPerPage: 10,
+                        columnSpacing: 30,
+                        horizontalMargin: 20,
+                        showCheckboxColumn: false,
+                      ),
+                    ),
+                  ),
+          ),
+        ),
+      ),
     );
   }
+}
+
+class LunchDataSource extends DataTableSource {
+  final LunchStatisticController controller;
+  int? selectedIndex; // To track the selected row
+
+  LunchDataSource(this.controller);
+
+  @override
+  DataRow? getRow(int index) {
+    if (index == controller.lunchStatisticList.length) {
+      return DataRow.byIndex(
+        index: index,
+        cells: <DataCell>[
+          const DataCell(Text('')),
+          const DataCell(Center(
+            child: Text('Tổng cộng',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+          )),
+          DataCell(
+            Center(
+              child: Text(
+                '${controller.totalIndividualDayOff}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          DataCell(
+            Center(
+              child: Text(
+                '${controller.totalWorkingOnline}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          DataCell(
+            Center(
+              child: Text(
+                '${controller.totalCommissionDay}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          DataCell(
+            Center(
+              child: Text(
+                '${controller.totalAQDayOff}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          DataCell(
+            Center(
+              child: Text(
+                '${controller.totalDaysRemaining}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
+        ],
+      );
+    }
+    if (index >= controller.lunchStatisticList.length) return null;
+    final stat = controller.lunchStatisticList[index];
+
+    return DataRow.byIndex(
+      index: index,
+      selected: selectedIndex == index, // Highlight if selected
+      onSelectChanged: (bool? selected) {
+        if (selected == true) {
+          // Update selected index and notify listeners to refresh the table
+          selectedIndex = index;
+          notifyListeners(); // Calls to refresh the UI
+        }
+      },
+      color: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) {
+          if (selectedIndex == index) {
+            return MyColors.accentColor.withOpacity(0.3); // Highlighted color
+          }
+          return index % 2 == 0
+              ? MyColors.lightPrimaryColor.withOpacity(0.4)
+              : Colors.white;
+        },
+      ),
+      cells: <DataCell>[
+        DataCell(Center(child: Text(stat.nickName))),
+        DataCell(Center(child: Text(stat.fullName))),
+        DataCell(Center(child: Text(stat.totalIndividualDayOff.toString()))),
+        DataCell(Center(child: Text(stat.totalCommissionDay.toString()))),
+        DataCell(Center(child: Text(stat.totalWorkingOnline.toString()))),
+        DataCell(Center(child: Text(stat.totalAQDayOff.toString()))),
+        DataCell(Center(
+          child: Text(
+              "${21 - stat.totalCommissionDay - stat.totalIndividualDayOff - stat.totalAQDayOff - stat.totalWorkingOnline}"),
+        ))
+      ],
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => controller.lunchStatisticList.length + 1;
+
+  @override
+  int get selectedRowCount => selectedIndex != null ? 1 : 0;
 }

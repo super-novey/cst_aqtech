@@ -5,14 +5,16 @@ import 'package:hrm_aqtech/utils/http/http_client.dart';
 class LeaveDayRepository extends GetxController {
   static LeaveDayRepository get instance => Get.find();
 
-  Future<List<LeaveDay>> getAllLeaveDays({String? dateFrom, String? dateTo}) async {
+  Future<List<LeaveDay>> getAllLeaveDays(
+      {String? dateFrom, String? dateTo}) async {
     try {
       String url = "NgayPhepCaNhan";
-      
+
       if (dateFrom != null && dateTo != null) {
         url += "?query_dateFrom=$dateFrom&query_dateTo=$dateTo";
       }
       final snapshot = await HttpHelper.get(url);
+  
       final list = (snapshot["data"] as List)
           .map((leaveDay) => LeaveDay.fromJson(leaveDay))
           .toList();
@@ -21,6 +23,7 @@ class LeaveDayRepository extends GetxController {
       rethrow;
     }
   }
+
   Future<void> addLeaveDay(LeaveDay newLeaveDay) async {
     try {
       await HttpHelper.post("NgayPhepCaNhan", [newLeaveDay.toJson()]);
@@ -46,7 +49,7 @@ class LeaveDayRepository extends GetxController {
     }
   }
 
-    Future<void> approvalLeaveDay(String id, String approvalStatus) async {
+  Future<void> approvalLeaveDay(String id, String approvalStatus) async {
     try {
       final data = {
         "id": id,
@@ -57,5 +60,4 @@ class LeaveDayRepository extends GetxController {
       rethrow;
     }
   }
-
 }

@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/container/rounded_container.dart';
-import 'package:hrm_aqtech/features/statistic/controllers/LunchStatisticController/lunch_filter_date_controller.dart';
-import 'package:hrm_aqtech/features/statistic/controllers/LunchStatisticController/lunch_statistic_controller.dart';
+import 'package:hrm_aqtech/features/statistic/controllers/LeaveDayControllers/leaveday_filter_date_controller.dart';
+import 'package:hrm_aqtech/features/statistic/controllers/LeaveDayControllers/leaveday_statistic_controller.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/devices/device_utils.dart';
-import 'package:month_year_picker/month_year_picker.dart';
 
-class LunchFilter extends StatelessWidget implements PreferredSizeWidget {
-  const LunchFilter({super.key});
+class LeavedayFilter extends StatelessWidget implements PreferredSizeWidget {
+  const LeavedayFilter({super.key});
   @override
   Widget build(BuildContext context) {
-    final LunchFilterDateController monthYearController =
-        Get.put(LunchFilterDateController());
+    final yearController = Get.put(LeavedayFilterDateController());
+
     return Padding(
       padding: const EdgeInsets.all(MySizes.defaultSpace),
       child: Column(
@@ -30,26 +29,15 @@ class LunchFilter extends StatelessWidget implements PreferredSizeWidget {
               const SizedBox(
                 width: MySizes.spaceBtwItems - 2,
               ),
-              // text hiển thị ngày
               Expanded(
                 child: TextField(
-                  controller: monthYearController.dateController,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    suffixIcon: Icon(Icons.calendar_today),
-                  ),
-                  onTap: () async {
-                    DateTime? pickedDate = await showMonthYearPicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(DateTime.now().year - 20),
-                      lastDate: DateTime(DateTime.now().year + 20),
-                    );
-                    if (pickedDate != null) {
-                      monthYearController.updateDate(pickedDate);
-                    }
-                  },
-                ),
+                    decoration: const InputDecoration(label: Text("Chọn năm")),
+                    controller: yearController.yearController,
+                    readOnly: true,
+                    onTap: () => yearController.showYearPicker(context)),
+              ),
+              const SizedBox(
+                width: 10,
               ),
 
               const SizedBox(
@@ -62,7 +50,8 @@ class LunchFilter extends StatelessWidget implements PreferredSizeWidget {
                   child: IconButton(
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
-                      LunchStatisticController.instance.fetchLunchStatistics();
+                      LeavedayStatisticController.instance
+                          .fetchLeaveDayStatistic();
                     },
                     icon: const Icon(
                       Icons.search,
