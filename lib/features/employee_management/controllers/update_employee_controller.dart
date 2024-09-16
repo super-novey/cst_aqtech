@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/employees/employee_repository.dart';
+import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
-import 'package:hrm_aqtech/features/employee_management/views/employee_list/employee_list_screen.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -78,12 +78,16 @@ class UpdateEmployeeController extends GetxController {
       if (isAdd) {
         // Xu ly them
         await EmployeeRepository.instance.addEmployee(newEmployee);
+        EmployeeController.instance.fetchEmployees();
+        Get.back();
         this.isAdd.value = false; // cap nhat truong idAdd
         Loaders.successSnackBar(
             title: "Thành công!", message: "Đã thêm nhân viên");
       } else {
         // xu ly luu qua api
         await EmployeeRepository.instance.updateEmployeeInfor(newEmployee);
+        EmployeeController.instance.fetchEmployees();
+        Get.back();
         toggleEditting();
         Loaders.successSnackBar(
             title: "Thành công!", message: "Cập nhật nhân viên");
@@ -103,10 +107,11 @@ class UpdateEmployeeController extends GetxController {
         confirm: ElevatedButton(
             onPressed: () async {
               await EmployeeRepository.instance.deleteEmployee(id);
+              EmployeeController.instance.fetchEmployees();
+              Navigator.of(Get.overlayContext!).pop();
+              Get.back();
               Loaders.successSnackBar(
                   title: "Thành công!", message: "Xóa nhân viên");
-              //Navigator.of(Get.overlayContext!).pop();
-              Get.offAll(() => const EmployeeListScreen());
             },
             style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(0),

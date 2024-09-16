@@ -26,14 +26,6 @@ class EmployeeListScreen extends StatelessWidget {
               backgroundColor: MyColors.primaryColor,
               title: const Text("Danh sách nhân sự AQTech"),
               actions: [
-                IconButton(
-                  onPressed: () {
-                    Get.to(() => const EmployeeChart());
-                  },
-                  icon: const Icon(
-                    Icons.bar_chart_rounded,
-                  ),
-                ),
                 Obx(() {
                   return IconButton(
                     icon: const Icon(Icons.bar_chart_rounded),

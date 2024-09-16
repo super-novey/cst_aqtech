@@ -46,7 +46,7 @@ class EmployeeDetailScreen extends StatelessWidget {
         appBar: AppBar(
             leading: IconButton(
                 onPressed: () {
-                  Get.offAll(() => const EmployeeListScreen());
+                  Get.back();
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
             backgroundColor: MyColors.primaryColor,
