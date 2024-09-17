@@ -50,7 +50,6 @@ class DailyReportRepository {
       };
       final response =
           await HttpHelper.post("ThongKe/w-coderCaseReport", request);
-
       List<dynamic> data = response['data'] as List<dynamic>;
       return data.map((item) => CoderCaseReport.fromJson(item)).toList();
     } on Exception catch (_) {
