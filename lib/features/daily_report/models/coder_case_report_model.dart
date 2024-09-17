@@ -3,8 +3,8 @@ class CoderCaseReport {
   final int canXuLy;
   final int xuLyTre;
   final int soCaseTrongNgay;
-  final int tgCanXyLy;
-  final int luongGioTrongNgay;
+  final double tgCanXyLy;
+  final double luongGioTrongNgay;
 
   CoderCaseReport({
     required this.assignedTo,
@@ -28,8 +28,8 @@ class CoderCaseReport {
       canXuLy: json['canXuLy'] ?? 0,
       xuLyTre: json['xuLyTre'] ?? 0,
       soCaseTrongNgay: json['soCaseTrongNgay'] ?? 0,
-      tgCanXyLy: json['tgCanXyLy'] ?? 0,
-      luongGioTrongNgay: json['luongGioTrongNgay'] ?? 0,
+      tgCanXyLy: (json['tgCanXyLy'] ?? 0).toDouble(),
+      luongGioTrongNgay: (json['luongGioTrongNgay'] ?? 0).toDouble(),
     );
   }
 
