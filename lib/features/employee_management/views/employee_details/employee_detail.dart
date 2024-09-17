@@ -6,7 +6,6 @@ import 'package:hrm_aqtech/common/widgets/texts/section_heading.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/update_employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_details/widgets/profile_menu.dart';
-import 'package:hrm_aqtech/features/employee_management/views/employee_list/employee_list_screen.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/image_paths.dart';

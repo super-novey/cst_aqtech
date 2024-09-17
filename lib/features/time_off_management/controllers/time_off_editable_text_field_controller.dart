@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrm_aqtech/data/time_off/time_off_repository.dart';
+import 'package:hrm_aqtech/features/time_off_management/controllers/general_time_off_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/models/general_time_off_model.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
+import 'package:hrm_aqtech/utils/popups/loaders.dart';
 import 'package:intl/intl.dart';
 
 class TimeOffEditableTextFieldController extends GetxController {
-  TimeOffEditableTextFieldController(this.generalTimeOff);
+  TimeOffEditableTextFieldController(this.generalTimeOff, this.isCreate);
 
   final GeneralTimeOff generalTimeOff;
+  final bool isCreate;
 
   var dateFrom = Rx<DateTime>(DateTime.now());
   var dateTo = Rx<DateTime>(DateTime.now());
@@ -35,7 +37,10 @@ class TimeOffEditableTextFieldController extends GetxController {
     sumDayController.text = MyFormatter.formatDouble(generalTimeOff.sumDay);
     dateFrom.value = generalTimeOff.dateFrom;
     dateTo.value = generalTimeOff.dateTo;
-    sumDay.value = generalTimeOff.sumDay;
+
+    if (isCreate) {
+      _updateSumDay();
+    }
 
     dateFrom.listen((_) => _updateSumDay());
     dateTo.listen((_) => _updateSumDay());
@@ -48,7 +53,7 @@ class TimeOffEditableTextFieldController extends GetxController {
     generalTimeOff.reason = reasonController.text;
     generalTimeOff.note = noteController.text;
 
-    await GeneralTimeOffRepository.instance
+    await GeneralTimeOffController.instance
         .updateGeneralTimeOff(generalTimeOff);
     toggleEditing();
   }
@@ -76,12 +81,13 @@ class TimeOffEditableTextFieldController extends GetxController {
   Future<void> saveToCreate() async {
     generalTimeOff.dateFrom = dateFrom.value;
     generalTimeOff.dateTo = dateTo.value;
-    generalTimeOff.sumDay = sumDay.value;
+    generalTimeOff.sumDay = double.parse(sumDayController.text);
     generalTimeOff.reason = reasonController.text;
     generalTimeOff.note = noteController.text;
 
-    await GeneralTimeOffRepository.instance
-        .createGeneralTimeOff(generalTimeOff);
+    await GeneralTimeOffController.instance.createTimeOff(generalTimeOff);
     Get.back();
+    Loaders.successSnackBar(
+        title: "Thành công!", message: "Tạo ngày nghỉ thành công");
   }
 }

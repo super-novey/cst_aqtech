@@ -14,7 +14,7 @@ class GeneralTimeOffDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller =
-        Get.put(TimeOffEditableTextFieldController(generalTimeOff));
+        Get.put(TimeOffEditableTextFieldController(generalTimeOff, false));
     final DateFormat dateFormat = DateFormat('dd/MM/yyyy'); // Date format
 
     return Scaffold(
@@ -181,7 +181,6 @@ class GeneralTimeOffDetailScreen extends StatelessWidget {
     required bool isEditing,
     required Function(DateTime) onDateSelected,
   }) {
-
     return GestureDetector(
       onTap: isEditing
           ? () async {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:hrm_aqtech/bindings/general_bindings.dart';
 import 'package:hrm_aqtech/features/authentication/views/login/login_screen.dart';
-import 'package:hrm_aqtech/features/authentication/views/onboarding/onboarding_screen.dart';
 import 'package:hrm_aqtech/utils/themes/theme.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
