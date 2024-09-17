@@ -39,7 +39,7 @@ class TimeDistributionBarChart extends StatelessWidget {
                                 .fold(
                                     0,
                                     (max, item) =>
-                                        item.tgCanXyLy > max ? item.tgCanXyLy + 4 : max)
+                                        item.tgCanXyLy.toInt() > max ? item.tgCanXyLy.toInt() + 4 : max)
                                 .toDouble(),
                             titlesData: FlTitlesData(
                               bottomTitles: AxisTitles(
@@ -80,7 +80,7 @@ class TimeDistributionBarChart extends StatelessWidget {
                                   getTitlesWidget: (value, meta) {
                                     if ((value + 1) % 0.5 == 0) {
                                       return Text(
-                                        value.toStringAsFixed(1),
+                                        value.toString(),
                                         style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
@@ -116,7 +116,7 @@ class TimeDistributionBarChart extends StatelessWidget {
                               final List<BarChartRodData> rods = [];
                               if(controller.showTgCanXyLy.value) {
                                 rods.add(BarChartRodData(
-                                    toY: item.tgCanXyLy.toDouble(),
+                                    toY: item.tgCanXyLy,
                                     color: Colors.blue,
                                     width: barItemWidth,
                                     borderRadius: BorderRadius.zero,
@@ -124,7 +124,7 @@ class TimeDistributionBarChart extends StatelessWidget {
                               }
                               if(controller.showLuongGioTrongNgay.value) {
                                 rods.add(BarChartRodData(
-                                    toY: item.luongGioTrongNgay.toDouble(),
+                                    toY: item.luongGioTrongNgay,
                                     color: Colors.orange,
                                     width: barItemWidth,
                                     borderRadius: BorderRadius.zero,
@@ -150,11 +150,11 @@ class TimeDistributionBarChart extends StatelessWidget {
                                 switch (rod.color) {
                                   case Colors.blue:
                                     label = 'Số giờ cần xử lý tất cả case';
-                                    value = item.tgCanXyLy.toDouble();
+                                    value = item.tgCanXyLy;
                                     break;
                                   case Colors.orange:
                                     label = 'Số giờ đã xử lý';
-                                    value = item.luongGioTrongNgay.toDouble();
+                                    value = item.luongGioTrongNgay;
                                     break;
                                   default:
                                     label = '';
@@ -163,7 +163,7 @@ class TimeDistributionBarChart extends StatelessWidget {
                                 }
 
                                 return BarTooltipItem(
-                                  '$label: ${value.toStringAsFixed(0)}',
+                                  '$label: $value',
                                   const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
