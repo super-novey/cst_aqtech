@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/daily_report/daily_report_repository.dart';
 import 'package:hrm_aqtech/features/daily_report/models/case_waiting_time_model.dart';
+import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 
 
 class CaseWaitingTimeController extends GetxController {
@@ -19,6 +20,10 @@ class CaseWaitingTimeController extends GetxController {
   void fetchCaseWaitingTimeData() async {
     try {
       isLoading(true);
+      final isConnected = await NetworkManager.instance.isConnected();
+      if (!isConnected) {
+        return;
+      }
       final data = await _repository.fetchCaseWaitingTimeData();
       caseWaitingTimeList.value = data;
     } catch (e) {

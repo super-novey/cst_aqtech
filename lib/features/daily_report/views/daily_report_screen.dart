@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrm_aqtech/features/daily_report/controllers/case_waiting_time_controller.dart';
 import 'package:hrm_aqtech/features/daily_report/controllers/daily_report_controller.dart';
 import 'package:hrm_aqtech/features/daily_report/views/widgets/choose_day_widget.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
@@ -13,7 +12,6 @@ class DailyReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(DailyReportController());
-    final caseWaitingController = Get.put(CaseWaitingTimeController());
     final TextEditingController chooseDate = TextEditingController();
 
     return Scaffold(
@@ -88,19 +86,6 @@ class DailyReportScreen extends StatelessWidget {
             Expanded(
               child: HeplerFunction.chooseChart(controller.selectedChart.value),
             ),
-            if (controller.selectedChart.value == Chart.caseWaiting ||
-                controller.selectedChart.value == Chart.caseWaitingPieChart)
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, bottom: 16.0),
-                child: Obx(() => Text(
-                  'Tổng số case chờ xử lý: ${caseWaitingController.getTotalSoCase()}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: MyColors.secondaryTextColor,
-                  ),
-                )),
-              ),
           ],
         );
       }),

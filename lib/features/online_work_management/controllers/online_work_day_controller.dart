@@ -34,6 +34,8 @@ class OnlineWorkDayController extends GetxController {
       final dateTo = DateTime.now().toIso8601String();
       allOnlineWorkDays.value = await OnlineWorkDayRepository.instance
           .getAllOnlineWorkDays(dateFrom: dateFrom, dateTo: dateTo);
+      allOnlineWorkDays.sort((a, b) => b.dateFrom.compareTo(a.dateFrom));
+
       updateMemberWorkDays();
     } finally {
       // stop loader
@@ -58,6 +60,8 @@ class OnlineWorkDayController extends GetxController {
           dateRangeOnlineController.dateRange.value.end.toIso8601String();
       allOnlineWorkDays.value = await OnlineWorkDayRepository.instance
           .getAllOnlineWorkDays(dateFrom: dateFrom, dateTo: dateTo);
+      allOnlineWorkDays.sort((a, b) => b.dateFrom.compareTo(a.dateFrom));
+
       updateMemberWorkDays();
     } finally {
       // stop loader
