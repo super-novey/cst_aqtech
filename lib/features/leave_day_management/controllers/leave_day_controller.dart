@@ -34,6 +34,7 @@ class LeaveDayController extends GetxController {
       final dateTo = DateTime.now().toIso8601String();
       allLeaveDays.value = await LeaveDayRepository.instance
           .getAllLeaveDays(dateFrom: dateFrom, dateTo: dateTo);
+      allLeaveDays.sort((a, b) => b.dateFrom.compareTo(a.dateFrom));
       updateMemberDayOffDays();
     } finally {
       // stop loader
@@ -57,6 +58,7 @@ class LeaveDayController extends GetxController {
       final dateTo = dateRangeController.dateRange.value.end.toIso8601String();
       allLeaveDays.value = await LeaveDayRepository.instance
           .getAllLeaveDays(dateFrom: dateFrom, dateTo: dateTo);
+      allLeaveDays.sort((a, b) => b.dateFrom.compareTo(a.dateFrom));
       updateMemberDayOffDays();
     } finally {
       // stop loader

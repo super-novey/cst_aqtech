@@ -46,7 +46,6 @@ class OnlineWorkDayTile extends StatelessWidget {
           ),
           SlidableAction(
             onPressed: ((context) {
-              updateOnlineWorkDayController.isEditting.value = true;
               Get.to(() => OnlineWorkDayDetailScreen(
                   selectedOnlineWorkDay: onlineWorkDay));
             }),
@@ -63,8 +62,6 @@ class OnlineWorkDayTile extends StatelessWidget {
                 ApprovalOnlineWorkDayScreen(selectedOnlineWorkDay: onlineWorkDay))
           },
           child: Container(
-            margin:
-                const EdgeInsets.only(left: 12, right: 12, bottom: 12, top: 8),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
