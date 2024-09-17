@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/shimmers/shimmer_list_tile.dart';
-import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
+// import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/individual_work_management/controllers/filter_controller.dart';
 import 'package:hrm_aqtech/features/individual_work_management/controllers/individual_work_controller.dart';
 import 'package:hrm_aqtech/features/individual_work_management/views/individual_work_chart.dart';
@@ -14,7 +14,7 @@ class IndividualWorkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final EmployeeController employeeController = Get.put(EmployeeController());
+    // final EmployeeController employeeController = Get.put(EmployeeController());
     final FilterController filterController = Get.put(FilterController());
     final IndividualWorkController controller =
         Get.put(IndividualWorkController());
@@ -54,10 +54,25 @@ class IndividualWorkScreen extends StatelessWidget {
         ],
       ),
       body: Obx(() {
-        if (employeeController.isEmployeeDataReady.value &&
+        // if (employeeController.isEmployeeDataReady.value &&
+        //     !filterController.isFilterDataReady.value) {
+
+        //   String? initialEmployeeId = employeeController.allEmployees.isNotEmpty
+        //       ? employeeController.allEmployees.first.id.toString()
+        //       : null;
+        //   if (initialEmployeeId != null) {
+        //     controller.fetchIndividualWork(
+        //       initialEmployeeId,
+        //       filterController.year.value.toString(),
+        //     );
+        //     filterController.isFilterDataReady.value = true;
+        //   }
+        // }
+
+        if (controller.isEmployeeDataReady.value &&
             !filterController.isFilterDataReady.value) {
-          String? initialEmployeeId = employeeController.allEmployees.isNotEmpty
-              ? employeeController.allEmployees.first.id.toString()
+          String? initialEmployeeId = controller.employees.isNotEmpty
+              ? controller.employees.first.id.toString()
               : null;
           if (initialEmployeeId != null) {
             controller.fetchIndividualWork(
@@ -68,7 +83,7 @@ class IndividualWorkScreen extends StatelessWidget {
           }
         }
 
-        if (!employeeController.isEmployeeDataReady.value ||
+        if (!controller.isEmployeeDataReady.value ||
             !controller.isChartReady.value) {
           return const ShimmerListTile();
         }

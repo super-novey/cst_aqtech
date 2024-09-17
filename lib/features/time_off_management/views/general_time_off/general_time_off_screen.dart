@@ -34,8 +34,8 @@ class GeneralTimeOffScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () async {
-              await Get.to(
+            onPressed: () {
+              Get.to(
                 () => CreateGeneralTimeOffScreen(
                   generalTimeOff: GeneralTimeOff.empty(),
                 ),

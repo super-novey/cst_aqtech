@@ -13,7 +13,6 @@ class GeneralTimeOffRepository extends GetxController {
       final list = (snapshot["data"] as List)
           .map((data) => GeneralTimeOff.fromJson(data))
           .toList();
-      // print(list);
       return list;
     } on Exception catch (_) {
       rethrow;

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/employee_management/models/assigned_employee.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
+import 'package:hrm_aqtech/features/employee_management/models/employee_tfs_name.dart';
 import 'package:hrm_aqtech/utils/http/http_client.dart';
 
 class EmployeeRepository extends GetxController {
@@ -64,6 +65,18 @@ class EmployeeRepository extends GetxController {
           .map((employee) => AssignedEmployee.fromJson(employee))
           .toList();
       return ls;
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<List<EmployeeTFSName>> getEmployeeWithTfsNameList() async {
+    try {
+      final snapshot = await HttpHelper.get("ThongTinCaNhan/NhanVienTFSName");
+      final list = (snapshot["data"] as List)
+          .map((employee) => EmployeeTFSName.fromJson(employee))
+          .toList();
+      return list;
     } on Exception catch (_) {
       rethrow;
     }

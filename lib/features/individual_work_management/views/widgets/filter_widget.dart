@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/container/rounded_container.dart';
-import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
-import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
+import 'package:hrm_aqtech/features/employee_management/models/employee_tfs_name.dart';
 import 'package:hrm_aqtech/features/individual_work_management/controllers/filter_controller.dart';
 import 'package:hrm_aqtech/features/individual_work_management/controllers/individual_work_controller.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
@@ -15,7 +14,7 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final FilterController controller = Get.find();
-    final EmployeeController employeeController = Get.find();
+    final IndividualWorkController individualWorkController = Get.find();
 
     return Padding(
       padding: const EdgeInsets.all(MySizes.defaultSpace),
@@ -29,7 +28,7 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                 showBorder: true,
                 borderColor: MyColors.primaryColor,
                 child: Obx(() {
-                  final dropdownValues = employeeController.allEmployees
+                  final dropdownValues = individualWorkController.employees
                       .map((employee) => employee.id.toString())
                       .toList();
 
@@ -40,17 +39,17 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                         dropdownValues.isNotEmpty ? dropdownValues.first : null;
                   }
 
-                  String? initialEmployeeId =
-                      employeeController.allEmployees.isNotEmpty
-                          ? employeeController.allEmployees.first.id.toString()
-                          : null;
+                  String? initialEmployeeId = individualWorkController
+                          .employees.isNotEmpty
+                      ? individualWorkController.employees.first.id.toString()
+                      : null;
 
                   if (controller.selectedEmployee.value == null &&
                       initialEmployeeId != null) {
                     controller.selectedEmployee.value = initialEmployeeId;
                   }
 
-                  if (!employeeController.isEmployeeDataReady.value &&
+                  if (!individualWorkController.isEmployeeDataReady.value &&
                       !controller.isFilterDataReady.value) {
                     return const Padding(
                       padding: EdgeInsets.all(MySizes.sm),
@@ -68,9 +67,13 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                       items: dropdownValues
                           .map<DropdownMenuItem<String?>>((String? value) {
                         final employee =
-                            employeeController.allEmployees.firstWhere(
+                            individualWorkController.employees.firstWhere(
                           (employee) => employee.id.toString() == value,
-                          orElse: () => Employee(id: 0, fullName: "Unknown"),
+                          orElse: () => EmployeeTFSName(
+                              id: 0,
+                              fullName: "Unknown",
+                              tfsName: '',
+                              nickName: ''),
                         );
                         return DropdownMenuItem<String?>(
                           value: value,
@@ -138,7 +141,7 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
                 child: IconButton(
                   padding: const EdgeInsets.all(0),
                   onPressed: () {
-                    IndividualWorkController.instance.fetchIndividualWork(
+                    individualWorkController.fetchIndividualWork(
                         controller.selectedEmployee.string,
                         controller.year.string);
                   },

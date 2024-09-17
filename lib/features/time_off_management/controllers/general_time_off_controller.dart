@@ -48,6 +48,8 @@ class GeneralTimeOffController extends GetxController {
       isLoading.value = true;
       await _timeOffRepository.updateGeneralTimeOff(timeOff);
       await fetchGeneralTimeOffs();
+      Loaders.successSnackBar(
+          title: "Thành công!", message: "Chỉnh sửa ngày nghỉ thành công");
     } catch (_) {
     } finally {
       isLoading.value = false;
@@ -87,6 +89,7 @@ class GeneralTimeOffController extends GetxController {
       isLoading.value = true;
       await _timeOffRepository.createGeneralTimeOff(timeOff);
       await fetchGeneralTimeOffs();
+      Get.back();
     } catch (_) {
     } finally {
       isLoading.value = false;
