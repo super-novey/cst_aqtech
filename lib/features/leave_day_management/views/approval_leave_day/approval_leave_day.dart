@@ -16,7 +16,7 @@ class ApprovalLeaveDayScreen extends StatelessWidget {
   final updateLeaveDayController = UpdateLeaveDayController.instance;
   final employeeController = Get.put(EmployeeController());
   final formatSumDayController = Get.put(FormatSumDayController());
-void fetchLeaveDayDetails() {
+  void fetchLeaveDayDetails() {
     updateLeaveDayController.dateFromController.text =
         MyFormatter.formatDate(selectedLeaveDay.dateFrom.toString());
     updateLeaveDayController.dateToController.text =
@@ -110,8 +110,7 @@ void fetchLeaveDayDetails() {
                                     updateLeaveDayController
                                         .selectedApprovalStatus.value = status;
                                     updateLeaveDayController.approvalLeaveDay(
-                                      selectedLeaveDay.id
-                                          .toString(), 
+                                      selectedLeaveDay.id.toString(),
                                       HeplerFunction.convertEnumToString(
                                           status),
                                     );
@@ -212,33 +211,26 @@ void fetchLeaveDayDetails() {
                             SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
-                            SizedBox(
-                              width: 280,
-                              child: Text(
-                                "Lý do nghỉ phép: ",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: MyColors.secondaryTextColor),
-                              ),
-                            ),
                           ],
                         ),
-                        
+                        const SizedBox(
+                              width: MySizes.spaceBtwInputFields,
+                            ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                MyFormatter.formatDate(selectedLeaveDay.dateFrom.toString())),
+                            Text(MyFormatter.formatDate(
+                                selectedLeaveDay.dateFrom.toString())),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
-                            Text(
-                                MyFormatter.formatDate(selectedLeaveDay.dateTo.toString())),
+                            Text(MyFormatter.formatDate(
+                                selectedLeaveDay.dateTo.toString())),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
-                            Text(
-                                formatSumDayController.formatLeaveDay(selectedLeaveDay.sumDay)),
+                            Text(formatSumDayController
+                                .formatLeaveDay(selectedLeaveDay.sumDay)),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
@@ -251,13 +243,29 @@ void fetchLeaveDayDetails() {
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
-                            Text(selectedLeaveDay.reason),
-                            const SizedBox(
-                              height: MySizes.spaceBtwInputFields,
-                            ),
                           ],
                         ),
                       ],
+                    ),
+                    const Text(
+                      "Lý do nghỉ phép: ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: MyColors.secondaryTextColor),
+                    ),
+                    const SizedBox(
+                      height: MySizes.spaceBtwInputFields,
+                    ),
+                    SizedBox(
+                      width: 280,
+                      child: Text(
+                        selectedLeaveDay.reason,
+                        maxLines: 3,
+                      ),
+                    ),
+                    
+                    const SizedBox(
+                      height: MySizes.spaceBtwInputFields,
                     ),
                     const Divider(),
                     const SizedBox(

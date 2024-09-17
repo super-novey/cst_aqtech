@@ -89,7 +89,7 @@ class ApprovalOnlineWorkDayScreen extends StatelessWidget {
                         Text("Trạng thái",
                             style: Theme.of(context).textTheme.bodySmall!),
                         const SizedBox(
-                          height: 2,
+                          height: 4,
                         ),
                         Container(
                           width: double.infinity,
