@@ -54,8 +54,7 @@ class OnlineWorkDayListScreen extends StatelessWidget {
             icon: const Icon(Icons.add),
             onPressed: () async {
               updateOnlineWorkDayController.isAdd.value = true;
-              updateOnlineWorkDayController.isEditting.value = true;
-
+              updateOnlineWorkDayController.toggleEditting();
               Get.to(() => OnlineWorkDayDetailScreen(
                     selectedOnlineWorkDay: OnlineWork(),
                   ));

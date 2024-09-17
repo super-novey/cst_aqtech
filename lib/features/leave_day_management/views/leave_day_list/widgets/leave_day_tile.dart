@@ -46,7 +46,7 @@ class LeaveDayTile extends StatelessWidget {
             ),
             SlidableAction(
               onPressed: ((context) {
-                updateLeaveDayController.isEditting.value = false;
+                updateLeaveDayController.isEditting.value = true;
                 Get.to(() => LeaveDayDetailScreen(selectedLeaveDay: leaveDay));
               }),
               backgroundColor: Colors.blue,

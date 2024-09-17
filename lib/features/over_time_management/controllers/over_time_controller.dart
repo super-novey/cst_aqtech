@@ -34,8 +34,6 @@ class OverTimeController extends GetxController {
       final dateTo = DateTime.now().toIso8601String();
       allOverTime.value = await OverTimeRepository.instance
           .getAllOverTime(dateFrom: dateFrom, dateTo: dateTo);
-      allOverTime.sort((a, b) => b.date.compareTo(a.date));
-
       updateMemberOvertimeHours();
     } finally {
       // stop loader
@@ -60,8 +58,6 @@ class OverTimeController extends GetxController {
           dateRangeOverTimeController.dateRange.value.end.toIso8601String();
       allOverTime.value = await OverTimeRepository.instance
           .getAllOverTime(dateFrom: dateFrom, dateTo: dateTo);
-      allOverTime.sort((a, b) => b.date.compareTo(a.date));
-
       updateMemberOvertimeHours();
     } finally {
       // stop loader
