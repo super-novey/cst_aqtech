@@ -53,7 +53,7 @@ class OverTimeListScreen extends StatelessWidget {
             icon: const Icon(Icons.add),
             onPressed: () async {
               updateOverTimeController.isAdd.value = true;
-              updateOverTimeController.toggleEditting();
+              updateOverTimeController.isEditting.value = true;
               Get.to(() => OverTimeDetailScreen(
                     selectedOverTime: OverTime(),
                   ));

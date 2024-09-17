@@ -54,7 +54,7 @@ class LeaveDayListScreen extends StatelessWidget {
             icon: const Icon(Icons.add),
             onPressed: () async {
               updateLeaveDayController.isAdd.value = true;
-              updateLeaveDayController.toggleEditting();
+              updateLeaveDayController.isEditting.value = true;
               Get.to(() => LeaveDayDetailScreen(
                     selectedLeaveDay: LeaveDay(),
                   ));

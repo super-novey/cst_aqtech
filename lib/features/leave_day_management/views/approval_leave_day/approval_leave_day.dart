@@ -159,7 +159,7 @@ void fetchLeaveDayDetails() {
                       height: MySizes.spaceBtwInputFields,
                     ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,9 +223,7 @@ void fetchLeaveDayDetails() {
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          width: MySizes.spaceBtwInputFields,
-                        ),
+                        
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
