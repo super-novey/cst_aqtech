@@ -14,7 +14,7 @@ class WorkCaseHoursChart extends StatelessWidget {
     final IndividualWork individualWork =
         IndividualWorkController.instance.individualWork.value;
     final year = FilterController.instance.year.value;
-    const double redLineValue = 21.62;
+    const double redLineValue = 20;
 
     // Prepare data for the chart
     List<FlSpot> ratioSpots = individualWork

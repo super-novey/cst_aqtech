@@ -36,7 +36,10 @@ class GeneralTimeOffController extends GetxController {
         DateTimePickerController.instance.startDate.value,
         DateTimePickerController.instance.endDate.value,
       );
+      timeOffs.sort((a, b) => b.dateFrom.compareTo(a.dateFrom));
+
       generalTimeOffs.assignAll(timeOffs);
+
     } catch (_) {
     } finally {
       isLoading.value = false;

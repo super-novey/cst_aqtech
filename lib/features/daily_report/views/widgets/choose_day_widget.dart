@@ -25,34 +25,38 @@ class ChooseDateWidget extends StatelessWidget {
           height: 50,
           child: TextFormField(
             controller: controller,
-            readOnly: true, 
+            readOnly: true,
             decoration: InputDecoration(
               hintStyle: const TextStyle(color: MyColors.secondaryTextColor),
-              suffixIcon: const Icon(Icons.calendar_month_rounded, color: Colors.black,),
+              suffixIcon: const Icon(
+                Icons.calendar_month_rounded,
+                color: Colors.black,
+              ),
               labelText: label,
               labelStyle: const TextStyle(color: Colors.black),
               border: InputBorder.none,
               enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: MyColors.secondaryTextColor, width: 0.5),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: MyColors.secondaryTextColor, width: 0.5),
-          ),
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                    color: MyColors.secondaryTextColor, width: 0.5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                    color: MyColors.secondaryTextColor, width: 0.5),
+              ),
             ),
             onTap: () {
               _selectDate(context, controller);
             },
-          
-            
           ),
         ),
       ],
     );
   }
 
-  Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
     DateTime initialDate = DateTime.now();
     if (controller.text.isNotEmpty) {
       try {
@@ -67,23 +71,6 @@ class ChooseDateWidget extends StatelessWidget {
       initialDate: initialDate,
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: Colors.teal, // Màu của ngày được chọn
-            hintColor: Colors.teal, // Màu của các chi tiết phụ
-            buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
-            dialogBackgroundColor: Colors.teal, // Màu nền của hộp thoại chọn ngày
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.teal, // Màu của các nút
-              ),
-            ),
-            dividerColor: Colors.teal, // Màu của các đường phân cách
-          ),
-          child: child!,
-        );
-      },
     );
 
     if (pickedDate != null) {
