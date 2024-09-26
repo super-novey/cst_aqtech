@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/datepicker/date_picker.dart';
-import 'package:hrm_aqtech/common/widgets/images/circular_image.dart';
+import 'package:hrm_aqtech/common/widgets/images/avatar_image.dart';
 import 'package:hrm_aqtech/common/widgets/texts/section_heading.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/update_employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
@@ -27,13 +27,13 @@ class EmployeeDetailScreen extends StatelessWidget {
     controller.phoneController.text = selectedEmployee.phone;
     controller.isActive.value = selectedEmployee.isActive;
     controller.isLeader.value = selectedEmployee.isLeader;
-    controller.isLunch.value = selectedEmployee.isLunch;
-    controller.wfhQuotaController.text = selectedEmployee.wfhQuota.toString();
+    // controller.isLunch.value = selectedEmployee.isLunch;
+    // controller.wfhQuotaController.text = selectedEmployee.wfhQuota.toString();
     controller.selectedDepartment.value = selectedEmployee.role;
     controller.startDate.text =
         MyFormatter.formatDate(selectedEmployee.startDate.toString());
-    controller.absenceQuotaController.text =
-        selectedEmployee.absenceQuota.toString();
+    // controller.absenceQuotaController.text =
+    //     selectedEmployee.absenceQuota.toString();
     controller.birthDateController.text =
         MyFormatter.formatDate(selectedEmployee.birthDate.toString());
   }
@@ -73,21 +73,30 @@ class EmployeeDetailScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 1.
                 SizedBox(
                   width: double.infinity,
                   child: Column(
                     children: [
                       // Avatar image
-                      const MyCircularImage(
-                        image: MyImagePaths.defaultUser,
-                        width: 80,
-                        height: 80,
+                      Obx(
+                        () => AvatarImage(
+                          imageUrl: controller.avatar.value.isNotEmpty
+                              ? controller.avatar.value
+                              : MyImagePaths.defaultUser,
+                          radius: 40,
+                        ),
                       ),
-                      // change avatar image
+
                       TextButton(
-                          onPressed: () {},
-                          child: const Text("Đổi ảnh đại diện"))
+                        onPressed: () async {
+                          await controller.selectImage();
+                          if (controller.avatar.value.isNotEmpty) {
+                            await controller
+                                .loadAvatar("27"); // Replace with the actual ID
+                          }
+                        },
+                        child: const Text("Đổi ảnh đại diện"),
+                      ),
                     ],
                   ),
                 ),

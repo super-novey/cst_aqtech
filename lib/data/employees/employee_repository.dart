@@ -81,4 +81,18 @@ class EmployeeRepository extends GetxController {
       rethrow;
     }
   }
+
+  Future<void> uploadAvatar(String employeeId, String base64Avatar) async {
+    try {
+      await HttpHelper.put(
+        "ThongTinCaNhan/avatar/$employeeId",
+        {
+          'id': employeeId,
+          'avatar': base64Avatar,
+        },
+      );
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
 }
