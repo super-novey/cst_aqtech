@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/employees/employee_repository.dart';
@@ -9,6 +11,7 @@ import 'package:hrm_aqtech/utils/constants/image_paths.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/popups/full_screen_loader.dart';
 import 'package:hrm_aqtech/utils/popups/loaders.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class UpdateEmployeeController extends GetxController {
@@ -29,6 +32,7 @@ class UpdateEmployeeController extends GetxController {
   TextEditingController startDate = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
 
+  var avatar = ''.obs;
   @override
   void onClose() {
     // emailController.dispose();
@@ -132,14 +136,48 @@ class UpdateEmployeeController extends GetxController {
     newEmployee.tfsName = tfsController.text.toString().trim();
     newEmployee.nickName = nickNameController.text.toString().trim();
     newEmployee.isActive = isActive.value;
-    newEmployee.isLunch = isLunch.value;
+    // newEmployee.isLunch = isLunch.value;
     newEmployee.isLeader = isLeader.value;
     newEmployee.phone = phoneController.text.toString().trim();
-    newEmployee.wfhQuota = int.parse(wfhQuotaController.text);
-    newEmployee.absenceQuota = int.parse(absenceQuotaController.text);
+    // newEmployee.wfhQuota = int.parse(wfhQuotaController.text);
+    // newEmployee.absenceQuota = int.parse(absenceQuotaController.text);
     newEmployee.birthDate =
         DateFormat("dd/MM/yyyy").parse(birthDateController.text);
     newEmployee.startDate = DateFormat("dd/MM/yyyy").parse(startDate.text);
     newEmployee.role = selectedDepartment.value;
+  }
+
+  Future<void> selectImage() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+      if (image != null) {
+        final bytes = await image.readAsBytes();
+        avatar.value = 'data:image/png;base64,${base64Encode(bytes)}';
+      } else {
+        print("No image selected.");
+      }
+    } catch (e) {
+      Loaders.errorSnackBar(
+          title: "Error", message: "Failed to pick image: $e");
+      print("Error selecting image: $e");
+    }
+  }
+
+  Future<void> loadAvatar(String employeeId) async {
+    try {
+      FullScreenLoader.openDialog(
+          "Đang tải ảnh lên...", MyImagePaths.docerAnimation);
+
+      await EmployeeRepository.instance.uploadAvatar(employeeId, avatar.value);
+
+      Loaders.successSnackBar(
+          title: "Thành công", message: "Avatar đã được cập nhật.");
+    } catch (e) {
+      Loaders.errorSnackBar(title: "Oops", message: e.toString());
+    } finally {
+      FullScreenLoader.stopLoading();
+    }
   }
 }

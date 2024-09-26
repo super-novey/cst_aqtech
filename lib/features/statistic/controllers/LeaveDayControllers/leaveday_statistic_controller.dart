@@ -112,15 +112,15 @@ class LeavedayStatisticController extends GetxController {
         totalOnlineDay = memberWorkDays[employee.id]!;
       }
 
-      final stat = LeavedayStatistic(
-          id: employee.id,
-          leaveQuota: employee.absenceQuota,
-          onlineQuotaPercentage: employee.wfhQuota,
-          fullName: employee.fullName,
-          nickName: employee.nickName,
-          totalLeaveDays: totalLeaveDay,
-          usedOnlineDays: totalOnlineDay);
-      leadayStatisticList.add(stat);
+      // final stat = LeavedayStatistic(
+      //     id: employee.id,
+      //     leaveQuota: employee.absenceQuota,
+      //     onlineQuotaPercentage: employee.wfhQuota,
+      //     fullName: employee.fullName,
+      //     nickName: employee.nickName,
+      //     totalLeaveDays: totalLeaveDay,
+      //     usedOnlineDays: totalOnlineDay);
+      // leadayStatisticList.add(stat);
     }
   }
 }
