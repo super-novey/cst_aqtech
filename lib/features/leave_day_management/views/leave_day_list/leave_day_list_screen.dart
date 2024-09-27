@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/leave_day_management/controllers/leave_day_controller.dart';
 import 'package:hrm_aqtech/features/leave_day_management/controllers/update_leave_day_controller.dart';
@@ -50,16 +51,17 @@ class LeaveDayListScreen extends StatelessWidget {
                   : Colors.grey, // Change color to indicate disabled state
             );
           }),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () async {
-              updateLeaveDayController.isAdd.value = true;
-              updateLeaveDayController.isEditting.value = true;
-              Get.to(() => LeaveDayDetailScreen(
-                    selectedLeaveDay: LeaveDay(),
-                  ));
-            },
-          ),
+          if (AuthenticationController.instance.currentUser.isLeader)
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () async {
+                updateLeaveDayController.isAdd.value = true;
+                updateLeaveDayController.isEditting.value = true;
+                Get.to(() => LeaveDayDetailScreen(
+                      selectedLeaveDay: LeaveDay(),
+                    ));
+              },
+            ),
         ],
       ),
       body: Column(

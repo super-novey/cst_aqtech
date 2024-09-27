@@ -13,10 +13,10 @@ class EmployeeTFSName {
 
   factory EmployeeTFSName.fromJson(Map<String, dynamic> json) {
     return EmployeeTFSName(
-      id: json['id'],
-      tfsName: json['tfsName'],
-      fullName: json['fullName'],
-      nickName: json['nickName'],
+      id: json['id'] ?? 0,
+      tfsName: json['tfsName'] ?? '',
+      fullName: json['fullName'] ?? '',
+      nickName: json['nickName'] ?? '',
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/datepicker/date_picker.dart';
 import 'package:hrm_aqtech/common/widgets/images/avatar_image.dart';
 import 'package:hrm_aqtech/common/widgets/texts/section_heading.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/update_employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_details/widgets/profile_menu.dart';
@@ -50,22 +51,24 @@ class EmployeeDetailScreen extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back_ios)),
             backgroundColor: MyColors.primaryColor,
             actions: [
-              Obx(
-                () => IconButton(
-                    onPressed: () {
-                      if (controller.isEditting.value) {
-                        if (controller.isAdd.value) {
-                          controller.save(selectedEmployee, true);
+              if (AuthenticationController.instance.currentUser.isLeader)
+                Obx(
+                  () => IconButton(
+                      onPressed: () {
+                        if (controller.isEditting.value) {
+                          if (controller.isAdd.value) {
+                            controller.save(selectedEmployee, true);
+                          } else {
+                            controller.save(selectedEmployee, false);
+                          }
                         } else {
-                          controller.save(selectedEmployee, false);
+                          controller.toggleEditting();
                         }
-                      } else {
-                        controller.toggleEditting();
-                      }
-                    },
-                    icon: Icon(
-                        controller.isEditting.value ? Icons.save : Icons.edit)),
-              ),
+                      },
+                      icon: Icon(controller.isEditting.value
+                          ? Icons.save
+                          : Icons.edit)),
+                ),
             ]),
         body: SingleChildScrollView(
           child: Padding(
@@ -82,7 +85,9 @@ class EmployeeDetailScreen extends StatelessWidget {
                         () => AvatarImage(
                           imageUrl: controller.avatar.value.isNotEmpty
                               ? controller.avatar.value
-                              : MyImagePaths.defaultUser,
+                              : (selectedEmployee.avatar == '')
+                                  ? MyImagePaths.defaultUser
+                                  : selectedEmployee.avatar,
                           radius: 40,
                         ),
                       ),
@@ -91,8 +96,8 @@ class EmployeeDetailScreen extends StatelessWidget {
                         onPressed: () async {
                           await controller.selectImage();
                           if (controller.avatar.value.isNotEmpty) {
-                            await controller
-                                .loadAvatar("27"); // Replace with the actual ID
+                            await controller.loadAvatar(selectedEmployee
+                                .id); // Replace with the actual ID
                           }
                         },
                         child: const Text("Đổi ảnh đại diện"),
@@ -256,16 +261,17 @@ class EmployeeDetailScreen extends StatelessWidget {
                 const SizedBox(
                   height: MySizes.spaceBtwSections,
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red[400]),
-                      onPressed: () {
-                        controller.delete(selectedEmployee.id.toString());
-                      },
-                      child: const Text("Xóa nhân viên")),
-                )
+                if (AuthenticationController.instance.currentUser.isLeader)
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red[400]),
+                        onPressed: () {
+                          controller.delete(selectedEmployee.id.toString());
+                        },
+                        child: const Text("Xóa nhân viên")),
+                  )
               ],
             ),
           ),

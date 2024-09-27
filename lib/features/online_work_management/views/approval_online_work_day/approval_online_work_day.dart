@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/online_work_management/controllers/format_sum_day_controller.dart';
 import 'package:hrm_aqtech/features/online_work_management/controllers/update_online_work_day_controller.dart';
@@ -48,6 +49,7 @@ class ApprovalOnlineWorkDayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     fetchOnlineWorkDayDetails();
+    final isLeader = AuthenticationController.instance.currentUser.isLeader;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -105,18 +107,21 @@ class ApprovalOnlineWorkDayScreen extends StatelessWidget {
                                 value: updateOnlineWorkDayController
                                     .selectedApprovalStatus.value,
                                 dropdownColor: MyColors.iconColor,
-                                onChanged: (ApprovalStatus? status) {
-                                  if (status != null) {
-                                    updateOnlineWorkDayController
-                                        .selectedApprovalStatus.value = status;
-                                    updateOnlineWorkDayController
-                                        .approvalOnlineWorkDay(
-                                      selectedOnlineWorkDay.id.toString(),
-                                      HeplerFunction.convertEnumToString(
-                                          status),
-                                    );
-                                  }
-                                },
+                                onChanged: isLeader
+                                    ? (ApprovalStatus? status) {
+                                        if (status != null) {
+                                          updateOnlineWorkDayController
+                                              .selectedApprovalStatus
+                                              .value = status;
+                                          updateOnlineWorkDayController
+                                              .approvalOnlineWorkDay(
+                                            selectedOnlineWorkDay.id.toString(),
+                                            HeplerFunction.convertEnumToString(
+                                                status),
+                                          );
+                                        }
+                                      }
+                                    : null,
                                 items: ApprovalStatus.values
                                     .map((ApprovalStatus status) {
                                   return DropdownMenuItem<ApprovalStatus>(
@@ -202,18 +207,19 @@ class ApprovalOnlineWorkDayScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                MyFormatter.formatDate(selectedOnlineWorkDay.dateFrom.toString())),
+                            Text(MyFormatter.formatDate(
+                                selectedOnlineWorkDay.dateFrom.toString())),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
-                            Text(
-                                MyFormatter.formatDate(selectedOnlineWorkDay.dateTo.toString())),
+                            Text(MyFormatter.formatDate(
+                                selectedOnlineWorkDay.dateTo.toString())),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
-                            Text(
-                                formatSumDayOnlineWorkController.formatOnlineWorkDay(selectedOnlineWorkDay.sumDay)),
+                            Text(formatSumDayOnlineWorkController
+                                .formatOnlineWorkDay(
+                                    selectedOnlineWorkDay.sumDay)),
                             const SizedBox(
                               height: MySizes.spaceBtwInputFields,
                             ),
@@ -231,8 +237,7 @@ class ApprovalOnlineWorkDayScreen extends StatelessWidget {
                       height: MySizes.spaceBtwInputFields,
                     ),
                     SizedBox(
-                      width: 280,
-                      child: Text(selectedOnlineWorkDay.reason)),
+                        width: 280, child: Text(selectedOnlineWorkDay.reason)),
                     const SizedBox(
                       height: MySizes.spaceBtwInputFields,
                     ),

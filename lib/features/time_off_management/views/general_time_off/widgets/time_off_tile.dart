@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/controllers/general_time_off_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/models/general_time_off_model.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/general_time_off_detail/general_time_off_detail.dart';
@@ -18,6 +19,7 @@ class TimeOffTile extends StatelessWidget {
         blurRadius: 2,
         spreadRadius: 2,
         color: Color.fromARGB(255, 229, 225, 225));
+    final isLeader = AuthenticationController.instance.currentUser.isLeader;
     return GestureDetector(
         onTap: () =>
             Get.to(() => GeneralTimeOffDetailScreen(generalTimeOff: timeOff)),
@@ -25,6 +27,7 @@ class TimeOffTile extends StatelessWidget {
           padding:
               const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 4.0, top: 0),
           child: Slidable(
+            enabled: isLeader,
             endActionPane: ActionPane(motion: const BehindMotion(), children: [
               SlidableAction(
                 onPressed: (context) {

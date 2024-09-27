@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/over_time_management/controllers/over_time_controller.dart';
 import 'package:hrm_aqtech/features/over_time_management/controllers/update_over_time_controller.dart';
@@ -49,16 +50,17 @@ class OverTimeListScreen extends StatelessWidget {
                   : Colors.grey, // Change color to indicate disabled state
             );
           }),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () async {
-              updateOverTimeController.isAdd.value = true;
-              updateOverTimeController.isEditting.value = true;
-              Get.to(() => OverTimeDetailScreen(
-                    selectedOverTime: OverTime(),
-                  ));
-            },
-          ),
+          if (AuthenticationController.instance.currentUser.isLeader)
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () async {
+                updateOverTimeController.isAdd.value = true;
+                updateOverTimeController.isEditting.value = true;
+                Get.to(() => OverTimeDetailScreen(
+                      selectedOverTime: OverTime(),
+                    ));
+              },
+            ),
         ],
       ),
       body: Column(

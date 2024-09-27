@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/shimmers/shimmer_list_tile.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/controllers/general_time_off_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/models/general_time_off_model.dart';
 import 'package:hrm_aqtech/features/time_off_management/views/create_general_time_off.dart/create_general_time_off.dart';
@@ -32,16 +33,17 @@ class GeneralTimeOffScreen extends StatelessWidget {
           },
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              Get.to(
-                () => CreateGeneralTimeOffScreen(
-                  generalTimeOff: GeneralTimeOff.empty(),
-                ),
-              );
-            },
-          ),
+          if (AuthenticationController.instance.currentUser.isLeader)
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                Get.to(
+                  () => CreateGeneralTimeOffScreen(
+                    generalTimeOff: GeneralTimeOff.empty(),
+                  ),
+                );
+              },
+            ),
         ],
       ),
       body: NestedScrollView(
@@ -67,24 +69,28 @@ class GeneralTimeOffScreen extends StatelessWidget {
               itemCount: controller.generalTimeOffs.length,
               itemBuilder: (context, index) {
                 final timeOff = controller.generalTimeOffs[index];
-                return Dismissible(
-                  key: ValueKey(timeOff.id),
-                  direction: DismissDirection.endToStart,
-                  onDismissed: (direction) async {
-                    await controller.delete(timeOff.id);
-                  },
-                  background: Container(
-                    color: Colors.red,
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: const Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                      size: 30,
+                if (AuthenticationController.instance.currentUser.isLeader) {
+                  return Dismissible(
+                    key: ValueKey(timeOff.id),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (direction) async {
+                      await controller.delete(timeOff.id);
+                    },
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: const Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                        size: 30,
+                      ),
                     ),
-                  ),
-                  child: TimeOffTile(timeOff: timeOff),
-                );
+                    child: TimeOffTile(timeOff: timeOff),
+                  );
+                } else {
+                  return TimeOffTile(timeOff: timeOff);
+                }
               },
             );
           }

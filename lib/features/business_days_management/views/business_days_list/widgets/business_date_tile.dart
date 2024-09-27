@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/texts/dashed_line.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/bussiness_day_list_controller.dart';
 import 'package:hrm_aqtech/features/business_days_management/models/business_date_model.dart';
 import 'package:hrm_aqtech/features/business_days_management/views/business_days_list/widgets/member_list_widget.dart';
@@ -20,6 +21,7 @@ class BusinessDateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLeader = AuthenticationController.instance.currentUser.isLeader;
     return GestureDetector(
       onTap: () => Get.to(() => BusinessDayDetailScreen(
             businessDate: businessDate,
@@ -28,6 +30,7 @@ class BusinessDateTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
             horizontal: MySizes.defaultSpace, vertical: MySizes.spaceBtwItems),
         child: Slidable(
+          enabled: isLeader,
           endActionPane: ActionPane(motion: const BehindMotion(), children: [
             SlidableAction(
               onPressed: (context) {

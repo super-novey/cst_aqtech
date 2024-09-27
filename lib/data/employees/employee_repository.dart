@@ -82,7 +82,7 @@ class EmployeeRepository extends GetxController {
     }
   }
 
-  Future<void> uploadAvatar(String employeeId, String base64Avatar) async {
+  Future<void> uploadAvatar(int employeeId, String base64Avatar) async {
     try {
       await HttpHelper.put(
         "ThongTinCaNhan/avatar/$employeeId",

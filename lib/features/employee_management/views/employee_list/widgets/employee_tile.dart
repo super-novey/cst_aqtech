@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/common/widgets/images/avatar_image.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_details/employee_detail.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -27,16 +28,9 @@ class EmployeeTile extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.teal,
-                    radius: 24,
-                    child: employee.avatar.isEmpty ||
-                            employee.avatar == 'avatar content'
-                        ? const Text(
-                            'A',
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                          )
-                        : null,
+                  AvatarImage(
+                    imageUrl: employee.avatar,
+                    radius: 40,
                   ),
                   const SizedBox(width: 16),
                   Expanded(
