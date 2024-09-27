@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/over_time_management/controllers/format_time_controller.dart';
@@ -23,8 +24,8 @@ class OverTimeDetailScreen extends StatelessWidget {
     updateOverTimeController.noteController.text = selectedOverTime.note;
     updateOverTimeController.timeController.text =
         selectedOverTime.time.toString();
-    String formattedTime = FormatTimeController()
-        .formatTimeController(selectedOverTime.time);
+    String formattedTime =
+        FormatTimeController().formatTimeController(selectedOverTime.time);
     updateOverTimeController.timeController.text = formattedTime;
 
     String selectedEmployeeId = selectedOverTime.memberId.toString();
@@ -56,27 +57,28 @@ class OverTimeDetailScreen extends StatelessWidget {
           },
         ),
         actions: [
-          Obx(
-            () => IconButton(
-              onPressed: () {
-                if (updateOverTimeController.isEditting.value) {
-                  if (updateOverTimeController.isAdd.value) {
-                    updateOverTimeController.save(selectedOverTime, true);
+          if (AuthenticationController.instance.currentUser.isLeader)
+            Obx(
+              () => IconButton(
+                onPressed: () {
+                  if (updateOverTimeController.isEditting.value) {
+                    if (updateOverTimeController.isAdd.value) {
+                      updateOverTimeController.save(selectedOverTime, true);
+                    } else {
+                      updateOverTimeController.save(selectedOverTime, false);
+                    }
                   } else {
-                    updateOverTimeController.save(selectedOverTime, false);
+                    updateOverTimeController.toggleEditting();
                   }
-                } else {
-                  updateOverTimeController.toggleEditting();
-                }
-              },
-              icon: Icon(
-                updateOverTimeController.isEditting.value
-                    ? Icons.save
-                    : Icons.edit,
-                size: 24,
+                },
+                icon: Icon(
+                  updateOverTimeController.isEditting.value
+                      ? Icons.save
+                      : Icons.edit,
+                  size: 24,
+                ),
               ),
-            ),
-          )
+            )
         ],
       ),
       body: SingleChildScrollView(

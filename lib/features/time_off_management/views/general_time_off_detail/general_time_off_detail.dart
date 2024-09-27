@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/controllers/time_off_editable_text_field_controller.dart';
 import 'package:hrm_aqtech/features/time_off_management/models/general_time_off_model.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
@@ -33,22 +34,23 @@ class GeneralTimeOffDetailScreen extends StatelessWidget {
           },
         ),
         actions: [
-          Obx(() {
-            return IconButton(
-              icon: Icon(
-                controller.isEditing.value ? Icons.save : Icons.edit,
-                color: Colors.white,
-                size: 24,
-              ),
-              onPressed: () async {
-                if (controller.isEditing.value) {
-                  await controller.saveChanges();
-                } else {
-                  controller.toggleEditing();
-                }
-              },
-            );
-          }),
+          if (AuthenticationController.instance.currentUser.isLeader)
+            Obx(() {
+              return IconButton(
+                icon: Icon(
+                  controller.isEditing.value ? Icons.save : Icons.edit,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                onPressed: () async {
+                  if (controller.isEditing.value) {
+                    await controller.saveChanges();
+                  } else {
+                    controller.toggleEditing();
+                  }
+                },
+              );
+            }),
         ],
       ),
       body: Obx(() {

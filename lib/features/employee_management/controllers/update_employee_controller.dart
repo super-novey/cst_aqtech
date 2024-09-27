@@ -165,7 +165,7 @@ class UpdateEmployeeController extends GetxController {
     }
   }
 
-  Future<void> loadAvatar(String employeeId) async {
+  Future<void> loadAvatar(int employeeId) async {
     try {
       FullScreenLoader.openDialog(
           "Đang tải ảnh lên...", MyImagePaths.docerAnimation);

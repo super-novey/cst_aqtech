@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:hrm_aqtech/utils/constants/image_paths.dart';
 
 class AvatarImage extends StatelessWidget {
   final String imageUrl;
@@ -13,7 +14,8 @@ class AvatarImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipOval(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(radius), // Border radius for the image
       child: imageUrl.isNotEmpty
           ? (imageUrl.startsWith('data:image/')
               ? Image.memory(
@@ -25,12 +27,13 @@ class AvatarImage extends StatelessWidget {
                     return _placeholder();
                   },
                 )
-              : Image.network(
-                  imageUrl,
+              : FadeInImage.assetNetwork(
+                  placeholder: MyImagePaths.avatarPlaceholderImage,
+                  image: imageUrl,
                   width: radius * 2,
                   height: radius * 2,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
+                  imageErrorBuilder: (context, error, stackTrace) {
                     return _placeholder(); // Placeholder on error
                   },
                 ))

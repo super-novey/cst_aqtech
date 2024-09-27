@@ -18,7 +18,6 @@ class IndividualWorkScreen extends StatelessWidget {
     final IndividualWorkController controller =
         Get.put(IndividualWorkController());
 
-    // Observe changes in employeeController and fetch data when ready
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
       appBar: AppBar(

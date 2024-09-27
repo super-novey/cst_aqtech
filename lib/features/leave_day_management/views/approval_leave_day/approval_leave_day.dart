@@ -9,6 +9,7 @@ import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 
 class ApprovalLeaveDayScreen extends StatelessWidget {
   ApprovalLeaveDayScreen({super.key, required this.selectedLeaveDay});
@@ -16,6 +17,7 @@ class ApprovalLeaveDayScreen extends StatelessWidget {
   final updateLeaveDayController = UpdateLeaveDayController.instance;
   final employeeController = Get.put(EmployeeController());
   final formatSumDayController = Get.put(FormatSumDayController());
+
   void fetchLeaveDayDetails() {
     updateLeaveDayController.dateFromController.text =
         MyFormatter.formatDate(selectedLeaveDay.dateFrom.toString());
@@ -31,15 +33,13 @@ class ApprovalLeaveDayScreen extends StatelessWidget {
     updateLeaveDayController.isAnnual.value = selectedLeaveDay.isAnnual;
     updateLeaveDayController.isWithoutPay.value = selectedLeaveDay.isWithoutPay;
 
-    // Đảm bảo giá trị được chọn có tồn tại trong danh sách
     String selectedEmployeeId = selectedLeaveDay.memberId.toString();
     final allEmployeeIds =
         employeeController.allEmployees.map((e) => e.id.toString()).toSet();
     if (allEmployeeIds.contains(selectedEmployeeId)) {
       updateLeaveDayController.selectedEmployee.value = selectedEmployeeId;
     } else {
-      updateLeaveDayController.selectedEmployee.value =
-          null; // Hoặc giá trị mặc định khác
+      updateLeaveDayController.selectedEmployee.value = null;
     }
     updateLeaveDayController.selectedApprovalStatus.value =
         selectedLeaveDay.approvalStatus;
@@ -48,6 +48,8 @@ class ApprovalLeaveDayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     fetchLeaveDayDetails();
+    bool isLeader = AuthenticationController.instance.currentUser.isLeader;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -68,16 +70,17 @@ class ApprovalLeaveDayScreen extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            Text("Thông tin ngày nghỉ cá nhân",
-                style: Theme.of(context).textTheme.titleMedium!),
-            const SizedBox(
-              height: 10,
+            Text(
+              "Thông tin ngày nghỉ cá nhân",
+              style: Theme.of(context).textTheme.titleMedium!,
             ),
+            const SizedBox(height: 10),
             Container(
               decoration: BoxDecoration(
-                  border:
-                      Border.all(color: MyColors.secondaryTextColor, width: 1),
-                  borderRadius: BorderRadius.circular(12)),
+                border:
+                    Border.all(color: MyColors.secondaryTextColor, width: 1),
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(MySizes.md),
                 child: Column(
@@ -88,9 +91,7 @@ class ApprovalLeaveDayScreen extends StatelessWidget {
                       children: [
                         Text("Trạng thái",
                             style: Theme.of(context).textTheme.bodySmall!),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -105,17 +106,21 @@ class ApprovalLeaveDayScreen extends StatelessWidget {
                                 value: updateLeaveDayController
                                     .selectedApprovalStatus.value,
                                 dropdownColor: MyColors.iconColor,
-                                onChanged: (ApprovalStatus? status) {
-                                  if (status != null) {
-                                    updateLeaveDayController
-                                        .selectedApprovalStatus.value = status;
-                                    updateLeaveDayController.approvalLeaveDay(
-                                      selectedLeaveDay.id.toString(),
-                                      HeplerFunction.convertEnumToString(
-                                          status),
-                                    );
-                                  }
-                                },
+                                onChanged: isLeader
+                                    ? (ApprovalStatus? status) {
+                                        if (status != null) {
+                                          updateLeaveDayController
+                                              .selectedApprovalStatus
+                                              .value = status;
+                                          updateLeaveDayController
+                                              .approvalLeaveDay(
+                                            selectedLeaveDay.id.toString(),
+                                            HeplerFunction.convertEnumToString(
+                                                status),
+                                          );
+                                        }
+                                      }
+                                    : null, // Disable dropdown if the user is not a leader
                                 items: ApprovalStatus.values
                                     .map((ApprovalStatus status) {
                                   return DropdownMenuItem<ApprovalStatus>(
@@ -214,8 +219,8 @@ class ApprovalLeaveDayScreen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(
-                              width: MySizes.spaceBtwInputFields,
-                            ),
+                          width: MySizes.spaceBtwInputFields,
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -263,7 +268,6 @@ class ApprovalLeaveDayScreen extends StatelessWidget {
                         maxLines: 3,
                       ),
                     ),
-                    
                     const SizedBox(
                       height: MySizes.spaceBtwInputFields,
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/leave_day_management/controllers/format_sum_day_controller.dart';
 import 'package:hrm_aqtech/features/leave_day_management/controllers/update_leave_day_controller.dart';
@@ -26,10 +27,11 @@ class LeaveDayTile extends StatelessWidget {
         HeplerFunction.convertEnumToString(approvalStatus);
     final employeeName =
         employeeController.getEmployeeNameById(leaveDay.memberId);
-
+    final isLeader = AuthenticationController.instance.currentUser.isLeader;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Slidable(
+        enabled: isLeader,
         endActionPane: ActionPane(
           motion: const DrawerMotion(),
           children: [
@@ -40,9 +42,8 @@ class LeaveDayTile extends StatelessWidget {
               backgroundColor: Colors.red,
               icon: Icons.delete,
               borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(MySizes.cardRadiusMd),
-                    bottomLeft: Radius.circular(MySizes.cardRadiusMd)),
-                    
+                  topLeft: Radius.circular(MySizes.cardRadiusMd),
+                  bottomLeft: Radius.circular(MySizes.cardRadiusMd)),
             ),
             SlidableAction(
               onPressed: ((context) {
@@ -52,14 +53,15 @@ class LeaveDayTile extends StatelessWidget {
               backgroundColor: Colors.blue,
               icon: Icons.edit,
               borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(MySizes.cardRadiusMd),
-                    bottomRight: Radius.circular(MySizes.cardRadiusMd)),
+                  topRight: Radius.circular(MySizes.cardRadiusMd),
+                  bottomRight: Radius.circular(MySizes.cardRadiusMd)),
             ),
           ],
         ),
         child: InkWell(
-          onTap: () =>
-              {Get.to(() => ApprovalLeaveDayScreen(selectedLeaveDay: leaveDay))},
+          onTap: () => {
+            Get.to(() => ApprovalLeaveDayScreen(selectedLeaveDay: leaveDay))
+          },
           child: Container(
             // margin:
             //     const EdgeInsets.only(left: 12, right: 12, bottom: 12, top: 8),
@@ -77,8 +79,8 @@ class LeaveDayTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
                   decoration: BoxDecoration(
                     color: HeplerFunction.getStatusColor(approvalStatus),
                     borderRadius: const BorderRadius.only(

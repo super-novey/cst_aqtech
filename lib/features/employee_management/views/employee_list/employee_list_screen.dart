@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/shimmers/shimmer_list_tile.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/tabbar.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_details/employee_detail.dart';
@@ -40,15 +41,16 @@ class EmployeeListScreen extends StatelessWidget {
                             .grey, // Change color to indicate disabled state
                   );
                 }),
-                IconButton(
-                    onPressed: () {
-                      controller.editableController.isAdd.value = true;
-                      controller.editableController.toggleEditting();
-                      Get.to(() => EmployeeDetailScreen(
-                            selectedEmployee: Employee(),
-                          ));
-                    },
-                    icon: const Icon(Icons.person_add))
+                if (AuthenticationController.instance.currentUser.isLeader)
+                  IconButton(
+                      onPressed: () {
+                        controller.editableController.isAdd.value = true;
+                        controller.editableController.toggleEditting();
+                        Get.to(() => EmployeeDetailScreen(
+                              selectedEmployee: Employee(),
+                            ));
+                      },
+                      icon: const Icon(Icons.person_add))
               ],
               leading: IconButton(
                 icon: const Icon(

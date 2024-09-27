@@ -27,4 +27,8 @@ class MyImagePaths {
   static const String iconClock = "assets/icons/clock.png";
   static const String iconWorkCase = "assets/icons/work-case.png";
   static const String iconPersonalWork = "assets/icons/personal-work.png";
+
+  //Placeholder
+  static const String avatarPlaceholderImage = "assets/placeholder/avatar-placeholder.png";
+  
 }

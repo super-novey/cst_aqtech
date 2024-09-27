@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/appbar.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/notification_icon.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 
 class MyHomeAppBar extends StatelessWidget {
   const MyHomeAppBar({
@@ -21,7 +22,7 @@ class MyHomeAppBar extends StatelessWidget {
                 .apply(color: Colors.white70),
           ),
           Text(
-            "Admin",
+            AuthenticationController.instance.currentUser.fullName,
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!
@@ -29,7 +30,15 @@ class MyHomeAppBar extends StatelessWidget {
           )
         ],
       ),
-      actions: [MyNotificationIcon(onPressed: () {})],
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.logout_rounded),
+          onPressed: () {
+            AuthenticationController.instance.logout();
+          },
+        ),
+        MyNotificationIcon(onPressed: () {})
+      ],
     );
   }
 }
