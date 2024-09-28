@@ -8,9 +8,11 @@ import 'package:hrm_aqtech/features/online_work_management/controllers/update_on
 import 'package:hrm_aqtech/features/online_work_management/models/online_work_day_model.dart';
 import 'package:hrm_aqtech/features/online_work_management/views/approval_online_work_day/approval_online_work_day.dart';
 import 'package:hrm_aqtech/features/online_work_management/views/online_work_day_detail/online_work_day_detail.dart';
+import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/utils/popups/loaders.dart';
 
 class OnlineWorkDayTile extends StatelessWidget {
   const OnlineWorkDayTile({super.key, required this.onlineWorkDay});
@@ -30,16 +32,29 @@ class OnlineWorkDayTile extends StatelessWidget {
     final employeeName =
         employeeController.getEmployeeNameById(onlineWorkDay.memberId);
     final isLeader = AuthenticationController.instance.currentUser.isLeader;
+    final currentUserId = AuthenticationController.instance.currentUser.id;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Slidable(
-        enabled: isLeader,
+        //enabled: isLeader,
         endActionPane: ActionPane(motion: const DrawerMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              updateOnlineWorkDayController
-                  .deleteOnlineWorkDay(onlineWorkDay.id.toString());
+              
+              if (isLeader) {
+                updateOnlineWorkDayController.deleteOnlineWorkDay(
+                  onlineWorkDay.id.toString());
+              } else if (onlineWorkDay.memberId == currentUserId && onlineWorkDay.approvalStatus == ApprovalStatus.pending) {
+                updateOnlineWorkDayController.deleteOnlineWorkDay(
+                  onlineWorkDay.id.toString());
+              } else {
+                Loaders.errorSnackBar(
+                  title: "Không thể xóa",
+                  message: "Bạn không thể xóa ngày làm việc này",
+                );
+              }
+              
             }),
             backgroundColor: Colors.red,
             icon: Icons.delete,
@@ -49,8 +64,20 @@ class OnlineWorkDayTile extends StatelessWidget {
           ),
           SlidableAction(
             onPressed: ((context) {
-              Get.to(() => OnlineWorkDayDetailScreen(
-                  selectedOnlineWorkDay: onlineWorkDay));
+              updateOnlineWorkDayController.isEditting.value = true;
+              if (isLeader) {
+                Get.to(() => OnlineWorkDayDetailScreen(
+                    selectedOnlineWorkDay: onlineWorkDay));
+              } else if (onlineWorkDay.memberId == currentUserId &&
+                  onlineWorkDay.approvalStatus == ApprovalStatus.pending) {
+                Get.to(() => OnlineWorkDayDetailScreen(
+                    selectedOnlineWorkDay: onlineWorkDay));
+              } else {
+                Loaders.errorSnackBar(
+                  title: "Không thể chỉnh sửa",
+                  message: "Bạn không thể chỉnh sửa ngày làm việc này.",
+                );
+              }
             }),
             backgroundColor: Colors.blue,
             icon: Icons.edit,

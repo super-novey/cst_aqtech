@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/leave_day_management/models/leave_day_model.dart';
 import 'package:hrm_aqtech/utils/http/http_client.dart';
 
@@ -18,7 +19,14 @@ class LeaveDayRepository extends GetxController {
       final list = (snapshot["data"] as List)
           .map((leaveDay) => LeaveDay.fromJson(leaveDay))
           .toList();
-      return list;
+      final isLeader = AuthenticationController.instance.currentUser.isLeader;
+      if (isLeader) {
+        return list;
+      } else {
+        final currentUserId = AuthenticationController.instance.currentUser.id;
+        return list.where((leaveDay) => leaveDay.memberId == currentUserId).toList();
+      }
+      
     } on Exception catch (_) {
       rethrow;
     }

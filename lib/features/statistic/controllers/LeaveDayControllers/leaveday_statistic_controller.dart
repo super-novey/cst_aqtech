@@ -58,13 +58,13 @@ class LeavedayStatisticController extends GetxController {
       leaveDayList.assignAll(result[1] as List<LeaveDay>);
       onlineWorkList.assignAll(result[2] as List<OnlineWork>);
 
-      // employeeList.assignAll(await _employeeRepository.getAllEmployees());
-      // leaveDayList.assignAll(await _leaveDayRepository.getAllLeaveDays(
-      //     dateFrom: dateFrom.toIso8601String(),
-      //     dateTo: dateTo.toIso8601String()));
-      // onlineWorkList.assignAll(await _onlineWorkRepository.getAllOnlineWorkDays(
-      //     dateFrom: dateFrom.toIso8601String(),
-      //     dateTo: dateTo.toIso8601String()));
+      employeeList.assignAll(await _employeeRepository.getAllEmployees());
+      leaveDayList.assignAll(await _leaveDayRepository.getAllLeaveDays(
+          dateFrom: dateFrom.toIso8601String(),
+          dateTo: dateTo.toIso8601String()));
+      onlineWorkList.assignAll(await _onlineWorkRepository.getAllOnlineWorkDays(
+          dateFrom: dateFrom.toIso8601String(),
+          dateTo: dateTo.toIso8601String()));
 
       updateMemberDayOffDays();
       updateMemberWorkDays();

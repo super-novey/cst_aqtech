@@ -57,7 +57,7 @@ class OverTimeDetailScreen extends StatelessWidget {
           },
         ),
         actions: [
-          if (AuthenticationController.instance.currentUser.isLeader)
+          //if (AuthenticationController.instance.currentUser.isLeader)
             Obx(
               () => IconButton(
                 onPressed: () {
@@ -117,6 +117,13 @@ class OverTimeDetailScreen extends StatelessWidget {
                                 }
                               : null,
                           items: employeeController.allEmployees
+                          .where((Employee employee) {
+                            return AuthenticationController
+                                    .instance.currentUser.isLeader ||
+                                employee.id ==
+                                    AuthenticationController
+                                        .instance.currentUser.id;
+                          })
                               .map((Employee employee) {
                             return DropdownMenuItem<String?>(
                               value: employee.id.toString(),

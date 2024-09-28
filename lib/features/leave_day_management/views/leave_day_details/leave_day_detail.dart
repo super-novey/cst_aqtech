@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_details/widgets/leave_day_date_picker.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
@@ -97,70 +98,67 @@ class LeaveDayDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Trạng thái",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                  ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(MySizes.borderRadiusMd),
-                      border: Border.all(color: MyColors.accentColor, width: 1),
+              if (AuthenticationController.instance.currentUser.isLeader)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Trạng thái",
+                        style: Theme.of(context).textTheme.bodySmall!),
+                    const SizedBox(
+                      height: 2,
                     ),
-                    child: Obx(
-                      () => DropdownButtonHideUnderline(
-                        child: DropdownButton<ApprovalStatus>(
-                          value: updateLeaveDayController
-                              .selectedApprovalStatus.value,
-                          dropdownColor: MyColors.iconColor,
-                          onChanged: updateLeaveDayController.isEditting.value
-                              ? (ApprovalStatus? status) {
-                                  if (status != null) {
-                                    updateLeaveDayController
-                                        .selectedApprovalStatus.value = status;
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(MySizes.borderRadiusMd),
+                        border:
+                            Border.all(color: MyColors.accentColor, width: 1),
+                      ),
+                      child: Obx(
+                        () => DropdownButtonHideUnderline(
+                          child: DropdownButton<ApprovalStatus>(
+                            value: updateLeaveDayController
+                                .selectedApprovalStatus.value,
+                            dropdownColor: MyColors.iconColor,
+                            onChanged: updateLeaveDayController.isEditting.value
+                                ? (ApprovalStatus? status) {
+                                    if (status != null) {
+                                      updateLeaveDayController
+                                          .selectedApprovalStatus
+                                          .value = status;
+                                    }
                                   }
-                                }
-                              : null,
-                          items: ApprovalStatus.values
-                              .map((ApprovalStatus status) {
-                            return DropdownMenuItem<ApprovalStatus>(
-                              value: status,
-                              child: Padding(
-                                padding: const EdgeInsets.all(MySizes.sm),
-                                child: Text(
-                                  HeplerFunction.displayStatusFromEnum(status),
-                                  style: const TextStyle(fontSize: 14),
+                                : null,
+                            items: ApprovalStatus.values
+                                .map((ApprovalStatus status) {
+                              return DropdownMenuItem<ApprovalStatus>(
+                                value: status,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(MySizes.sm),
+                                  child: Text(
+                                    HeplerFunction.displayStatusFromEnum(
+                                        status),
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
                                 ),
-                              ),
-                            );
-                          }).toList(),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              const SizedBox(
+                height: MySizes.sm,
               ),
-               const SizedBox(
-                    height: MySizes.sm,
-                  ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Họ tên",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        ,
+                    style: Theme.of(context).textTheme.bodySmall!,
                   ),
                   const SizedBox(
                     height: 2,
@@ -185,13 +183,20 @@ class LeaveDayDetailScreen extends StatelessWidget {
                                 }
                               : null,
                           items: employeeController.allEmployees
-                              .map((Employee employee) {
+                              .where((Employee employee) {
+                            return AuthenticationController
+                                    .instance.currentUser.isLeader ||
+                                employee.id ==
+                                    AuthenticationController
+                                        .instance.currentUser.id;
+                          }).map((Employee employee) {
                             return DropdownMenuItem<String?>(
                               value: employee.id.toString(),
                               child: Padding(
                                 padding: const EdgeInsets.all(MySizes.sm),
                                 child: Text(
-                                  employee.fullName, style: const TextStyle(fontSize: 14),
+                                  employee.fullName,
+                                  style: const TextStyle(fontSize: 14),
                                 ),
                               ),
                             );
@@ -202,12 +207,12 @@ class LeaveDayDetailScreen extends StatelessWidget {
                   ),
                 ],
               ),
-               const SizedBox(
-                    height: MySizes.sm,
-                  ),
-                   const SizedBox(
-                    height: MySizes.sm,
-                  ),
+              const SizedBox(
+                height: MySizes.sm,
+              ),
+              const SizedBox(
+                height: MySizes.sm,
+              ),
               DateTimePicker(
                 controller: updateLeaveDayController.dateFromController,
                 label: "Ngày bắt đầu nghỉ",
@@ -227,8 +232,6 @@ class LeaveDayDetailScreen extends StatelessWidget {
                 label: 'Tổng số ngày nghỉ',
                 isNumberInput: true,
               ),
-
-              
               const SizedBox(
                 height: MySizes.spaceBtwInputFields,
               ),
@@ -254,7 +257,6 @@ class LeaveDayDetailScreen extends StatelessWidget {
                 field: 1,
                 text: "Nghỉ không lương",
               ),
-             
             ],
           ),
         ),
