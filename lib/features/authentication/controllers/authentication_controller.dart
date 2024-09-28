@@ -22,9 +22,10 @@ class AuthenticationController extends GetxController {
   }
 
   Future<void> checkAuthStatus() async {
-    final token = await repository.getAuthToken();
-    if (token != null) {
-      Get.off(() => const HomeScreen());
+    final user = await repository.getAuthToken();
+    if (user != null) {
+      currentUser = user;
+      Get.to(() => const HomeScreen());
     }
   }
 
@@ -41,7 +42,7 @@ class AuthenticationController extends GetxController {
       }
       final response = await repository.login(username, password);
       currentUser = User.fromJson(response);
-      Get.off(() => const HomeScreen());
+      Get.to(() => const HomeScreen());
     } finally {
       isLoading.value = false;
     }

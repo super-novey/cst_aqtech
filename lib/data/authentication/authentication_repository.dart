@@ -1,6 +1,9 @@
+// AuthenticationRepository.dart
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/models/user.dart';
 import 'package:hrm_aqtech/utils/http/http_client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -16,23 +19,25 @@ class AuthenticationRepository extends GetxController {
         },
       );
 
-      await _storage.write(key: 'KEY_USERNAME', value: username);
-      await _storage.write(key: 'KEY_PASSWORD', value: password);
+      await _storage.write(
+          key: 'KEY_USER', value: jsonEncode(User.fromJson(response)));
+
       return response;
     } on Exception catch (_) {
       rethrow;
     }
   }
 
-  Future<String?> getAuthToken() async {
-    final username = await _storage.read(key: 'KEY_USERNAME');
-    // final password = await _storage.read(key: 'KEY_PASSWORD');
+  Future<User?> getAuthToken() async {
+    final storedUser = await _storage.read(key: 'KEY_USER');
 
-    return username;
+    if (storedUser != null) {
+      return User.fromJson(jsonDecode(storedUser));
+    }
+    return null;
   }
 
   Future<void> logout() async {
-    await _storage.delete(key: 'KEY_USERNAME');
-    await _storage.delete(key: 'KEY_PASSWORD');
+    await _storage.delete(key: 'KEY_USER');
   }
 }
