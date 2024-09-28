@@ -36,19 +36,23 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
+      id: json['id'] ?? 0,
       memberNumber: json['memberNumber'] ?? 0,
       tfsName: json['tfsName'] ?? "",
       fullName: json['fullName'] ?? "",
       email: json['email'] ?? "",
       phone: json['phone'] ?? "",
       avatar: json['avatar'] ?? "",
-      birthDate: DateTime.parse(json['birthDate']),
-      startDate: DateTime.parse(json['startDate']),
+      birthDate: json['birthDate'] != null
+          ? DateTime.parse(json['birthDate'])
+          : DateTime.now(),
+      startDate: json['startDate'] != null
+          ? DateTime.parse(json['startDate'])
+          : DateTime.now(),
       nickName: json['nickName'] ?? "",
       role: json['role'] == 'admin'
           ? EmployeeRole.Admin
-          : EmployeeRole.values[int.parse(json['role']) - 1],
+          : EmployeeRole.values[int.parse(json['role'] ?? '1') - 1],
       isLeader: json['isLeader'] ?? false,
       workingYear: json['workingYear'] ?? 0,
       isActive: json['isActive'] ?? true,

@@ -41,8 +41,10 @@ class AuthenticationController extends GetxController {
         return;
       }
       final response = await repository.login(username, password);
-      currentUser = User.fromJson(response);
-      Get.to(() => const HomeScreen());
+      if (!response.containsKey('error')) {
+        currentUser = User.fromJson(response);
+        Get.to(() => const HomeScreen());
+      }
     } finally {
       isLoading.value = false;
     }

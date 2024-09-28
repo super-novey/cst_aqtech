@@ -19,6 +19,19 @@ class AuthenticationRepository extends GetxController {
         },
       );
 
+      if (response.containsKey('error')) {
+        Get.snackbar(
+          'Login Failed',
+          response['error'],
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      } else {
+        await _storage.write(
+          key: 'KEY_USER',
+          value: jsonEncode(User.fromJson(response)),
+        );
+      }
+
       await _storage.write(
           key: 'KEY_USER', value: jsonEncode(User.fromJson(response)));
 
