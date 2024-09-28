@@ -41,6 +41,8 @@ class HttpHelper {
   static Map<String, dynamic> _handleResponse(http.Response response) {
     if (response.statusCode == 200) {
       return json.decode(response.body);
+    } else if (response.statusCode == 400) {
+      return json.decode(response.body);
     } else {
       throw Exception('Load dữ liệu thất bại: ${response.statusCode}');
     }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:hrm_aqtech/bindings/general_bindings.dart';
-import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/authentication/views/login/login_screen.dart';
 import 'package:hrm_aqtech/utils/themes/theme.dart';
 // ignore: depend_on_referenced_packages
@@ -13,8 +12,7 @@ class App extends StatelessWidget {
   const App({super.key});
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    final authenticationController = Get.put(AuthenticationController());
+    // final authenticationController = Get.put(AuthenticationController());
 
     return GetMaterialApp(
       initialBinding: GeneralBindings(),
