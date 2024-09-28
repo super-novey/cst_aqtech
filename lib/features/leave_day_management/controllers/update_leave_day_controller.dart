@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/leave_day/leave_day_repository.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/leave_day_management/controllers/format_sum_day_controller.dart';
 import 'package:hrm_aqtech/features/leave_day_management/controllers/leave_day_controller.dart';
@@ -55,6 +56,10 @@ class UpdateLeaveDayController extends GetxController {
 
       getLeaveDay(newLeaveDay);
       if (isAdd) {
+        if(!AuthenticationController.instance.currentUser.isLeader)
+        {
+          newLeaveDay.approvalStatus = ApprovalStatus.pending;
+        }
         await LeaveDayRepository.instance.addLeaveDay(newLeaveDay);
         this.isAdd.value = false;
         LeaveDayController.instance.fetchLeaveDays(); //####

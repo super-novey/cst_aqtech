@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/online_work_management/controllers/online_work_day_controller.dart';
 import 'package:hrm_aqtech/features/online_work_management/controllers/update_online_work_day_controller.dart';
@@ -51,7 +50,7 @@ class OnlineWorkDayListScreen extends StatelessWidget {
                   : Colors.grey, // Change color to indicate disabled state
             );
           }),
-          if (AuthenticationController.instance.currentUser.isLeader)
+          //if (AuthenticationController.instance.currentUser.isLeader)
             IconButton(
               icon: const Icon(Icons.add),
               onPressed: () async {

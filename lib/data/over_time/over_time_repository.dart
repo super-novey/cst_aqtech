@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/over_time_management/models/over_time_model.dart';
 import 'package:hrm_aqtech/utils/http/http_client.dart';
 
@@ -16,7 +17,13 @@ class OverTimeRepository extends GetxController {
       final list = (snapshot["data"] as List)
           .map((overTime) => OverTime.fromJson(overTime))
           .toList();
-      return list;
+      final isLeader = AuthenticationController.instance.currentUser.isLeader;
+      if (isLeader) {
+        return list;
+      } else {
+        final currentUserId = AuthenticationController.instance.currentUser.id;
+        return list.where((overTime) => overTime.memberId == currentUserId).toList();
+      }
     } on Exception catch (_) {
       rethrow;
     }

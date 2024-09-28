@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/online_work_management/controllers/format_sum_day_controller.dart';
@@ -96,56 +97,57 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Trạng thái",
-                      style: Theme.of(context).textTheme.bodySmall!),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(MySizes.borderRadiusMd),
-                      border: Border.all(color: MyColors.accentColor, width: 1),
+              if (AuthenticationController.instance.currentUser.isLeader)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Trạng thái",
+                        style: Theme.of(context).textTheme.bodySmall!),
+                    const SizedBox(
+                      height: 2,
                     ),
-                    child: Obx(
-                      () => DropdownButtonHideUnderline(
-                        child: DropdownButton<ApprovalStatus>(
-                          value: updateOnlineWorkDayController
-                              .selectedApprovalStatus.value,
-                          dropdownColor: MyColors.iconColor,
-                          onChanged:
-                              updateOnlineWorkDayController.isEditting.value
-                                  ? (ApprovalStatus? status) {
-                                      if (status != null) {
-                                        updateOnlineWorkDayController
-                                            .selectedApprovalStatus
-                                            .value = status;
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(MySizes.borderRadiusMd),
+                        border: Border.all(color: MyColors.accentColor, width: 1),
+                      ),
+                      child: Obx(
+                        () => DropdownButtonHideUnderline(
+                          child: DropdownButton<ApprovalStatus>(
+                            value: updateOnlineWorkDayController
+                                .selectedApprovalStatus.value,
+                            dropdownColor: MyColors.iconColor,
+                            onChanged:
+                                updateOnlineWorkDayController.isEditting.value
+                                    ? (ApprovalStatus? status) {
+                                        if (status != null) {
+                                          updateOnlineWorkDayController
+                                              .selectedApprovalStatus
+                                              .value = status;
+                                        }
                                       }
-                                    }
-                                  : null,
-                          items: ApprovalStatus.values
-                              .map((ApprovalStatus status) {
-                            return DropdownMenuItem<ApprovalStatus>(
-                              value: status,
-                              child: Padding(
-                                padding: const EdgeInsets.all(MySizes.sm),
-                                child: Text(
-                                  HeplerFunction.displayStatusFromEnum(status),
-                                  style: const TextStyle(fontSize: 14),
+                                    : null,
+                            items: ApprovalStatus.values
+                                .map((ApprovalStatus status) {
+                              return DropdownMenuItem<ApprovalStatus>(
+                                value: status,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(MySizes.sm),
+                                  child: Text(
+                                    HeplerFunction.displayStatusFromEnum(status),
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
                                 ),
-                              ),
-                            );
-                          }).toList(),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
               const SizedBox(
                 height: MySizes.sm,
               ),
@@ -180,7 +182,13 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                                     }
                                   : null,
                           items: employeeController.allEmployees
-                              .map((Employee employee) {
+                              .where((Employee employee) {
+                            return AuthenticationController
+                                    .instance.currentUser.isLeader ||
+                                employee.id ==
+                                    AuthenticationController
+                                        .instance.currentUser.id;
+                          }).map((Employee employee) {
                             return DropdownMenuItem<String?>(
                               value: employee.id.toString(),
                               child: Padding(

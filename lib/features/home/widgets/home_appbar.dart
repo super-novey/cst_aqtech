@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/appbar.dart';
-import 'package:hrm_aqtech/common/widgets/appbar/notification_icon.dart';
 import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 
 class MyHomeAppBar extends StatelessWidget {
@@ -37,7 +36,7 @@ class MyHomeAppBar extends StatelessWidget {
             AuthenticationController.instance.logout();
           },
         ),
-        MyNotificationIcon(onPressed: () {})
+        
       ],
     );
   }

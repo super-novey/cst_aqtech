@@ -8,9 +8,11 @@ import 'package:hrm_aqtech/features/leave_day_management/controllers/update_leav
 import 'package:hrm_aqtech/features/leave_day_management/models/leave_day_model.dart';
 import 'package:hrm_aqtech/features/leave_day_management/views/approval_leave_day/approval_leave_day.dart';
 import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_details/leave_day_detail.dart';
+import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/utils/popups/loaders.dart';
 
 class LeaveDayTile extends StatelessWidget {
   const LeaveDayTile({super.key, required this.leaveDay});
@@ -28,16 +30,30 @@ class LeaveDayTile extends StatelessWidget {
     final employeeName =
         employeeController.getEmployeeNameById(leaveDay.memberId);
     final isLeader = AuthenticationController.instance.currentUser.isLeader;
+    final currentUserId = AuthenticationController.instance.currentUser.id;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Slidable(
-        enabled: isLeader,
+        //enabled: isLeader,
         endActionPane: ActionPane(
           motion: const DrawerMotion(),
           children: [
             SlidableAction(
               onPressed: ((context) {
-                updateLeaveDayController.deleteLeaveDay(leaveDay.id.toString());
+                if (isLeader) {
+                  updateLeaveDayController
+                      .deleteLeaveDay(leaveDay.id.toString());
+                } else if (leaveDay.memberId == currentUserId &&
+                    leaveDay.approvalStatus == ApprovalStatus.pending) {
+                  updateLeaveDayController
+                      .deleteLeaveDay(leaveDay.id.toString());
+                } else {
+                  Loaders.errorSnackBar(
+                    title: "Không thể xóa",
+                    message: "Bạn không thể xóa ngày làm việc này",
+                  );
+                }
               }),
               backgroundColor: Colors.red,
               icon: Icons.delete,
@@ -47,8 +63,20 @@ class LeaveDayTile extends StatelessWidget {
             ),
             SlidableAction(
               onPressed: ((context) {
-                updateLeaveDayController.isEditting.value = false;
-                Get.to(() => LeaveDayDetailScreen(selectedLeaveDay: leaveDay));
+                updateLeaveDayController.isEditting.value = true;
+              if (isLeader) {
+                Get.to(() => LeaveDayDetailScreen(
+                    selectedLeaveDay: leaveDay));
+              } else if (leaveDay.memberId == currentUserId &&
+                  leaveDay.approvalStatus == ApprovalStatus.pending) {
+                Get.to(() => LeaveDayDetailScreen(
+                    selectedLeaveDay: leaveDay));
+              } else {
+                Loaders.errorSnackBar(
+                  title: "Không thể chỉnh sửa",
+                  message: "Bạn không thể chỉnh sửa ngày làm việc này.",
+                );
+              }
               }),
               backgroundColor: Colors.blue,
               icon: Icons.edit,

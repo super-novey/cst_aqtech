@@ -51,7 +51,7 @@ class LeaveDayListScreen extends StatelessWidget {
                   : Colors.grey, // Change color to indicate disabled state
             );
           }),
-          if (AuthenticationController.instance.currentUser.isLeader)
+          //if (AuthenticationController.instance.currentUser.isLeader)
             IconButton(
               icon: const Icon(Icons.add),
               onPressed: () async {
