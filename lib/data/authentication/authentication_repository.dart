@@ -39,8 +39,8 @@ class AuthenticationRepository extends GetxController {
         );
       }
 
-      await _storage.write(
-          key: 'KEY_USER', value: jsonEncode(User.fromJson(response)));
+      // await _storage.write(
+      //     key: 'KEY_USER', value: jsonEncode(User.fromJson(response)));
 
       return response;
     } on Exception catch (_) {
@@ -48,6 +48,14 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
+  // Future<User?> getAuthToken() async {
+  //   final storedUser = await _storage.read(key: 'KEY_USER');
+
+  //   if (storedUser != null) {
+  //     return User.fromJson(jsonDecode(storedUser));
+  //   }
+  //   return null;
+  // }
   Future<User?> getAuthToken() async {
     final storedUser = await _storage.read(key: 'KEY_USER');
 

@@ -100,7 +100,7 @@ class UpdateEmployeeController extends GetxController {
         if (user != null) {
           AuthenticationController.instance.currentUser = user;
         }
-        
+
         EmployeeController.instance.fetchEmployees();
         Get.back();
         toggleEditting();
@@ -177,19 +177,19 @@ class UpdateEmployeeController extends GetxController {
     }
   }
 
-  // Future<void> loadAvatar(int employeeId) async {
-  //   try {
-  //     FullScreenLoader.openDialog(
-  //         "Đang tải ảnh lên...", MyImagePaths.docerAnimation);
+  Future<void> updateAvatar(int employeeId, String avatar) async {
+    try {
+      FullScreenLoader.openDialog(
+          "Đang tải ảnh lên...", MyImagePaths.docerAnimation);
 
-  //     await EmployeeRepository.instance.uploadAvatar(employeeId, avatar.value);
+      await EmployeeRepository.instance.uploadAvatar(employeeId, avatar);
 
-  //     Loaders.successSnackBar(
-  //         title: "Thành công", message: "Avatar đã được cập nhật.");
-  //   } catch (e) {
-  //     Loaders.errorSnackBar(title: "Oops", message: e.toString());
-  //   } finally {
-  //     FullScreenLoader.stopLoading();
-  //   }
-  // }
+      Loaders.successSnackBar(
+          title: "Thành công", message: "Avatar đã được cập nhật.");
+    } catch (e) {
+      Loaders.errorSnackBar(title: "Oops", message: e.toString());
+    } finally {
+      FullScreenLoader.stopLoading();
+    }
+  }
 }

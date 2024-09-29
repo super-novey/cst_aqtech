@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/authentication/authentication_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:hrm_aqtech/data/employees/employee_repository.dart';
 import 'package:hrm_aqtech/features/authentication/views/login/login_screen.dart';
 import 'package:hrm_aqtech/features/home/home_screen.dart';
 import 'package:hrm_aqtech/features/authentication/models/user.dart';
@@ -11,6 +14,7 @@ class AuthenticationController extends GetxController {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   User currentUser = User();
+  String currentAvatar = '';
 
   RxBool isPasswordVisible = false.obs;
 
@@ -24,10 +28,27 @@ class AuthenticationController extends GetxController {
     super.onInit();
   }
 
+  // Future<void> checkAuthStatus() async {
+  //   final user = await repository.getAuthToken();
+  //   if (user != null) {
+  //     currentUser = user;
+  //     Get.to(() => const HomeScreen());
+  //   }
+  // }
   Future<void> checkAuthStatus() async {
-    final user = await repository.getAuthToken();
+    final user = await repository.getAuthToken(); // Fetch the current user
+
     if (user != null) {
       currentUser = user;
+      if (currentUser.role != 'admin') {
+        var updatedUser =
+            await Get.put(EmployeeRepository()).getById(currentUser.id);
+        currentAvatar = updatedUser.avatar;
+      }
+
+      log('Current User: ${currentUser.toJson()}');
+      log('Current Avatar: $currentAvatar');
+
       Get.to(() => const HomeScreen());
     }
   }
@@ -46,6 +67,12 @@ class AuthenticationController extends GetxController {
       final response = await repository.login(username, password);
       if (!response.containsKey('error')) {
         currentUser = User.fromJson(response);
+        currentAvatar = currentUser.avatar;
+        if (currentUser.role != 'admin') {
+          var updatedUser =
+              await Get.put(EmployeeRepository()).getById(currentUser.id);
+          currentAvatar = updatedUser.avatar;
+        }
         Get.to(() => const HomeScreen());
       }
     } finally {
