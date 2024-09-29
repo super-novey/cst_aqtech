@@ -13,7 +13,7 @@ import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
-import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
 
 class LeaveDayDetailScreen extends StatelessWidget {
   LeaveDayDetailScreen({super.key, required this.selectedLeaveDay});

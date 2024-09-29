@@ -12,7 +12,7 @@ import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
-import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
 
 class OnlineWorkDayDetailScreen extends StatelessWidget {
   OnlineWorkDayDetailScreen({super.key, required this.selectedOnlineWorkDay});
@@ -111,7 +111,8 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius:
                             BorderRadius.circular(MySizes.borderRadiusMd),
-                        border: Border.all(color: MyColors.accentColor, width: 1),
+                        border:
+                            Border.all(color: MyColors.accentColor, width: 1),
                       ),
                       child: Obx(
                         () => DropdownButtonHideUnderline(
@@ -136,7 +137,8 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(MySizes.sm),
                                   child: Text(
-                                    HeplerFunction.displayStatusFromEnum(status),
+                                    HeplerFunction.displayStatusFromEnum(
+                                        status),
                                     style: const TextStyle(fontSize: 14),
                                   ),
                                 ),

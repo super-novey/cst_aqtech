@@ -1,5 +1,3 @@
-import 'package:hrm_aqtech/utils/constants/enums.dart';
-
 class User {
   int id;
   int memberNumber;
@@ -11,7 +9,7 @@ class User {
   DateTime birthDate;
   DateTime startDate;
   String nickName;
-  EmployeeRole role;
+  String role;
   bool isLeader;
   int workingYear;
   bool isActive;
@@ -27,7 +25,7 @@ class User {
     DateTime? birthDate,
     DateTime? startDate,
     this.nickName = "",
-    this.role = EmployeeRole.Developer,
+    this.role = '1',
     this.isLeader = false,
     this.workingYear = 0,
     this.isActive = true,
@@ -50,9 +48,7 @@ class User {
           ? DateTime.parse(json['startDate'])
           : DateTime.now(),
       nickName: json['nickName'] ?? "",
-      role: json['role'] == 'admin'
-          ? EmployeeRole.Admin
-          : EmployeeRole.values[int.parse(json['role'] ?? '1') - 1],
+      role: json['role'] ?? '1',
       isLeader: json['isLeader'] ?? false,
       workingYear: json['workingYear'] ?? 0,
       isActive: json['isActive'] ?? true,
@@ -71,7 +67,7 @@ class User {
       'birthDate': birthDate.toIso8601String(),
       'startDate': startDate.toIso8601String(),
       'nickName': nickName,
-      'role': (role.index + 1).toString(),
+      'role': role,
       'isLeader': isLeader,
       'workingYear': workingYear,
       'isActive': isActive,
