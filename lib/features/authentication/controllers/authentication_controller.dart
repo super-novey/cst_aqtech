@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:hrm_aqtech/features/authentication/views/login/login_screen.dart';
 import 'package:hrm_aqtech/features/home/home_screen.dart';
 import 'package:hrm_aqtech/features/authentication/models/user.dart';
+import 'package:hrm_aqtech/utils/popups/loaders.dart';
 
 class AuthenticationController extends GetxController {
   var isLoading = false.obs;
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   User currentUser = User();
+
+  RxBool isPasswordVisible = false.obs;
 
   final AuthenticationRepository repository =
       Get.put(AuthenticationRepository());
@@ -36,8 +39,8 @@ class AuthenticationController extends GetxController {
       isLoading.value = true;
 
       if (username.isEmpty || password.isEmpty) {
-        Get.snackbar('Error', 'Please enter both username and password',
-            snackPosition: SnackPosition.BOTTOM);
+        Loaders.errorSnackBar(
+            title: "Thất bại!", message: 'Vui lòng nhập username và password');
         return;
       }
       final response = await repository.login(username, password);

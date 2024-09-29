@@ -63,7 +63,7 @@ class HeplerFunction {
       case ApprovalStatus.rejected:
         return "Từ chối";
       default:
-        return "Chưa duyệt"; // Default value
+        return "Chưa duyệt";
     }
   }
 

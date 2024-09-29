@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/data/authentication/authentication_repository.dart';
 import 'package:hrm_aqtech/data/employees/employee_repository.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
@@ -93,6 +95,12 @@ class UpdateEmployeeController extends GetxController {
         await EmployeeRepository.instance.updateEmployeeInfor(newEmployee);
         await EmployeeRepository.instance
             .uploadAvatar(newEmployee.id, avatar.value);
+
+        final user = await AuthenticationRepository.instance.getAuthToken();
+        if (user != null) {
+          AuthenticationController.instance.currentUser = user;
+        }
+        
         EmployeeController.instance.fetchEmployees();
         Get.back();
         toggleEditting();

@@ -11,7 +11,7 @@ import 'package:hrm_aqtech/features/online_work_management/views/online_work_day
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
-import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
 import 'package:hrm_aqtech/utils/popups/loaders.dart';
 
 class OnlineWorkDayTile extends StatelessWidget {
@@ -41,20 +41,19 @@ class OnlineWorkDayTile extends StatelessWidget {
         endActionPane: ActionPane(motion: const DrawerMotion(), children: [
           SlidableAction(
             onPressed: ((context) {
-              
               if (isLeader) {
-                updateOnlineWorkDayController.deleteOnlineWorkDay(
-                  onlineWorkDay.id.toString());
-              } else if (onlineWorkDay.memberId == currentUserId && onlineWorkDay.approvalStatus == ApprovalStatus.pending) {
-                updateOnlineWorkDayController.deleteOnlineWorkDay(
-                  onlineWorkDay.id.toString());
+                updateOnlineWorkDayController
+                    .deleteOnlineWorkDay(onlineWorkDay.id.toString());
+              } else if (onlineWorkDay.memberId == currentUserId &&
+                  onlineWorkDay.approvalStatus == ApprovalStatus.pending) {
+                updateOnlineWorkDayController
+                    .deleteOnlineWorkDay(onlineWorkDay.id.toString());
               } else {
                 Loaders.errorSnackBar(
                   title: "Không thể xóa",
                   message: "Bạn không thể xóa ngày làm việc này",
                 );
               }
-              
             }),
             backgroundColor: Colors.red,
             icon: Icons.delete,

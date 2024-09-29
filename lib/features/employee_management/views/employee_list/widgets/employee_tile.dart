@@ -5,7 +5,7 @@ import 'package:hrm_aqtech/features/employee_management/models/employee_model.da
 import 'package:hrm_aqtech/features/employee_management/views/employee_details/employee_detail.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
-import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
 
 class EmployeeTile extends StatelessWidget {
   final Employee employee;

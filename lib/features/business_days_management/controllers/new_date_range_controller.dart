@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/business_days_management/controllers/update_business_day_controller.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
-import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
 
 class NewDateRangeController extends GetxController {
   //static DateRangeController get instance => Get.find();
@@ -16,10 +16,6 @@ class NewDateRangeController extends GetxController {
     //         .obs;
     super.onInit();
   }
-
-  
-
-  
 
   Future<void> showRangeDatePicker() async {
     DateTimeRange? picked = await showDateRangePicker(

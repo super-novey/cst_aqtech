@@ -1,4 +1,4 @@
-import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
 
 class LeavedayStatistic {
   int id;

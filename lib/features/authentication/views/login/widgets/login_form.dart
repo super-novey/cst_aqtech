@@ -25,20 +25,30 @@ class LoginForm extends StatelessWidget {
           const SizedBox(
             height: MySizes.spaceBtwItems,
           ),
-          // Password
-          TextFormField(
-            controller: controller.passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-              hintText: "Mật khẩu",
-              prefixIcon: Icon(Icons.lock),
-              suffix: Icon(Icons.remove_red_eye),
+          Obx(
+            () => TextFormField(
+              controller: controller.passwordController,
+              obscureText: !controller.isPasswordVisible.value,
+              decoration: InputDecoration(
+                hintText: "Mật khẩu",
+                prefixIcon: const Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    controller.isPasswordVisible.value
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    controller.isPasswordVisible.value =
+                        !controller.isPasswordVisible.value;
+                  },
+                ),
+              ),
             ),
           ),
           const SizedBox(
             height: MySizes.spaceBtwSections,
           ),
-
           // Login button
           Obx(() => controller.isLoading.value
               ? const CircularProgressIndicator()

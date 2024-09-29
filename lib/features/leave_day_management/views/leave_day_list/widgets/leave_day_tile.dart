@@ -11,7 +11,7 @@ import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_details
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
-import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
 import 'package:hrm_aqtech/utils/popups/loaders.dart';
 
 class LeaveDayTile extends StatelessWidget {
@@ -64,19 +64,19 @@ class LeaveDayTile extends StatelessWidget {
             SlidableAction(
               onPressed: ((context) {
                 updateLeaveDayController.isEditting.value = true;
-              if (isLeader) {
-                Get.to(() => LeaveDayDetailScreen(
-                    selectedLeaveDay: leaveDay));
-              } else if (leaveDay.memberId == currentUserId &&
-                  leaveDay.approvalStatus == ApprovalStatus.pending) {
-                Get.to(() => LeaveDayDetailScreen(
-                    selectedLeaveDay: leaveDay));
-              } else {
-                Loaders.errorSnackBar(
-                  title: "Không thể chỉnh sửa",
-                  message: "Bạn không thể chỉnh sửa ngày làm việc này.",
-                );
-              }
+                if (isLeader) {
+                  Get.to(
+                      () => LeaveDayDetailScreen(selectedLeaveDay: leaveDay));
+                } else if (leaveDay.memberId == currentUserId &&
+                    leaveDay.approvalStatus == ApprovalStatus.pending) {
+                  Get.to(
+                      () => LeaveDayDetailScreen(selectedLeaveDay: leaveDay));
+                } else {
+                  Loaders.errorSnackBar(
+                    title: "Không thể chỉnh sửa",
+                    message: "Bạn không thể chỉnh sửa ngày làm việc này.",
+                  );
+                }
               }),
               backgroundColor: Colors.blue,
               icon: Icons.edit,

@@ -5,6 +5,8 @@ import 'package:hrm_aqtech/utils/http/http_client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 
+import 'package:hrm_aqtech/utils/popups/loaders.dart';
+
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
   final _storage = const FlutterSecureStorage();
@@ -20,15 +22,20 @@ class AuthenticationRepository extends GetxController {
       );
 
       if (response.containsKey('error')) {
-        Get.snackbar(
-          'Login Failed',
-          response['error'],
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        Loaders.errorSnackBar(
+            title: "Đăng nhập không thành công!", message: response['error']);
       } else {
+        final userWithoutAvatar = response;
+        userWithoutAvatar.remove('avatar');
+
         await _storage.write(
           key: 'KEY_USER',
-          value: jsonEncode(User.fromJson(response)),
+          value: jsonEncode(userWithoutAvatar),
+        );
+
+        await _storage.write(
+          key: 'KEY_AVATAR',
+          value: jsonEncode(response['avatar']),
         );
       }
 
@@ -52,5 +59,6 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> logout() async {
     await _storage.delete(key: 'KEY_USER');
+    await _storage.delete(key: 'KEY_AVATAR');
   }
 }

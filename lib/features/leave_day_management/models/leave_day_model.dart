@@ -1,5 +1,5 @@
 import 'package:hrm_aqtech/utils/constants/enums.dart';
-import 'package:hrm_aqtech/utils/helpers/hepler_function.dart';
+import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
 
 class LeaveDay {
   int id;
@@ -38,7 +38,8 @@ class LeaveDay {
       reason: json['reason'] ?? "",
       isAnnual: json['isAnnual'] ?? false,
       isWithoutPay: json['isWithoutPay'] ?? false,
-      approvalStatus: HeplerFunction.convertStatusToEnum(json['approvalStatus'] ?? ""),
+      approvalStatus:
+          HeplerFunction.convertStatusToEnum(json['approvalStatus'] ?? ""),
       note: json['note'] ?? "",
     );
   }
