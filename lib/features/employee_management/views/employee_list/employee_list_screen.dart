@@ -19,7 +19,6 @@ class EmployeeListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Khởi tạo employee controller
     final controller = Get.put(EmployeeController());
-    print(AuthenticationController.instance.currentUser.isLeader);
     return DefaultTabController(
       length: EmployeeRole.values.length + 1, // do co tab All nen +1
       child: Scaffold(
