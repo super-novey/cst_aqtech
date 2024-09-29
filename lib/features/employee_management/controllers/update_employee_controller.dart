@@ -82,6 +82,7 @@ class UpdateEmployeeController extends GetxController {
       if (isAdd) {
         // Xu ly them
         await EmployeeRepository.instance.addEmployee(newEmployee);
+
         EmployeeController.instance.fetchEmployees();
         Get.back();
         this.isAdd.value = false; // cap nhat truong idAdd
@@ -90,6 +91,8 @@ class UpdateEmployeeController extends GetxController {
       } else {
         // xu ly luu qua api
         await EmployeeRepository.instance.updateEmployeeInfor(newEmployee);
+        await EmployeeRepository.instance
+            .uploadAvatar(newEmployee.id, avatar.value);
         EmployeeController.instance.fetchEmployees();
         Get.back();
         toggleEditting();
@@ -145,6 +148,7 @@ class UpdateEmployeeController extends GetxController {
         DateFormat("dd/MM/yyyy").parse(birthDateController.text);
     newEmployee.startDate = DateFormat("dd/MM/yyyy").parse(startDate.text);
     newEmployee.role = selectedDepartment.value;
+    newEmployee.avatar = avatar.value;
   }
 
   Future<void> selectImage() async {
@@ -165,19 +169,19 @@ class UpdateEmployeeController extends GetxController {
     }
   }
 
-  Future<void> loadAvatar(int employeeId) async {
-    try {
-      FullScreenLoader.openDialog(
-          "Đang tải ảnh lên...", MyImagePaths.docerAnimation);
+  // Future<void> loadAvatar(int employeeId) async {
+  //   try {
+  //     FullScreenLoader.openDialog(
+  //         "Đang tải ảnh lên...", MyImagePaths.docerAnimation);
 
-      await EmployeeRepository.instance.uploadAvatar(employeeId, avatar.value);
+  //     await EmployeeRepository.instance.uploadAvatar(employeeId, avatar.value);
 
-      Loaders.successSnackBar(
-          title: "Thành công", message: "Avatar đã được cập nhật.");
-    } catch (e) {
-      Loaders.errorSnackBar(title: "Oops", message: e.toString());
-    } finally {
-      FullScreenLoader.stopLoading();
-    }
-  }
+  //     Loaders.successSnackBar(
+  //         title: "Thành công", message: "Avatar đã được cập nhật.");
+  //   } catch (e) {
+  //     Loaders.errorSnackBar(title: "Oops", message: e.toString());
+  //   } finally {
+  //     FullScreenLoader.stopLoading();
+  //   }
+  // }
 }

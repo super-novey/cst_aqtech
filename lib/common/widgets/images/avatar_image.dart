@@ -28,7 +28,7 @@ class AvatarImage extends StatelessWidget {
                   },
                 )
               : FadeInImage.assetNetwork(
-                  placeholder: MyImagePaths.avatarPlaceholderImage,
+                  placeholder: MyImagePaths.defaultUser,
                   image: imageUrl,
                   width: radius * 2,
                   height: radius * 2,

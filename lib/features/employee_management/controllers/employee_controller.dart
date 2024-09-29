@@ -35,6 +35,7 @@ class EmployeeController extends GetxController {
       if (!isConnected) {
         return;
       }
+
       // fetch employees from api
       final employees = await _employeeRepository.getAllEmployees();
       // update the employees list
@@ -65,6 +66,7 @@ class EmployeeController extends GetxController {
   // Tìm kiếm nhân viên
   void searchEmployee({String query = ''}) {
     textSearchLength.value = query.length;
+
     searchResult = filteredEmployees
         .where((employee) =>
             employee.fullName.toLowerCase().contains(query.toLowerCase()))

@@ -37,6 +37,7 @@ class EmployeeDetailScreen extends StatelessWidget {
     //     selectedEmployee.absenceQuota.toString();
     controller.birthDateController.text =
         MyFormatter.formatDate(selectedEmployee.birthDate.toString());
+    controller.avatar.value = selectedEmployee.avatar;
   }
 
   @override
@@ -85,23 +86,24 @@ class EmployeeDetailScreen extends StatelessWidget {
                         () => AvatarImage(
                           imageUrl: controller.avatar.value.isNotEmpty
                               ? controller.avatar.value
-                              : (selectedEmployee.avatar == '')
-                                  ? MyImagePaths.defaultUser
-                                  : selectedEmployee.avatar,
+                              // : (selectedEmployee.avatar == '')
+                              //     ? MyImagePaths.defaultUser
+                              //     : selectedEmployee.avatar,
+                              : MyImagePaths.defaultUser,
                           radius: 40,
                         ),
                       ),
 
                       Obx(
-                        () =>  TextButton(
+                        () => TextButton(
                           onPressed: (UpdateEmployeeController
                                   .instance.isEditting.value)
                               ? () async {
                                   await controller.selectImage();
-                                  if (controller.avatar.value.isNotEmpty) {
-                                    await controller.loadAvatar(selectedEmployee
-                                        .id); // Replace with the actual ID
-                                  }
+                                  // if (controller.avatar.value.isNotEmpty) {
+                                  //   await controller.loadAvatar(selectedEmployee
+                                  //       .id); // Replace with the actual ID
+                                  // }
                                 }
                               : null,
                           child: const Text("Đổi ảnh đại diện"),

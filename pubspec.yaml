@@ -26,7 +26,7 @@ dependencies:
   syncfusion_flutter_charts: ^26.2.14
   month_year_picker: ^0.4.0+1
   pie_chart: ^5.4.0
-  image_picker: ^0.8.5+3 
+  image_picker: ^0.8.5+3
   flutter_secure_storage: ^9.2.2
 
 dev_dependencies:
@@ -45,3 +45,4 @@ flutter:
     - assets/animations/
     - assets/icons/
     - assets/placeholder/
+    # - assets/placeholder/avatar_placeholder.png
