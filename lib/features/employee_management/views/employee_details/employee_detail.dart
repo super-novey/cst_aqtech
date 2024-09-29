@@ -92,15 +92,20 @@ class EmployeeDetailScreen extends StatelessWidget {
                         ),
                       ),
 
-                      TextButton(
-                        onPressed: () async {
-                          await controller.selectImage();
-                          if (controller.avatar.value.isNotEmpty) {
-                            await controller.loadAvatar(selectedEmployee
-                                .id); // Replace with the actual ID
-                          }
-                        },
-                        child: const Text("Đổi ảnh đại diện"),
+                      Obx(
+                        () =>  TextButton(
+                          onPressed: (UpdateEmployeeController
+                                  .instance.isEditting.value)
+                              ? () async {
+                                  await controller.selectImage();
+                                  if (controller.avatar.value.isNotEmpty) {
+                                    await controller.loadAvatar(selectedEmployee
+                                        .id); // Replace with the actual ID
+                                  }
+                                }
+                              : null,
+                          child: const Text("Đổi ảnh đại diện"),
+                        ),
                       ),
                     ],
                   ),

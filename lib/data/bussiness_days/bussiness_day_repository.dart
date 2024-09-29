@@ -10,7 +10,6 @@ class BussinessDayRepository extends GetxController {
     try {
       final snapshot = await HttpHelper.get(
           "NgayCongTac?query_dateFrom=${startDate.toIso8601String()}&query_dateTo=${endDate.toIso8601String()}");
-
       final list = (snapshot["data"] as List)
           .map((date) => BusinessDate.fromJson(date))
           .toList();
