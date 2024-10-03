@@ -14,8 +14,6 @@ class MemberListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final a = memberList[0].getNameById();
-    print(a);
     return SizedBox(
       width: double.infinity,
       height: 30,

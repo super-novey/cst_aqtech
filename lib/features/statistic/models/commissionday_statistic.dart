@@ -17,8 +17,8 @@ class CommissionDay {
   factory CommissionDay.fromJson(Map<String, dynamic> json) {
     return CommissionDay(
       id: json['id'],
-      fullName: json['fullName'],
-      nickName: json['nickName'],
+      fullName: json['fullName'] ?? "",
+      nickName: json['nickName'] ?? "",
       totalCommissionDay: json['total_CommissionDay'],
       totalCommissionPayment: json['total_CommissionPayment'],
     );

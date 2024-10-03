@@ -12,8 +12,8 @@ class OverTimeStatistic {
   // Factory method to create an OverTime object from JSON
   factory OverTimeStatistic.fromJson(Map<String, dynamic> json) {
     return OverTimeStatistic(
-      nickName: json['nickName'],
-      fullName: json['fullName'],
+      nickName: json['nickName'] ?? "",
+      fullName: json['fullName'] ?? "",
       sumHours: double.parse(json['sumHours'].toString()),
     );
   }

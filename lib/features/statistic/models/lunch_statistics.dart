@@ -20,8 +20,8 @@ class LunchStatistics {
   factory LunchStatistics.fromJson(Map<String, dynamic> json) {
     return LunchStatistics(
       id: json['id'],
-      fullName: json['fullName'],
-      nickName: json['nickName'],
+      fullName: json['fullName'] ?? "",
+      nickName: json['nickName'] ?? "",
       totalIndividualDayOff: json['total_IndividualDayOff'],
       totalWorkingOnline: json['total_WorkingOnline'],
       totalCommissionDay: json['total_CommissionDay'],
