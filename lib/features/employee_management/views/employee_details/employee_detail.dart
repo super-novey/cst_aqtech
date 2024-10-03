@@ -47,6 +47,7 @@ class EmployeeDetailScreen extends StatelessWidget {
         appBar: AppBar(
             leading: IconButton(
                 onPressed: () {
+                  controller.toggleEditting();
                   Get.back();
                 },
                 icon: const Icon(Icons.arrow_back_ios)),

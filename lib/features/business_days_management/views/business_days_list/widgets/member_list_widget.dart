@@ -14,6 +14,8 @@ class MemberListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final a = memberList[0].getNameById();
+    print(a);
     return SizedBox(
       width: double.infinity,
       height: 30,
@@ -25,7 +27,7 @@ class MemberListWidget extends StatelessWidget {
                 future: memberList[index].getNameById(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();  // add shimmer
+                    return const CircularProgressIndicator(); // add shimmer
                   } else if (snapshot.hasData) {
                     return MyRoundedContainer(
                       margin: const EdgeInsets.only(right: MySizes.sm),

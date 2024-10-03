@@ -64,6 +64,7 @@ class UpdateBusinessDayController extends GetxController {
       businessDay.dateFrom;
 
       final employees = await _employeeRepository.getAssignedEmployeeList();
+      
       memberListController.allEmployees.assignAll(employees);
 
       for (var x in businessDay.memberList) {

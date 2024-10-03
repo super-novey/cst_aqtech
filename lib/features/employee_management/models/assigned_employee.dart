@@ -8,6 +8,6 @@ class AssignedEmployee {
 
   factory AssignedEmployee.fromJson(Map<String, dynamic> json) {
     return AssignedEmployee(
-        id: json['id'], fullName: json['fullName'], nickName: json['nickName']);
+        id: json['id'], fullName: json['fullName'] ?? "", nickName: json['nickName'] ?? "");
   }
 }
