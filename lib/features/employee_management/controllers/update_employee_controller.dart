@@ -183,6 +183,7 @@ class UpdateEmployeeController extends GetxController {
           "Đang tải ảnh lên...", MyImagePaths.docerAnimation);
 
       await EmployeeRepository.instance.uploadAvatar(employeeId, avatar);
+      AuthenticationController.instance.currentAvatar = avatar;
 
       Loaders.successSnackBar(
           title: "Thành công", message: "Avatar đã được cập nhật.");
