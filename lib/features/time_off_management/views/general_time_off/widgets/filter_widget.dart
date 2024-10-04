@@ -93,6 +93,10 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4), // Điều chỉnh padding
+                              minimumSize: const Size(130, 40),
                             ),
                           ),
                         ],
@@ -171,6 +175,10 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4), // Điều chỉnh padding
+                              minimumSize: const Size(130, 40),
                             ),
                           ),
                         ],
