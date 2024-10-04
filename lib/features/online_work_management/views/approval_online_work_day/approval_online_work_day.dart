@@ -66,206 +66,215 @@ class ApprovalOnlineWorkDayScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            Text("Thông tin ngày làm việc online cá nhân",
-                style: Theme.of(context).textTheme.titleMedium!),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  border:
-                      Border.all(color: MyColors.secondaryTextColor, width: 1),
-                  borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(MySizes.defaultSpace),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Trạng thái",
-                            style: Theme.of(context).textTheme.bodySmall!),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(MySizes.borderRadiusMd),
-                            border: Border.all(
-                                color: MyColors.accentColor, width: 1),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              Text("Thông tin ngày làm việc online cá nhân",
+                  style: Theme.of(context).textTheme.titleMedium!),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: MyColors.secondaryTextColor, width: 1),
+                    borderRadius: BorderRadius.circular(12)),
+                child: Padding(
+                  padding: const EdgeInsets.all(MySizes.defaultSpace),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Trạng thái",
+                              style: Theme.of(context).textTheme.bodySmall!),
+                          const SizedBox(
+                            height: 4,
                           ),
-                          child: Obx(
-                            () => DropdownButtonHideUnderline(
-                              child: DropdownButton<ApprovalStatus>(
-                                value: updateOnlineWorkDayController
-                                    .selectedApprovalStatus.value,
-                                dropdownColor: MyColors.iconColor,
-                                onChanged: isLeader
-                                    ? (ApprovalStatus? status) {
-                                        if (status != null) {
-                                          updateOnlineWorkDayController
-                                              .selectedApprovalStatus
-                                              .value = status;
-                                          updateOnlineWorkDayController
-                                              .approvalOnlineWorkDay(
-                                            selectedOnlineWorkDay.id.toString(),
-                                            HeplerFunction.convertEnumToString(
-                                                status),
-                                          );
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(MySizes.borderRadiusMd),
+                              border: Border.all(
+                                  color: MyColors.accentColor, width: 1),
+                            ),
+                            child: Obx(
+                              () => DropdownButtonHideUnderline(
+                                child: DropdownButton<ApprovalStatus>(
+                                  value: updateOnlineWorkDayController
+                                      .selectedApprovalStatus.value,
+                                  dropdownColor: MyColors.iconColor,
+                                  onChanged: isLeader
+                                      ? (ApprovalStatus? status) {
+                                          if (status != null) {
+                                            updateOnlineWorkDayController
+                                                .selectedApprovalStatus
+                                                .value = status;
+                                            updateOnlineWorkDayController
+                                                .approvalOnlineWorkDay(
+                                              selectedOnlineWorkDay.id
+                                                  .toString(),
+                                              HeplerFunction
+                                                  .convertEnumToString(status),
+                                            );
+                                          }
                                         }
-                                      }
-                                    : null,
-                                items: ApprovalStatus.values
-                                    .map((ApprovalStatus status) {
-                                  return DropdownMenuItem<ApprovalStatus>(
-                                    value: status,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(MySizes.sm),
-                                      child: Text(
-                                        HeplerFunction.displayStatusFromEnum(
-                                            status),
-                                        style: const TextStyle(fontSize: 14),
+                                      : null,
+                                  items: ApprovalStatus.values
+                                      .map((ApprovalStatus status) {
+                                    return DropdownMenuItem<ApprovalStatus>(
+                                      value: status,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.all(MySizes.sm),
+                                        child: Text(
+                                          HeplerFunction.displayStatusFromEnum(
+                                              status),
+                                          style: const TextStyle(fontSize: 14),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }).toList(),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: MySizes.sm,
-                    ),
-                    const SizedBox(
-                      height: MySizes.spaceBtwInputFields,
-                    ),
-                    const Text(
-                      "Nhân viên: ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: MyColors.secondaryTextColor),
-                    ),
-                    const SizedBox(
-                      height: MySizes.spaceBtwInputFields,
-                    ),
-                    Text(
-                      "${employeeController.getEmployeeNameById(selectedOnlineWorkDay.memberId)}",
-                    ),
-                    const SizedBox(
-                      height: MySizes.spaceBtwInputFields,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: MySizes.spaceBtwInputFields,
-                            ),
-                            Text(
-                              "Từ ngày: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: MyColors.secondaryTextColor),
-                            ),
-                            SizedBox(
-                              height: MySizes.spaceBtwInputFields,
-                            ),
-                            Text(
-                              "Đến ngày: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: MyColors.secondaryTextColor),
-                            ),
-                            SizedBox(
-                              height: MySizes.spaceBtwInputFields,
-                            ),
-                            Text(
-                              "Số lượng ngày: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: MyColors.secondaryTextColor),
-                            ),
-                            SizedBox(
-                              height: MySizes.spaceBtwInputFields,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: MySizes.spaceBtwInputFields,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(MyFormatter.formatDate(
-                                selectedOnlineWorkDay.dateFrom.toString())),
-                            const SizedBox(
-                              height: MySizes.spaceBtwInputFields,
-                            ),
-                            Text(MyFormatter.formatDate(
-                                selectedOnlineWorkDay.dateTo.toString())),
-                            const SizedBox(
-                              height: MySizes.spaceBtwInputFields,
-                            ),
-                            Text(formatSumDayOnlineWorkController
-                                .formatOnlineWorkDay(
-                                    selectedOnlineWorkDay.sumDay)),
-                            const SizedBox(
-                              height: MySizes.spaceBtwInputFields,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const Text(
-                      "Lý do làm việc online: ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: MyColors.secondaryTextColor),
-                    ),
-                    const SizedBox(
-                      height: MySizes.spaceBtwInputFields,
-                    ),
-                    SizedBox(
-                        width: 280, child: Text(selectedOnlineWorkDay.reason)),
-                    const SizedBox(
-                      height: MySizes.spaceBtwInputFields,
-                    ),
-                    const Divider(),
-                    const SizedBox(
-                      height: MySizes.spaceBtwInputFields,
-                    ),
-                    const Text(
-                      "Ghi chú: ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: MyColors.secondaryTextColor),
-                    ),
-                    const SizedBox(
-                      height: MySizes.spaceBtwInputFields,
-                    ),
-                    SizedBox(
-                      width: 280,
-                      child: Text(
-                        selectedOnlineWorkDay.note,
-                        maxLines: 5,
+                        ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: MySizes.sm,
+                      ),
+                      const SizedBox(
+                        height: MySizes.spaceBtwInputFields,
+                      ),
+                      const Text(
+                        "Nhân viên: ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: MyColors.secondaryTextColor),
+                      ),
+                      const SizedBox(
+                        height: MySizes.spaceBtwInputFields,
+                      ),
+                      Text(
+                        "${employeeController.getEmployeeNameById(selectedOnlineWorkDay.memberId)}",
+                      ),
+                      const SizedBox(
+                        height: MySizes.spaceBtwInputFields,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: MySizes.spaceBtwInputFields,
+                              ),
+                              Text(
+                                "Từ ngày: ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.secondaryTextColor),
+                              ),
+                              SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                              Text(
+                                "Đến ngày: ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.secondaryTextColor),
+                              ),
+                              SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                              Text(
+                                "Số lượng ngày: ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.secondaryTextColor),
+                              ),
+                              SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: MySizes.spaceBtwInputFields,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(MyFormatter.formatDate(
+                                  selectedOnlineWorkDay.dateFrom.toString())),
+                              const SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                              Text(MyFormatter.formatDate(
+                                  selectedOnlineWorkDay.dateTo.toString())),
+                              const SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                              Text(formatSumDayOnlineWorkController
+                                  .formatOnlineWorkDay(
+                                      selectedOnlineWorkDay.sumDay)),
+                              const SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const Text(
+                        "Lý do làm việc online: ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: MyColors.secondaryTextColor),
+                      ),
+                      const SizedBox(
+                        height: MySizes.spaceBtwInputFields,
+                      ),
+                      Text(
+                        selectedOnlineWorkDay.reason,
+                        maxLines: 10,
+                        style: const TextStyle(
+                          height: 2,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: MySizes.spaceBtwInputFields,
+                      ),
+                      const Divider(),
+                      const SizedBox(
+                        height: MySizes.spaceBtwInputFields,
+                      ),
+                      const Text(
+                        "Ghi chú: ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: MyColors.secondaryTextColor),
+                      ),
+                      const SizedBox(
+                        height: MySizes.spaceBtwInputFields,
+                      ),
+                      Text(
+                        selectedOnlineWorkDay.note,
+                        maxLines: 10,
+                        style: const TextStyle(
+                          height: 2,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
