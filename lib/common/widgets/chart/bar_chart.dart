@@ -20,7 +20,7 @@ class CommonBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataEntries = data.entries.toList();
-    late double barItemWidth = 60.0;
+    late double barItemWidth = 20;
     final chartWidth = dataEntries.isEmpty
         ? MediaQuery.of(context).size.width - 60.0
         : dataEntries.length * barItemWidth +
