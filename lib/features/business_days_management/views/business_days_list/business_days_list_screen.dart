@@ -66,9 +66,10 @@ class BusinessDaysListScreen extends StatelessWidget {
             const SliverAppBar(
               automaticallyImplyLeading: false,
               pinned: true,
-              floating: true,
+              //floating: true,
               backgroundColor: Colors.white,
-              expandedHeight: 100,
+              //expandedHeight: 0,
+              //collapsedHeight: 250,
               bottom: Filter(),
             )
           ];

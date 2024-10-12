@@ -4,6 +4,7 @@ import 'package:hrm_aqtech/features/daily_report/controllers/daily_report_contro
 import 'package:hrm_aqtech/features/daily_report/views/widgets/choose_day_widget.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
+import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
 
 class DailyReportScreen extends StatelessWidget {
@@ -86,6 +87,9 @@ class DailyReportScreen extends StatelessWidget {
             Expanded(
               child: HeplerFunction.chooseChart(controller.selectedChart.value),
             ),
+            const SizedBox(
+              height: MySizes.defaultSpace,
+            )
           ],
         );
       }),
