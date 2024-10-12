@@ -68,7 +68,7 @@ class CommonBarChart extends StatelessWidget {
                                         padding:
                                             const EdgeInsets.only(top: 8.0),
                                         child: SizedBox(
-                                          width: barItemWidth,
+                                          width: 60,
                                           child: Text(
                                             employeeName,
                                             style: const TextStyle(
