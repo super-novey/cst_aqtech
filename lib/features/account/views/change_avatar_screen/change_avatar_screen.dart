@@ -13,7 +13,7 @@ class ChangeAvatarScreen extends StatelessWidget {
   final UpdateEmployeeController controller =
       Get.put(UpdateEmployeeController());
   final user = AuthenticationController.instance.currentUser;
-  final avatar = AuthenticationController.instance.currentAvatar;
+  final avatar = AuthenticationController.instance.currentAvatar.value;
 
   @override
   Widget build(BuildContext context) {
