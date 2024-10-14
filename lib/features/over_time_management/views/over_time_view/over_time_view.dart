@@ -54,91 +54,109 @@ class OverTimeViewScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(MySizes.defaultSpace),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: MySizes.spaceBtwInputFields,
-                      ),
-                      Text(
-                        "Nhân viên: ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: MyColors.secondaryTextColor),
-                      ),
-                      SizedBox(
-                        height: MySizes.spaceBtwInputFields,
-                      ),
-                      Text(
-                        "Ngày: ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: MyColors.secondaryTextColor),
-                      ),
-                      SizedBox(
-                        height: MySizes.spaceBtwInputFields,
-                      ),
-                      Text(
-                        "Giờ: ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: MyColors.secondaryTextColor),
-                      ),
-                      SizedBox(
-                        height: MySizes.spaceBtwInputFields,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: MySizes.spaceBtwInputFields,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${employeeController.getEmployeeNameById(selectedOverTime.memberId)}",
-                      ),
-                      const SizedBox(
-                        height: MySizes.spaceBtwInputFields,
-                      ),
-                      Text(MyFormatter.formatDate(
-                          selectedOverTime.date.toString())),
-                      const SizedBox(
-                        height: MySizes.spaceBtwInputFields,
-                      ),
-                      Text(FormatTimeController()
-                          .formatTimeController(selectedOverTime.time)),
-                      const SizedBox(
-                        height: MySizes.spaceBtwInputFields,
-                      ),
-                    ],
-                  ),
-                ],
+              Text(
+                "Thông tin ngày làm việc ngoài giờ",
+                style: Theme.of(context).textTheme.titleMedium!,
               ),
-            
-              const Text(
-                      "Ghi chú: ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: MyColors.secondaryTextColor),
-                    ),
-                    const SizedBox(
-                      height: MySizes.spaceBtwInputFields,
-                    ),
-                    SizedBox(
-                      width: 300,
-                      child: Text(
+              const SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(
+                  border:
+                      Border.all(color: MyColors.secondaryTextColor, width: 1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(MySizes.md),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: MySizes.spaceBtwInputFields,
+                              ),
+                              Text(
+                                "Nhân viên: ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.secondaryTextColor),
+                              ),
+                              SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                              Text(
+                                "Ngày: ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.secondaryTextColor),
+                              ),
+                              SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                              Text(
+                                "Giờ: ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.secondaryTextColor),
+                              ),
+                              SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: MySizes.spaceBtwInputFields,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${employeeController.getEmployeeNameById(selectedOverTime.memberId)}",
+                              ),
+                              const SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                              Text(MyFormatter.formatDate(
+                                  selectedOverTime.date.toString())),
+                              const SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                              Text(FormatTimeController()
+                                  .formatTimeController(selectedOverTime.time)),
+                              const SizedBox(
+                                height: MySizes.spaceBtwInputFields,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const Text(
+                        "Ghi chú: ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: MyColors.secondaryTextColor),
+                      ),
+                      const SizedBox(
+                        height: MySizes.spaceBtwInputFields,
+                      ),
+                      Text(
                         selectedOverTime.note,
                         maxLines: 15,
+                        style: const TextStyle(
+                          height: 2,
+                        ),
                       ),
-                    ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

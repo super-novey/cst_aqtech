@@ -78,5 +78,5 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      Size.fromHeight(MyDeviceUtils.getAppBarHeight() * 1.6);
+      Size.fromHeight(MyDeviceUtils.getAppBarHeight() * 0.8);
 }
