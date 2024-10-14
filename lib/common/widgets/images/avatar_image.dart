@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:hrm_aqtech/utils/constants/image_paths.dart';
 
 class AvatarImage extends StatelessWidget {
   final String imageUrl;
@@ -15,7 +14,8 @@ class AvatarImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(radius), // Border radius for the image
+      borderRadius:
+          BorderRadius.circular(radius), // Border radius for the image
       child: imageUrl.isNotEmpty
           ? (imageUrl.startsWith('data:image/')
               ? Image.memory(
@@ -27,16 +27,7 @@ class AvatarImage extends StatelessWidget {
                     return _placeholder();
                   },
                 )
-              : FadeInImage.assetNetwork(
-                  placeholder: MyImagePaths.defaultUser,
-                  image: imageUrl,
-                  width: radius * 2,
-                  height: radius * 2,
-                  fit: BoxFit.cover,
-                  imageErrorBuilder: (context, error, stackTrace) {
-                    return _placeholder(); // Placeholder on error
-                  },
-                ))
+              : _placeholder())
           : _placeholder(),
     );
   }
@@ -46,7 +37,11 @@ class AvatarImage extends StatelessWidget {
       width: radius * 2,
       height: radius * 2,
       color: Colors.grey,
-      child: const Icon(Icons.person, color: Colors.white),
+      child: Icon(
+        Icons.person,
+        color: Colors.white,
+        size: radius * 1.3,
+      ),
     );
   }
 }
