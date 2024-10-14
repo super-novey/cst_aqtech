@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/shimmers/shimmer_list_tile.dart';
 import 'package:hrm_aqtech/common/widgets/appbar/tabbar.dart';
+import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
@@ -11,6 +12,7 @@ import 'package:hrm_aqtech/features/employee_management/views/employee_list/widg
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
+import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
 class EmployeeListScreen extends StatelessWidget {
   const EmployeeListScreen({super.key});
@@ -31,7 +33,10 @@ class EmployeeListScreen extends StatelessWidget {
                     icon: const Icon(Icons.bar_chart_rounded),
                     onPressed: (!controller.isLoading.value)
                         ? () {
-                            Get.to(() => const EmployeeChart());
+                            Get.to(() => CaptureWidget(
+                                fullWidth:
+                                    MyDeviceUtils.getScreenWidth(context),
+                                child: const EmployeeChart()));
                           }
                         : null, // Disable the button until ready
                     color: (!controller.isLoading.value)

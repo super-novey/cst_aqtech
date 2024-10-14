@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/common/widgets/chart/bar_chart.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/online_work_management/controllers/online_work_day_controller.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
+import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
 class OnlineWorkDayChart extends StatelessWidget {
   const OnlineWorkDayChart({super.key});
@@ -30,13 +32,19 @@ class OnlineWorkDayChart extends StatelessWidget {
           },
         ),
       ),
-      body: CommonBarChart(
-        title: 'Biểu đồ thống kê làm việc online',
-        data: data,
-        getEmployeeName: (id) =>
-            employeeController.getEmployeeNameById(id) ??
-            'Unknown', // Handle null values
-        formatTooltip: (days) => '${days.toString()} ngày',
+      body: CaptureWidget(
+        fullWidth: MyDeviceUtils.getScreenWidth(context) + data.length * 60,
+        child: Container(
+          color: Colors.white,
+          child: CommonBarChart(
+            title: 'Biểu đồ thống kê làm việc online',
+            data: data,
+            getEmployeeName: (id) =>
+                employeeController.getEmployeeNameById(id) ??
+                'Unknown', // Handle null values
+            formatTooltip: (days) => '${days.toString()} ngày',
+          ),
+        ),
       ),
     );
   }

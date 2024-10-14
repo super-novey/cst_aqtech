@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/common/widgets/chart/bar_chart.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/over_time_management/controllers/over_time_controller.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
+import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
 class OvertimeWorkChart extends StatelessWidget {
   const OvertimeWorkChart({super.key});
@@ -30,12 +32,18 @@ class OvertimeWorkChart extends StatelessWidget {
           },
         ),
       ),
-      body: CommonBarChart(
-        title: 'Biểu đồ thống kê làm việc ngoài giờ',
-        data: data,
-        getEmployeeName: (id) =>
-            employeeController.getEmployeeNameById(id) ?? 'Unknown',
-        formatTooltip: (days) => '${days.toString()} ngày',
+      body: CaptureWidget(
+        fullWidth: MyDeviceUtils.getScreenWidth(context) + data.length * 60,
+        child: Container(
+          color: Colors.white,
+          child: CommonBarChart(
+            title: 'Biểu đồ thống kê làm việc ngoài giờ',
+            data: data,
+            getEmployeeName: (id) =>
+                employeeController.getEmployeeNameById(id) ?? 'Unknown',
+            formatTooltip: (days) => '${days.toString()} ngày',
+          ),
+        ),
       ),
     );
   }
