@@ -23,6 +23,7 @@ class UpdateEmployeeController extends GetxController {
   var isActive = false.obs;
   var isLeader = false.obs;
   var isLunch = false.obs;
+  var isSelectedAvatar = false.obs;
   var selectedDepartment = EmployeeRole.Developer.obs;
   TextEditingController emailController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
@@ -35,6 +36,7 @@ class UpdateEmployeeController extends GetxController {
   TextEditingController birthDateController = TextEditingController();
 
   var avatar = ''.obs;
+
   @override
   void onClose() {
     // emailController.dispose();
@@ -167,6 +169,7 @@ class UpdateEmployeeController extends GetxController {
       if (image != null) {
         final bytes = await image.readAsBytes();
         avatar.value = 'data:image/png;base64,${base64Encode(bytes)}';
+        isSelectedAvatar.value = true;
       } else {
         print("No image selected.");
       }
@@ -177,13 +180,14 @@ class UpdateEmployeeController extends GetxController {
     }
   }
 
-  Future<void> updateAvatar(int employeeId, String avatar) async {
+  Future<void> updateAvatar(int employeeId, String newAvatar) async {
     try {
-      FullScreenLoader.openDialog(
-          "Đang tải ảnh lên...", MyImagePaths.docerAnimation);
+      FullScreenLoader.openDialog("Đang xử lý...", MyImagePaths.docerAnimation);
 
-      await EmployeeRepository.instance.uploadAvatar(employeeId, avatar);
-      AuthenticationController.instance.currentAvatar = avatar;
+      await EmployeeRepository.instance.uploadAvatar(employeeId, newAvatar);
+      AuthenticationController.instance.currentAvatar.value = newAvatar;
+      avatar.value = newAvatar;
+      isSelectedAvatar.value = false;
 
       Loaders.successSnackBar(
           title: "Thành công", message: "Avatar đã được cập nhật.");

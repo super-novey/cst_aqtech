@@ -53,6 +53,10 @@ class CommonBarChart extends StatelessWidget {
                           BarChartData(
                             alignment: BarChartAlignment.spaceAround,
                             gridData: const FlGridData(show: false),
+                            maxY: dataEntries
+                                    .map((e) => e.value)
+                                    .reduce((a, b) => a > b ? a : b) +
+                                2,
                             titlesData: FlTitlesData(
                               bottomTitles: AxisTitles(
                                 sideTitles: SideTitles(

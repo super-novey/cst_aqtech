@@ -76,7 +76,7 @@ class ShortFallHourChart extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: SizedBox(
-                                  width: 50,
+                                  width: 60,
                                   child: Text(
                                     'Week ${value.toInt() + 1}',
                                     style: const TextStyle(
