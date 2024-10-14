@@ -35,7 +35,7 @@ class BusinessDaysListScreen extends StatelessWidget {
               onPressed: (bussinessDateController.isChartReady.value &&
                       employeeController.isEmployeeDataReady.value)
                   ? () {
-                      Get.to(() => const BusinessDayChart());
+                      Get.to(() => BusinessDayChart());
                     }
                   : null, // Disable the button until ready
               color: (bussinessDateController.isChartReady.value &&

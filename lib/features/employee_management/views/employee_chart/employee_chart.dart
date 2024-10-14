@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/views/employee_list/widgets/enhanced_pie_slice_painter.dart';
+import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
 import 'package:get/get.dart';
 
@@ -123,6 +125,7 @@ class EmployeeChart extends StatelessWidget {
               }).toList(),
             ),
             const SizedBox(height: 20),
+            // const SizedBox(height: 20),
           ],
         ),
       ),
