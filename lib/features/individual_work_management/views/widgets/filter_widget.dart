@@ -15,6 +15,7 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final FilterController controller = Get.find();
     final IndividualWorkController individualWorkController = Get.find();
+    final TextEditingController searchController = TextEditingController();
 
     return Padding(
       padding: const EdgeInsets.all(MySizes.defaultSpace),
@@ -23,133 +24,121 @@ class Filter extends StatelessWidget implements PreferredSizeWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Employee Dropdown
-              MyRoundedContainer(
-                showBorder: true,
-                borderColor: MyColors.primaryColor,
-                child: Obx(() {
-                  final dropdownValues = individualWorkController.employees
-                      .map((employee) => employee.id.toString())
-                      .toList();
+              // Employee Dropdown with Search
+              Expanded(
+                child: MyRoundedContainer(
+                  showBorder: true,
+                  borderColor: MyColors.primaryColor,
+                  child: Obx(() {
+                    final employees = individualWorkController.employees;
+                    final dropdownValues =
+                        controller.getFilteredEmployees(employees);
 
-                  if (controller.selectedEmployee.value != null &&
-                      !dropdownValues
-                          .contains(controller.selectedEmployee.value)) {
-                    controller.selectedEmployee.value =
-                        dropdownValues.isNotEmpty ? dropdownValues.first : null;
-                  }
+                    controller.updateSelectedEmployee(dropdownValues);
+                    controller.initializeSelectedEmployee(dropdownValues);
 
-                  String? initialEmployeeId = individualWorkController
-                          .employees.isNotEmpty
-                      ? individualWorkController.employees.first.id.toString()
-                      : null;
+                    if (!individualWorkController.isEmployeeDataReady.value &&
+                        !controller.isFilterDataReady.value) {
+                      return const Padding(
+                        padding: EdgeInsets.all(MySizes.sm),
+                        child: CircularProgressIndicator(),
+                      );
+                    }
 
-                  if (controller.selectedEmployee.value == null &&
-                      initialEmployeeId != null) {
-                    controller.selectedEmployee.value = initialEmployeeId;
-                  }
-
-                  if (!individualWorkController.isEmployeeDataReady.value &&
-                      !controller.isFilterDataReady.value) {
-                    return const Padding(
-                      padding: EdgeInsets.all(MySizes.sm),
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-
-                  return DropdownButtonHideUnderline(
-                    child: DropdownButton<String?>(
-                      value: controller.selectedEmployee.value,
-                      dropdownColor: MyColors.iconColor,
-                      onChanged: (String? employeeId) {
-                        controller.selectedEmployee.value = employeeId;
-                      },
-                      items: dropdownValues
-                          .map<DropdownMenuItem<String?>>((String? value) {
-                        final employee =
-                            individualWorkController.employees.firstWhere(
-                          (employee) => employee.id.toString() == value,
-                          orElse: () => EmployeeTFSName(
-                              id: 0,
-                              fullName: "Unknown",
-                              tfsName: '',
-                              nickName: ''),
-                        );
-                        return DropdownMenuItem<String?>(
-                          value: value,
-                          child: Padding(
-                            padding: const EdgeInsets.all(MySizes.sm),
-                            child: Text(
-                              employee.fullName,
-                              style: const TextStyle(fontSize: 14),
+                    return Column(
+                      children: [
+                        // Search Field
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: searchController,
+                            onChanged: (value) {
+                              controller.searchQuery.value = value;
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Search employee',
+                              prefixIcon: const Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
                             ),
                           ),
-                        );
-                      }).toList(),
-                    ),
-                  );
-                }),
-              ),
-              // Year Picker
-              GestureDetector(
-                onTap: () {
-                  controller.selectYear(context);
-                },
-                child: MyRoundedContainer(
-                  padding: const EdgeInsets.all(12),
-                  borderColor: MyColors.dartPrimaryColor,
-                  showBorder: true,
-                  child: Obx(
-                    () => Text(
-                      "${controller.year.value}",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                        ),
+                        // Employee Dropdown
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton<String?>(
+                            value: controller.selectedEmployee.value,
+                            dropdownColor: MyColors.iconColor,
+                            onChanged: (String? employeeId) {
+                              controller.selectedEmployee.value = employeeId;
+                            },
+                            items: dropdownValues
+                                .map<DropdownMenuItem<String?>>(
+                                    (String? value) {
+                              final employee = employees.firstWhere(
+                                (employee) => employee.id.toString() == value,
+                                orElse: () => EmployeeTFSName(
+                                    id: 0,
+                                    fullName: "Unknown",
+                                    tfsName: '',
+                                    nickName: ''),
+                              );
+                              return DropdownMenuItem<String?>(
+                                value: value,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(MySizes.sm),
+                                  child: Text(
+                                    employee.fullName,
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: MySizes.spaceBtwInputFields),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              MyRoundedContainer(
-                showBorder: true,
-                borderColor: MyColors.primaryColor,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Clear',
-                        style: TextStyle(fontSize: 16),
+              const SizedBox(width: MySizes.spaceBtwInputFields),
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      controller.selectYear(context);
+                    },
+                    child: MyRoundedContainer(
+                      padding: const EdgeInsets.all(12),
+                      borderColor: MyColors.dartPrimaryColor,
+                      showBorder: true,
+                      child: Obx(
+                        () => Text(
+                          "${controller.year.value}",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          // Handle filter action
-                        },
-                        icon: const Icon(Icons.filter_alt_off),
+                    ),
+                  ),
+                  const SizedBox(height: 26),
+                  MyRoundedContainer(
+                    backgroundColor: MyColors.dartPrimaryColor,
+                    child: IconButton(
+                      padding: const EdgeInsets.all(0),
+                      onPressed: () {
+                        individualWorkController.fetchIndividualWork(
+                            controller.selectedEmployee.string,
+                            controller.year.string);
+                      },
+                      icon: const Icon(
+                        Icons.search,
+                        color: Colors.white,
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              MyRoundedContainer(
-                backgroundColor: MyColors.dartPrimaryColor,
-                child: IconButton(
-                  padding: const EdgeInsets.all(0),
-                  onPressed: () {
-                    individualWorkController.fetchIndividualWork(
-                        controller.selectedEmployee.string,
-                        controller.year.string);
-                  },
-                  icon: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                ),
+                ],
               ),
             ],
           ),

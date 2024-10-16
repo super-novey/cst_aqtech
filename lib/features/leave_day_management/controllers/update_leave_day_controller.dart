@@ -26,6 +26,14 @@ class UpdateLeaveDayController extends GetxController {
   var isWithoutPay = false.obs;
   var selectedEmployee = Rxn<String>();
   var selectedApprovalStatus = ApprovalStatus.pending.obs;
+  final RxString searchQuery = ''.obs;
+
+  @override
+  void onClose() {
+    super.onClose();
+    searchQuery.value = '';
+    selectedEmployee.value = '';
+  }
 
   void toggleEditting() {
     isEditting.value = !isEditting.value;
@@ -56,8 +64,7 @@ class UpdateLeaveDayController extends GetxController {
 
       getLeaveDay(newLeaveDay);
       if (isAdd) {
-        if(!AuthenticationController.instance.currentUser.isLeader)
-        {
+        if (!AuthenticationController.instance.currentUser.isLeader) {
           newLeaveDay.approvalStatus = ApprovalStatus.pending;
         }
         await LeaveDayRepository.instance.addLeaveDay(newLeaveDay);

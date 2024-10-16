@@ -24,6 +24,14 @@ class UpdateOnlineWorkDayController extends GetxController {
   TextEditingController sumDayController = TextEditingController();
   var selectedEmployee = Rxn<String>();
   var selectedApprovalStatus = ApprovalStatus.pending.obs;
+  final RxString searchQuery = ''.obs;
+
+  @override
+  void onClose() {
+    super.onClose();
+    searchQuery.value = '';
+    selectedEmployee.value = '';
+  }
 
   void toggleEditting() {
     isEditting.value = !isEditting.value;
@@ -43,8 +51,7 @@ class UpdateOnlineWorkDayController extends GetxController {
 
       getOnlineWorkDay(newOnlineWorkDay);
       if (isAdd) {
-        if(!AuthenticationController.instance.currentUser.isLeader)
-        {
+        if (!AuthenticationController.instance.currentUser.isLeader) {
           newOnlineWorkDay.approvalStatus = ApprovalStatus.pending;
         }
         await OnlineWorkDayRepository.instance.addOnlineWork(newOnlineWorkDay);
