@@ -51,16 +51,16 @@ class LeaveDayListScreen extends StatelessWidget {
             );
           }),
           //if (AuthenticationController.instance.currentUser.isLeader)
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () async {
-                updateLeaveDayController.isAdd.value = true;
-                updateLeaveDayController.isEditting.value = true;
-                Get.to(() => LeaveDayDetailScreen(
-                      selectedLeaveDay: LeaveDay(),
-                    ));
-              },
-            ),
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () async {
+              updateLeaveDayController.isAdd.value = true;
+              updateLeaveDayController.isEditting.value = true;
+              Get.to(() => LeaveDayDetailScreen(
+                    selectedLeaveDay: LeaveDay(),
+                  ));
+            },
+          ),
         ],
       ),
       body: Column(

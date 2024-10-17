@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/authentication/authentication_repository.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +12,8 @@ class AuthenticationController extends GetxController {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   User currentUser = User();
-  String currentAvatar = '';
+  var currentAvatar = ''.obs;
+  var alreadyLogin = false.obs;
 
   RxBool isPasswordVisible = false.obs;
 
@@ -28,13 +27,6 @@ class AuthenticationController extends GetxController {
     super.onInit();
   }
 
-  // Future<void> checkAuthStatus() async {
-  //   final user = await repository.getAuthToken();
-  //   if (user != null) {
-  //     currentUser = user;
-  //     Get.to(() => const HomeScreen());
-  //   }
-  // }
   Future<void> checkAuthStatus() async {
     final user = await repository.getAuthToken(); // Fetch the current user
 
@@ -43,12 +35,12 @@ class AuthenticationController extends GetxController {
       if (currentUser.role != 'admin') {
         var updatedUser =
             await Get.put(EmployeeRepository()).getById(currentUser.id);
-        currentAvatar = updatedUser.avatar;
+        currentAvatar.value = updatedUser.avatar;
       }
 
-      log('Current User: ${currentUser.toJson()}');
-      log('Current Avatar: $currentAvatar');
-
+      // log('Current User: ${currentUser.toJson()}');
+      // log('Current Avatar: $currentAvatar');
+      alreadyLogin.value = true;
       Get.to(() => const HomeScreen());
     }
   }
@@ -67,11 +59,11 @@ class AuthenticationController extends GetxController {
       final response = await repository.login(username, password);
       if (!response.containsKey('error')) {
         currentUser = User.fromJson(response);
-        currentAvatar = currentUser.avatar;
+        currentAvatar.value = currentUser.avatar;
         if (currentUser.role != 'admin') {
           var updatedUser =
               await Get.put(EmployeeRepository()).getById(currentUser.id);
-          currentAvatar = updatedUser.avatar;
+          currentAvatar.value = updatedUser.avatar;
         }
         Get.to(() => const HomeScreen());
       }

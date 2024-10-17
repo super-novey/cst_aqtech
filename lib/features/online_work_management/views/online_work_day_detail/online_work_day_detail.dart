@@ -20,6 +20,8 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
   final updateOnlineWorkDayController = UpdateOnlineWorkDayController.instance;
   final employeeController = Get.put(EmployeeController());
 
+  final TextEditingController searchController = TextEditingController();
+
   void fetchOnlineWorkDayDetails() {
     updateOnlineWorkDayController.dateFromController.text =
         MyFormatter.formatDate(selectedOnlineWorkDay.dateFrom.toString());
@@ -62,6 +64,8 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
           ),
           onPressed: () {
             updateOnlineWorkDayController.isEditting.value = false;
+            updateOnlineWorkDayController.searchQuery.value = '';
+            updateOnlineWorkDayController.selectedEmployee.value = '';
             Get.back();
           },
         ),
@@ -160,6 +164,18 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                     "Họ tên",
                     style: Theme.of(context).textTheme.bodySmall!,
                   ),
+                  TextField(
+                    controller: searchController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Nhập tên nhân viên',
+                    ),
+                    onChanged: (value) {
+                      updateOnlineWorkDayController.searchQuery.value =
+                          value.toLowerCase();
+                    },
+                  ),
+                  const SizedBox(height: MySizes.md),
                   const SizedBox(
                     height: 2,
                   ),
@@ -170,8 +186,37 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                           BorderRadius.circular(MySizes.borderRadiusMd),
                       border: Border.all(color: MyColors.accentColor, width: 1),
                     ),
-                    child: Obx(
-                      () => DropdownButtonHideUnderline(
+                    child: Obx(() {
+                      // Filter the employees based on the search query and user role
+                      final filteredEmployees =
+                          employeeController.allEmployees.where((employee) {
+                        final matchesName = employee.fullName
+                            .toLowerCase()
+                            .contains(updateOnlineWorkDayController
+                                .searchQuery.value
+                                .trim());
+                        return matchesName &&
+                            (AuthenticationController
+                                    .instance.currentUser.isLeader ||
+                                employee.id ==
+                                    AuthenticationController
+                                        .instance.currentUser.id);
+                      }).toList();
+
+                      // Validate selected employee
+                      final isValidSelection = filteredEmployees.any(
+                          (employee) =>
+                              employee.id.toString() ==
+                              updateOnlineWorkDayController
+                                  .selectedEmployee.value);
+
+                      // Set selectedEmployee to null or the first valid employee ID if not found
+                      if (!isValidSelection && filteredEmployees.isNotEmpty) {
+                        updateOnlineWorkDayController.selectedEmployee.value =
+                            filteredEmployees.first.id.toString();
+                      }
+
+                      return DropdownButtonHideUnderline(
                         child: DropdownButton<String?>(
                           value: updateOnlineWorkDayController
                               .selectedEmployee.value,
@@ -183,14 +228,7 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                                           .selectedEmployee.value = employeeId;
                                     }
                                   : null,
-                          items: employeeController.allEmployees
-                              .where((Employee employee) {
-                            return AuthenticationController
-                                    .instance.currentUser.isLeader ||
-                                employee.id ==
-                                    AuthenticationController
-                                        .instance.currentUser.id;
-                          }).map((Employee employee) {
+                          items: filteredEmployees.map((Employee employee) {
                             return DropdownMenuItem<String?>(
                               value: employee.id.toString(),
                               child: Padding(
@@ -203,8 +241,8 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                             );
                           }).toList(),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ),
                 ],
               ),

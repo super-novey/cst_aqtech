@@ -21,23 +21,37 @@ class HeplerFunction {
         return Colors.orange;
       case EmployeeRole.HR:
         return Colors.deepPurpleAccent;
+      case EmployeeRole.BM:
+        return Colors.indigo;
       default:
         return Colors.blue;
     }
   }
 
-  static String convertRole(String value) {
+  static EmployeeRole convertToRole(String value) {
     switch (value) {
       case "1":
         {
-          return EmployeeRole.Developer.name.toString();
+          return EmployeeRole.Developer;
         }
       case "2":
         {
-          return EmployeeRole.Sale.name.toString();
+          return EmployeeRole.Support;
+        }
+      case "3":
+        {
+          return EmployeeRole.Sale;
+        }
+      case "4":
+        {
+          return EmployeeRole.HR;
+        }
+      case "5":
+        {
+          return EmployeeRole.BM;
         }
       default:
-        return EmployeeRole.Support.name.toString();
+        return EmployeeRole.Developer;
     }
   }
 
@@ -194,8 +208,8 @@ class HeplerFunction {
   }
 
   static double calculateBarWidth(BuildContext context, int numberOfBars) {
-    const double maxWidth = 100.0;
-    const double minWidth = 50.0;
+    const double maxWidth = 40.0;
+    const double minWidth = 30.0;
     final double chartWidth = MediaQuery.of(context).size.width - 60.0;
     final double width = (chartWidth / numberOfBars) - 8.0;
     return width.clamp(minWidth, maxWidth);
