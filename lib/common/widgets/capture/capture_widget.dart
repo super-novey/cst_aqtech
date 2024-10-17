@@ -17,7 +17,7 @@ class CaptureWidget extends StatefulWidget {
     required this.child,
     required this.fullWidth,
     this.fileName = 'captured_widget.png',
-    this.shareText = 'Check out this image!',
+    this.shareText = '',
   });
 
   @override
