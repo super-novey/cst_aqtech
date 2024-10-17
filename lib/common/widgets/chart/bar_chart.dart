@@ -20,7 +20,7 @@ class CommonBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataEntries = data.entries.toList();
-    late double barItemWidth = 20;
+    late double barItemWidth = 60;
     final chartWidth = dataEntries.isEmpty
         ? MediaQuery.of(context).size.width - 60.0
         : dataEntries.length * barItemWidth +
@@ -53,6 +53,10 @@ class CommonBarChart extends StatelessWidget {
                           BarChartData(
                             alignment: BarChartAlignment.spaceAround,
                             gridData: const FlGridData(show: false),
+                            maxY: dataEntries
+                                    .map((e) => e.value)
+                                    .reduce((a, b) => a > b ? a : b) +
+                                2,
                             titlesData: FlTitlesData(
                               bottomTitles: AxisTitles(
                                 sideTitles: SideTitles(
@@ -68,7 +72,7 @@ class CommonBarChart extends StatelessWidget {
                                         padding:
                                             const EdgeInsets.only(top: 8.0),
                                         child: SizedBox(
-                                          width: barItemWidth,
+                                          width: 60,
                                           child: Text(
                                             employeeName,
                                             style: const TextStyle(

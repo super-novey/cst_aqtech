@@ -50,7 +50,10 @@ class EmployeeDetailScreen extends StatelessWidget {
                   controller.toggleEditting();
                   Get.back();
                 },
-                icon: const Icon(Icons.arrow_back_ios)),
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  size: MySizes.iconMd,
+                )),
             backgroundColor: MyColors.primaryColor,
             actions: [
               if (AuthenticationController.instance.currentUser.isLeader)

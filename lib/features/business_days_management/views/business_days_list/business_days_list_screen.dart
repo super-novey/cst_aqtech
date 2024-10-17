@@ -35,7 +35,7 @@ class BusinessDaysListScreen extends StatelessWidget {
               onPressed: (bussinessDateController.isChartReady.value &&
                       employeeController.isEmployeeDataReady.value)
                   ? () {
-                      Get.to(() => const BusinessDayChart());
+                      Get.to(() => BusinessDayChart());
                     }
                   : null, // Disable the button until ready
               color: (bussinessDateController.isChartReady.value &&
@@ -66,9 +66,10 @@ class BusinessDaysListScreen extends StatelessWidget {
             const SliverAppBar(
               automaticallyImplyLeading: false,
               pinned: true,
-              floating: true,
+              //floating: true,
               backgroundColor: Colors.white,
-              expandedHeight: 100,
+              //expandedHeight: 0,
+              //collapsedHeight: 250,
               bottom: Filter(),
             )
           ];
