@@ -26,18 +26,21 @@ class SupCaseReportPieChart extends StatelessWidget {
           };
           return CaptureWidget(
             fullWidth: MyDeviceUtils.getScreenWidth(context),
-            child: SizedBox(
-              width: 400,
-              child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 24, left: 8, right: 8, bottom: 8),
-                  child: PieChart(
-                    dataMap: pieChartData,
-                    legendOptions: const LegendOptions(
-                        legendPosition: LegendPosition.bottom),
-                    chartValuesOptions: const ChartValuesOptions(
-                        showChartValuesInPercentage: true),
-                  )),
+            child: Container(
+              color: Colors.white,
+              child: SizedBox(
+                width: 400,
+                child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 24, left: 8, right: 8, bottom: 8),
+                    child: PieChart(
+                      dataMap: pieChartData,
+                      legendOptions: const LegendOptions(
+                          legendPosition: LegendPosition.bottom),
+                      chartValuesOptions: const ChartValuesOptions(
+                          showChartValuesInPercentage: true),
+                    )),
+              ),
             ),
           );
         }

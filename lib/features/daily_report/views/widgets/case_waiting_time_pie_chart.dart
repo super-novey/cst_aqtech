@@ -26,37 +26,40 @@ class CaseWaitingTimePieChart extends StatelessWidget {
             for (var item in controller.caseWaitingTimeList)
               item.tuanSo: item.soCase.toDouble()
           };
-          return CaptureWidget(
-            fullWidth: MyDeviceUtils.getScreenWidth(context),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    width: 400,
-                    child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 24, left: 8, right: 8, bottom: 8),
-                        child: PieChart(
-                          dataMap: pieChartData,
-                          legendOptions: const LegendOptions(
-                              legendPosition: LegendPosition.bottom),
-                          chartValuesOptions: const ChartValuesOptions(
-                              showChartValuesInPercentage: true),
+          return Container(
+            color: Colors.white,
+            child: CaptureWidget(
+              fullWidth: MyDeviceUtils.getScreenWidth(context),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: 400,
+                      child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 24, left: 8, right: 8, bottom: 8),
+                          child: PieChart(
+                            dataMap: pieChartData,
+                            legendOptions: const LegendOptions(
+                                legendPosition: LegendPosition.bottom),
+                            chartValuesOptions: const ChartValuesOptions(
+                                showChartValuesInPercentage: true),
+                          )),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0, bottom: 16.0),
+                    child: Obx(() => Text(
+                          'Tổng số case chờ xử lý: ${controller.getTotalSoCase()}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: MyColors.secondaryTextColor,
+                          ),
                         )),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0, bottom: 16.0),
-                  child: Obx(() => Text(
-                        'Tổng số case chờ xử lý: ${controller.getTotalSoCase()}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: MyColors.secondaryTextColor,
-                        ),
-                      )),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }
