@@ -26,10 +26,10 @@ class CaseWaitingTimePieChart extends StatelessWidget {
             for (var item in controller.caseWaitingTimeList)
               item.tuanSo: item.soCase.toDouble()
           };
-          return Container(
-            color: Colors.white,
-            child: CaptureWidget(
-              fullWidth: MyDeviceUtils.getScreenWidth(context),
+          return CaptureWidget(
+            fullWidth: 400,
+            child: Container(
+              color: Colors.white,
               child: Column(
                 children: [
                   Expanded(

@@ -16,7 +16,6 @@ class WorkProgressBarChart extends StatelessWidget {
     final controller = Get.put(SupCaseReportController());
     final data = controller.supCaseReportList;
     const barItemWidth = 15.0;
-
     return Scaffold(
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -25,8 +24,7 @@ class WorkProgressBarChart extends StatelessWidget {
           return Center(child: Text('Lỗi: ${controller.errorMessage}'));
         } else {
           return CaptureWidget(
-            fullWidth:
-                MyDeviceUtils.getScreenWidth(context) + data.length * 15 * 5,
+            fullWidth: 600,
             child: Container(
               color: Colors.white,
               child: Column(

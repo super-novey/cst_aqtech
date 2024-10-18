@@ -25,8 +25,7 @@ class DevReportBarChart extends StatelessWidget {
           return Center(child: Text('Lỗi: ${controller.errorMessage}'));
         } else {
           return CaptureWidget(
-            fullWidth:
-                MyDeviceUtils.getScreenWidth(context) + data.length * 15 * 3,
+            fullWidth: 800,
             child: Container(
               color: Colors.white,
               child: Column(

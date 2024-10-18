@@ -26,7 +26,7 @@ class TimeDistributionBarChart extends StatelessWidget {
         } else {
           return CaptureWidget(
             fullWidth:
-                MyDeviceUtils.getScreenWidth(context) + data.length * 20 * 2,
+                800,
             child: Container(
               color: Colors.white,
               child: Column(

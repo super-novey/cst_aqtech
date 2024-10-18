@@ -25,7 +25,7 @@ class SupCaseReportPieChart extends StatelessWidget {
               item.assignedTo: item.canXuLy.toDouble()
           };
           return CaptureWidget(
-            fullWidth: MyDeviceUtils.getScreenWidth(context),
+            fullWidth: 400,
             child: Container(
               color: Colors.white,
               child: SizedBox(

@@ -24,10 +24,10 @@ class CaseProgressBarChart extends StatelessWidget {
         } else if (controller.errorMessage.isNotEmpty) {
           return Center(child: Text('Lỗi: ${controller.errorMessage}'));
         } else {
-          return Container(
-            color: Colors.white,
-            child: CaptureWidget(
-              fullWidth: MyDeviceUtils.getScreenWidth(context),
+          return CaptureWidget(
+            fullWidth: 800,
+            child: Container(
+              color: Colors.white,
               child: Column(
                 children: [
                   Expanded(

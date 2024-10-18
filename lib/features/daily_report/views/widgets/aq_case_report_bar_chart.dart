@@ -25,7 +25,7 @@ class AqCaseReportBarChart extends StatelessWidget {
           return Center(child: Text('Lỗi: ${controller.errorMessage}'));
         } else {
           return CaptureWidget(
-            fullWidth: MyDeviceUtils.getScreenWidth(context),
+            fullWidth: 400,
             child: Container(
               color: Colors.white,
               child: Column(
