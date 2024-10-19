@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/data/leave_day/absence_quota_repository.dart';
 import 'package:hrm_aqtech/data/leave_day/leave_day_repository.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
 import 'package:hrm_aqtech/features/leave_day_management/controllers/date_range_controller.dart';
+import 'package:hrm_aqtech/features/leave_day_management/models/absence_quota_model.dart';
 import 'package:hrm_aqtech/features/leave_day_management/models/leave_day_model.dart';
 
 class LeaveDayController extends GetxController {
@@ -11,6 +13,7 @@ class LeaveDayController extends GetxController {
 
   RxList<LeaveDay> allLeaveDays = <LeaveDay>[].obs;
   RxMap<int, double> memberLeaveDays = <int, double>{}.obs;
+  Rx<AbsenceQuota> absenceQuota = AbsenceQuota().obs;
   final leaveDayRepository = Get.put(LeaveDayRepository());
   final dateRangeController = Get.put(DateRangeController());
 
@@ -64,6 +67,14 @@ class LeaveDayController extends GetxController {
       // stop loader
       isLoading.value = false;
     }
+  }
+
+  Future<void> getAbsenceQuota(int year, int memberId) async {
+    final AbsenceQuotaRepository absenceQuotaRepository =
+        Get.put(AbsenceQuotaRepository());
+    AbsenceQuota fetchedQuota = (await absenceQuotaRepository.getAbsenceQuota(
+        year: year, memberId: memberId));
+    absenceQuota.value = fetchedQuota; // Update observable
   }
 
   void updateMemberDayOffDays() {

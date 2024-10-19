@@ -6,31 +6,28 @@ import 'package:hrm_aqtech/utils/constants/colors.dart';
 class LeaveDayCheckbox extends StatelessWidget {
   const LeaveDayCheckbox({
     super.key,
-    required this.text,
     required this.field,
   });
 
-  final String text;
   final int field;
 
   @override
   Widget build(BuildContext context) {
     final controller = UpdateLeaveDayController.instance;
     return Obx(
-      () => CheckboxListTile(
+      () => Checkbox(
         activeColor: MyColors.dartPrimaryColor,
-        enabled: (controller.isEditting.value),
-        title: Text(text),
         value: (field == 0)
-        ? controller.isAnnual.value
-        : (field == 1)
-        ? controller.isWithoutPay.value
-        : false,
-        onChanged: (value) {
-          controller.toggle(field);
-        }
+            ? controller.isAnnual.value
+            : (field == 1)
+                ? controller.isWithoutPay.value
+                : false,
+        onChanged: (controller.isEditting.value)
+            ? (value) {
+                controller.toggle(field);
+              }
+            : null, // Disable interaction if not editing
       ),
     );
   }
-
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
+import 'package:hrm_aqtech/features/leave_day_management/controllers/leave_day_controller.dart';
+import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_details/widgets/absence_quota_card.dart';
+import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_details/widgets/editable_text_field_with_checkbox.dart';
 import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_details/widgets/leave_day_date_picker.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
@@ -8,7 +11,6 @@ import 'package:hrm_aqtech/features/leave_day_management/controllers/format_sum_
 import 'package:hrm_aqtech/features/leave_day_management/controllers/update_leave_day_controller.dart';
 import 'package:hrm_aqtech/features/leave_day_management/models/leave_day_model.dart';
 import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_details/widgets/editable_text_field.dart';
-import 'package:hrm_aqtech/features/leave_day_management/views/leave_day_details/widgets/leave_day_checkbox.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
@@ -20,6 +22,7 @@ class LeaveDayDetailScreen extends StatelessWidget {
   final LeaveDay selectedLeaveDay;
   final updateLeaveDayController = UpdateLeaveDayController.instance;
   final employeeController = Get.put(EmployeeController());
+  final LeaveDayController controller = Get.find();
 
   final TextEditingController searchController = TextEditingController();
 
@@ -35,9 +38,22 @@ class LeaveDayDetailScreen extends StatelessWidget {
     String formattedSumDay =
         FormatSumDayController().formatLeaveDay(selectedLeaveDay.sumDay);
     updateLeaveDayController.sumDayController.text = formattedSumDay;
+    updateLeaveDayController.numberOfDayWhole.text =
+        selectedLeaveDay.numberOfDayWhole.toString();
+    updateLeaveDayController.numberOfDayHalf.text =
+        selectedLeaveDay.numberOfDayHalf.toString();
+    updateLeaveDayController.sumDayController.text = formattedSumDay;
     updateLeaveDayController.isAnnual.value = selectedLeaveDay.isAnnual;
+    updateLeaveDayController.totalIsAnnual.text =
+        selectedLeaveDay.totalIsAnnual.toString();
     updateLeaveDayController.isWithoutPay.value = selectedLeaveDay.isWithoutPay;
+    updateLeaveDayController.totalIsWithoutPay.text =
+        selectedLeaveDay.totalIsWithoutPay.toString();
 
+    print(
+        '${updateLeaveDayController.numberOfDayWhole.text}, ${selectedLeaveDay.numberOfDayWhole.toString()}');
+    print(
+        '${updateLeaveDayController.numberOfDayHalf.text}, ${selectedLeaveDay.numberOfDayHalf.toString()}');
     String selectedEmployeeId = selectedLeaveDay.memberId.toString();
     final allEmployeeIds =
         employeeController.allEmployees.map((e) => e.id.toString()).toSet();
@@ -48,6 +64,12 @@ class LeaveDayDetailScreen extends StatelessWidget {
     }
     updateLeaveDayController.selectedApprovalStatus.value =
         selectedLeaveDay.approvalStatus;
+
+    var year = DateTime.now().year;
+    int memberId;
+    memberId =
+        int.parse(UpdateLeaveDayController.instance.selectedEmployee.value!);
+    controller.getAbsenceQuota(year, memberId);
   }
 
   @override
@@ -252,6 +274,34 @@ class LeaveDayDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: MySizes.spaceBtwInputFields),
               EditableTextField(
+                textController: updateLeaveDayController.numberOfDayWhole,
+                label: 'Số lượng ngày nghỉ (trọn ngày)',
+                isNumberInput: true,
+              ),
+              const SizedBox(height: MySizes.spaceBtwInputFields),
+              EditableTextField(
+                textController: updateLeaveDayController.numberOfDayHalf,
+                label: 'Số lượng ngày nghỉ (nửa ngày)',
+                isNumberInput: true,
+              ),
+              const SizedBox(height: MySizes.spaceBtwInputFields),
+              EditableTextFieldWithCheckbox(
+                textController: updateLeaveDayController.totalIsAnnual,
+                label: 'Tính vào nghỉ phép năm',
+                isNumberInput: true,
+                field: 0,
+              ),
+              const SizedBox(height: MySizes.spaceBtwInputFields),
+              EditableTextFieldWithCheckbox(
+                textController: updateLeaveDayController.totalIsWithoutPay,
+                label: 'Tính vào nghỉ không lương',
+                isNumberInput: true,
+                field: 1,
+              ),
+              const SizedBox(height: MySizes.spaceBtwInputFields),
+              AbsenceQuotaCard(),
+              const SizedBox(height: MySizes.spaceBtwInputFields),
+              EditableTextField(
                 textController: updateLeaveDayController.reasonController,
                 label: 'Lý do nghỉ',
               ),
@@ -260,10 +310,6 @@ class LeaveDayDetailScreen extends StatelessWidget {
                 textController: updateLeaveDayController.noteController,
                 label: 'Ghi chú',
               ),
-              const SizedBox(height: MySizes.spaceBtwInputFields),
-              const LeaveDayCheckbox(
-                  field: 0, text: "Tính vào nghỉ phép cá nhân"),
-              const LeaveDayCheckbox(field: 1, text: "Nghỉ không lương"),
             ],
           ),
         ),
