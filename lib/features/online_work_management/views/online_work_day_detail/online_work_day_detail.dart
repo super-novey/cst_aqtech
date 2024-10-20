@@ -13,6 +13,7 @@ import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
+import 'package:searchfield/searchfield.dart';
 
 class OnlineWorkDayDetailScreen extends StatelessWidget {
   OnlineWorkDayDetailScreen({super.key, required this.selectedOnlineWorkDay});
@@ -20,7 +21,7 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
   final updateOnlineWorkDayController = UpdateOnlineWorkDayController.instance;
   final employeeController = Get.put(EmployeeController());
 
-  final TextEditingController searchController = TextEditingController();
+  final _formKey = GlobalKey<FormState>(); // Add GlobalKey for the form
 
   void fetchOnlineWorkDayDetails() {
     updateOnlineWorkDayController.dateFromController.text =
@@ -64,8 +65,6 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
           ),
           onPressed: () {
             updateOnlineWorkDayController.isEditting.value = false;
-            updateOnlineWorkDayController.searchQuery.value = '';
-            updateOnlineWorkDayController.selectedEmployee.value = '';
             Get.back();
           },
         ),
@@ -73,16 +72,18 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
           Obx(
             () => IconButton(
               onPressed: () {
-                if (updateOnlineWorkDayController.isEditting.value) {
-                  if (updateOnlineWorkDayController.isAdd.value) {
-                    updateOnlineWorkDayController.save(
-                        selectedOnlineWorkDay, true);
+                if (_formKey.currentState!.validate()) {
+                  if (updateOnlineWorkDayController.isEditting.value) {
+                    if (updateOnlineWorkDayController.isAdd.value) {
+                      updateOnlineWorkDayController.save(
+                          selectedOnlineWorkDay, true);
+                    } else {
+                      updateOnlineWorkDayController.save(
+                          selectedOnlineWorkDay, false);
+                    }
                   } else {
-                    updateOnlineWorkDayController.save(
-                        selectedOnlineWorkDay, false);
+                    updateOnlineWorkDayController.toggleEditting();
                   }
-                } else {
-                  updateOnlineWorkDayController.toggleEditting();
                 }
               },
               icon: Icon(
@@ -164,85 +165,64 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                     "Họ tên",
                     style: Theme.of(context).textTheme.bodySmall!,
                   ),
-                  TextField(
-                    controller: searchController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Nhập tên nhân viên',
-                    ),
-                    onChanged: (value) {
-                      updateOnlineWorkDayController.searchQuery.value =
-                          value.toLowerCase();
-                    },
-                  ),
-                  const SizedBox(height: MySizes.md),
                   const SizedBox(
                     height: 2,
                   ),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(MySizes.borderRadiusMd),
-                      border: Border.all(color: MyColors.accentColor, width: 1),
-                    ),
-                    child: Obx(() {
-                      // Filter the employees based on the search query and user role
-                      final filteredEmployees =
-                          employeeController.allEmployees.where((employee) {
-                        final matchesName = employee.fullName
-                            .toLowerCase()
-                            .contains(updateOnlineWorkDayController
-                                .searchQuery.value
-                                .trim());
-                        return matchesName &&
-                            (AuthenticationController
-                                    .instance.currentUser.isLeader ||
-                                employee.id ==
-                                    AuthenticationController
-                                        .instance.currentUser.id);
-                      }).toList();
-
-                      // Validate selected employee
-                      final isValidSelection = filteredEmployees.any(
-                          (employee) =>
-                              employee.id.toString() ==
-                              updateOnlineWorkDayController
-                                  .selectedEmployee.value);
-
-                      // Set selectedEmployee to null or the first valid employee ID if not found
-                      if (!isValidSelection && filteredEmployees.isNotEmpty) {
-                        updateOnlineWorkDayController.selectedEmployee.value =
-                            filteredEmployees.first.id.toString();
-                      }
-
-                      return DropdownButtonHideUnderline(
-                        child: DropdownButton<String?>(
-                          value: updateOnlineWorkDayController
-                              .selectedEmployee.value,
-                          dropdownColor: MyColors.iconColor,
-                          onChanged:
-                              updateOnlineWorkDayController.isEditting.value
-                                  ? (String? employeeId) {
-                                      updateOnlineWorkDayController
-                                          .selectedEmployee.value = employeeId;
-                                    }
-                                  : null,
-                          items: filteredEmployees.map((Employee employee) {
-                            return DropdownMenuItem<String?>(
-                              value: employee.id.toString(),
-                              child: Padding(
-                                padding: const EdgeInsets.all(MySizes.sm),
-                                child: Text(
-                                  employee.fullName,
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                  Form(
+                    key: _formKey,
+                    child: SearchField(
+                      suggestions: employeeController.allEmployees
+                          .where((Employee employee) {
+                        return AuthenticationController
+                                .instance.currentUser.isLeader ||
+                            employee.id ==
+                                AuthenticationController
+                                    .instance.currentUser.id;
+                      }).map((Employee employee) {
+                        return SearchFieldListItem(employee.fullName,
+                            item: employee.id);
+                      }).toList(),
+                      validator: (x) {
+                        // Check if the input exists in the list of employee full names
+                        if (x == null ||
+                            !employeeController.allEmployees
+                                .where((Employee employee) {
+                                  return AuthenticationController
+                                          .instance.currentUser.isLeader ||
+                                      employee.id ==
+                                          AuthenticationController
+                                              .instance.currentUser.id;
+                                })
+                                .map((e) => e.fullName)
+                                .contains(x)) {
+                          return 'Tên nhân viên không tồn tại';
+                        }
+                        return null;
+                      },
+                      suggestionState: Suggestion.expand,
+                      textInputAction: TextInputAction.next,
+                      hint: 'Nhập tên nhân viên',
+                      searchInputDecoration: SearchInputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black.withOpacity(0.8),
+                          ),
                         ),
-                      );
-                    }),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
+                      ),
+                      onSuggestionTap:
+                          updateOnlineWorkDayController.isEditting.value
+                              ? (SearchFieldListItem<int> item) {
+                                  int selectedEmployeeId = item.item!;
+                                  print(
+                                      "Selected Employee ID: $selectedEmployeeId");
+                                  updateOnlineWorkDayController.selectedEmployee
+                                      .value = selectedEmployeeId.toString();
+                                }
+                              : null,
+                    ),
                   ),
                 ],
               ),
