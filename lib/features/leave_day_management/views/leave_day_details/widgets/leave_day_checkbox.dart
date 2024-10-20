@@ -7,6 +7,7 @@ class LeaveDayCheckbox extends StatelessWidget {
   const LeaveDayCheckbox({
     super.key,
     required this.field,
+    required String text,
   });
 
   final int field;

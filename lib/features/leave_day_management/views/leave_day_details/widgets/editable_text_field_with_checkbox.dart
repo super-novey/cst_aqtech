@@ -43,6 +43,7 @@ class EditableTextFieldWithCheckbox extends StatelessWidget {
           ),
           LeaveDayCheckbox(
             field: field,
+            text: '',
           ),
         ],
       ),
