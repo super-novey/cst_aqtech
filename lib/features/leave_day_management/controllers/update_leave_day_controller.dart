@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 
 class UpdateLeaveDayController extends GetxController {
   static UpdateLeaveDayController get instance => Get.find();
+
   var isEditting = false.obs;
   var isAdd = false.obs;
   TextEditingController dateFromController = TextEditingController();
@@ -22,6 +23,11 @@ class UpdateLeaveDayController extends GetxController {
   TextEditingController reasonController = TextEditingController();
   TextEditingController noteController = TextEditingController();
   TextEditingController sumDayController = TextEditingController();
+  TextEditingController numberOfDayHalf = TextEditingController();
+  TextEditingController numberOfDayWhole = TextEditingController();
+  TextEditingController totalIsAnnual = TextEditingController();
+  TextEditingController totalIsWithoutPay = TextEditingController();
+
   var isAnnual = false.obs;
   var isWithoutPay = false.obs;
   var selectedEmployee = Rxn<String>();
@@ -63,6 +69,7 @@ class UpdateLeaveDayController extends GetxController {
       }
 
       getLeaveDay(newLeaveDay);
+
       if (isAdd) {
         if (!AuthenticationController.instance.currentUser.isLeader) {
           newLeaveDay.approvalStatus = ApprovalStatus.pending;
@@ -157,7 +164,14 @@ class UpdateLeaveDayController extends GetxController {
     newLeaveDay.reason = reasonController.text.toString().trim();
     newLeaveDay.note = noteController.text.toString().trim();
     newLeaveDay.sumDay = double.tryParse(sumDayController.text.trim()) ?? 0.0;
+    newLeaveDay.numberOfDayWhole =
+        int.tryParse(numberOfDayWhole.text.trim()) ?? 0;
+    newLeaveDay.numberOfDayHalf =
+        int.tryParse(numberOfDayHalf.text.trim()) ?? 0;
     newLeaveDay.isAnnual = isAnnual.value;
+    newLeaveDay.totalIsAnnual = int.tryParse(totalIsAnnual.text.trim()) ?? 0;
+    newLeaveDay.totalIsWithoutPay =
+        int.tryParse(totalIsWithoutPay.text.trim()) ?? 0;
     newLeaveDay.isWithoutPay = isWithoutPay.value;
     newLeaveDay.approvalStatus = selectedApprovalStatus.value;
     newLeaveDay.memberId = int.tryParse(selectedEmployee.value ?? '') ?? 0;
@@ -184,5 +198,6 @@ class UpdateLeaveDayController extends GetxController {
     String formattedSumDay =
         FormatSumDayController().formatLeaveDay(totalDays.toDouble());
     sumDayController.text = formattedSumDay;
+    numberOfDayWhole.text = formattedSumDay;
   }
 }
