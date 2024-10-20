@@ -30,6 +30,7 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   share_plus: ^10.0.3
   path_provider: ^2.1.4
+  searchfield: ^1.1.6
 
 dev_dependencies:
   flutter_test:

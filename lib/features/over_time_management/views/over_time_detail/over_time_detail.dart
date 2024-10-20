@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/authentication/controllers/authentication_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/employee_controller.dart';
 import 'package:hrm_aqtech/features/employee_management/models/employee_model.dart';
 import 'package:hrm_aqtech/features/over_time_management/controllers/format_time_controller.dart';
@@ -10,16 +11,15 @@ import 'package:hrm_aqtech/features/over_time_management/views/over_time_detail/
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
+import 'package:searchfield/searchfield.dart';
 
 class OverTimeDetailScreen extends StatelessWidget {
   OverTimeDetailScreen({super.key, required this.selectedOverTime});
-
   final OverTime selectedOverTime;
   final updateOverTimeController = UpdateOverTimeController.instance;
   final employeeController = Get.put(EmployeeController());
 
-  final TextEditingController searchController = TextEditingController();
-  final RxList<Employee> filteredEmployees = <Employee>[].obs;
+  final _formKey = GlobalKey<FormState>(); // Add GlobalKey for the form
 
   void fetchOverTimeDetails() {
     updateOverTimeController.dateController.text =
@@ -39,35 +39,6 @@ class OverTimeDetailScreen extends StatelessWidget {
     } else {
       updateOverTimeController.selectedEmployee.value = null;
     }
-
-    // Initialize filtered employees list
-    filteredEmployees.assignAll(employeeController.allEmployees);
-  }
-
-  void filterEmployees(String query) {
-    if (query.isEmpty) {
-      // Show all employees if query is empty
-      filteredEmployees.assignAll(employeeController.allEmployees);
-    } else {
-      // Filter employees by name based on the search query
-      filteredEmployees.assignAll(employeeController.allEmployees.where(
-        (employee) =>
-            employee.fullName.toLowerCase().contains(query.toLowerCase()),
-      ));
-    }
-
-    // Ensure the selected employee is valid in the filtered list
-    final isValidSelection = filteredEmployees.any((employee) =>
-        employee.id.toString() ==
-        updateOverTimeController.selectedEmployee.value);
-
-    // If selected employee is no longer valid after filtering, set to first valid employee or null
-    if (!isValidSelection && filteredEmployees.isNotEmpty) {
-      updateOverTimeController.selectedEmployee.value =
-          filteredEmployees.first.id.toString();
-    } else if (filteredEmployees.isEmpty) {
-      updateOverTimeController.selectedEmployee.value = null;
-    }
   }
 
   @override
@@ -85,23 +56,24 @@ class OverTimeDetailScreen extends StatelessWidget {
           ),
           onPressed: () {
             updateOverTimeController.isEditting.value = false;
-            updateOverTimeController.searchQuery.value = '';
-            updateOverTimeController.selectedEmployee.value = '';
             Get.back();
           },
         ),
         actions: [
+          //if (AuthenticationController.instance.currentUser.isLeader)
           Obx(
             () => IconButton(
               onPressed: () {
-                if (updateOverTimeController.isEditting.value) {
-                  if (updateOverTimeController.isAdd.value) {
-                    updateOverTimeController.save(selectedOverTime, true);
+                if (_formKey.currentState!.validate()) {
+                  if (updateOverTimeController.isEditting.value) {
+                    if (updateOverTimeController.isAdd.value) {
+                      updateOverTimeController.save(selectedOverTime, true);
+                    } else {
+                      updateOverTimeController.save(selectedOverTime, false);
+                    }
                   } else {
-                    updateOverTimeController.save(selectedOverTime, false);
+                    updateOverTimeController.toggleEditting();
                   }
-                } else {
-                  updateOverTimeController.toggleEditting();
                 }
               },
               icon: Icon(
@@ -111,7 +83,7 @@ class OverTimeDetailScreen extends StatelessWidget {
                 size: 24,
               ),
             ),
-          ),
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -120,7 +92,6 @@ class OverTimeDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Dropdown for Employees
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -128,74 +99,94 @@ class OverTimeDetailScreen extends StatelessWidget {
                     "Họ tên",
                     style: Theme.of(context).textTheme.bodySmall!,
                   ),
-                  const SizedBox(height: MySizes.sm),
-                  // Search Bar
-                  TextField(
-                    controller: searchController,
-                    decoration: const InputDecoration(
-                      labelText: 'Tên nhân viên',
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) =>
-                        updateOverTimeController.searchQuery.value = value,
+                  const SizedBox(
+                    height: 2,
                   ),
-                  const SizedBox(height: MySizes.sm),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(MySizes.borderRadiusMd),
-                      border: Border.all(color: MyColors.accentColor, width: 1),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: Obx(() {
-                        filterEmployees(
-                            updateOverTimeController.searchQuery.value);
-                        return DropdownButton<String?>(
-                          value:
-                              updateOverTimeController.selectedEmployee.value,
-                          dropdownColor: MyColors.iconColor,
-                          onChanged: updateOverTimeController.isEditting.value
-                              ? (String? employeeId) {
-                                  updateOverTimeController
-                                      .selectedEmployee.value = employeeId;
-                                }
-                              : null,
-                          items: filteredEmployees.map((Employee employee) {
-                            return DropdownMenuItem<String?>(
-                              value: employee.id.toString(),
-                              child: Padding(
-                                padding: const EdgeInsets.all(MySizes.sm),
-                                child: Text(
-                                  employee.fullName,
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        );
-                      }),
+                  Form(
+                    key: _formKey,
+                    child: SearchField(
+                      suggestions: employeeController.allEmployees
+                          .where((Employee employee) {
+                        return AuthenticationController
+                                .instance.currentUser.isLeader ||
+                            employee.id ==
+                                AuthenticationController
+                                    .instance.currentUser.id;
+                      }).map((Employee employee) {
+                        return SearchFieldListItem(employee.fullName,
+                            item: employee.id);
+                      }).toList(),
+                      validator: (x) {
+                        // Check if the input exists in the list of employee full names
+                        if (x == null ||
+                            !employeeController.allEmployees
+                                .where((Employee employee) {
+                                  return AuthenticationController
+                                          .instance.currentUser.isLeader ||
+                                      employee.id ==
+                                          AuthenticationController
+                                              .instance.currentUser.id;
+                                })
+                                .map((e) => e.fullName)
+                                .contains(x)) {
+                          return 'Tên nhân viên không tồn tại';
+                        }
+                        return null;
+                      },
+                      suggestionState: Suggestion.expand,
+                      textInputAction: TextInputAction.next,
+                      hint: 'Nhập tên nhân viên',
+                      searchInputDecoration: SearchInputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black.withOpacity(0.8),
+                          ),
+                        ),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
+                      ),
+                      onSuggestionTap: updateOverTimeController.isEditting.value
+                          ? (SearchFieldListItem<int> item) {
+                              int selectedEmployeeId = item.item!;
+                              print(
+                                  "Selected Employee ID: $selectedEmployeeId");
+                              updateOverTimeController.selectedEmployee.value =
+                                  selectedEmployeeId.toString();
+                            }
+                          : null,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: MySizes.sm),
+              const SizedBox(
+                height: MySizes.sm,
+              ),
+              const SizedBox(
+                height: MySizes.sm,
+              ),
               OverTimeDatePicker(
                 controller: updateOverTimeController.dateController,
                 label: "Ngày",
               ),
-              const SizedBox(height: MySizes.spaceBtwItems),
+              const SizedBox(
+                height: MySizes.spaceBtwItems,
+              ),
               OverTimeTextFiled(
                 textController: updateOverTimeController.timeController,
                 label: 'Số giờ',
               ),
-              const SizedBox(height: MySizes.spaceBtwInputFields),
+              const SizedBox(
+                height: MySizes.spaceBtwInputFields,
+              ),
               OverTimeTextFiled(
                 textController: updateOverTimeController.noteController,
                 label: 'Ghi chú',
                 maxLines: 15,
               ),
-              const SizedBox(height: MySizes.spaceBtwInputFields),
+              const SizedBox(
+                height: MySizes.spaceBtwInputFields,
+              ),
             ],
           ),
         ),
