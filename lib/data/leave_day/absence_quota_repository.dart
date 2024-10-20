@@ -12,11 +12,9 @@ class AbsenceQuotaRepository extends GetxController {
       String url =
           "NgayPhepCaNhan/HanMucNghiPhepCaNhan?year=$year&query_memberId=$memberId";
       final response = await HttpHelper.get(url);
-      print(url);
       // Check if 'data' is a list and not null
       if (response["data"] != null && response["data"] is List) {
         final data = response['data'] as List<dynamic>;
-        print('${AbsenceQuota.fromJson(data[0]).memberId}');
         return AbsenceQuota.fromJson(data[0]);
       } else {
         throw Exception('Invalid data format');

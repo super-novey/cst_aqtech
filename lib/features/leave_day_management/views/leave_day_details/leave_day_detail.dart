@@ -50,10 +50,6 @@ class LeaveDayDetailScreen extends StatelessWidget {
     updateLeaveDayController.totalIsWithoutPay.text =
         selectedLeaveDay.totalIsWithoutPay.toString();
 
-    print(
-        '${updateLeaveDayController.numberOfDayWhole.text}, ${selectedLeaveDay.numberOfDayWhole.toString()}');
-    print(
-        '${updateLeaveDayController.numberOfDayHalf.text}, ${selectedLeaveDay.numberOfDayHalf.toString()}');
     String selectedEmployeeId = selectedLeaveDay.memberId.toString();
     final allEmployeeIds =
         employeeController.allEmployees.map((e) => e.id.toString()).toSet();
@@ -66,10 +62,12 @@ class LeaveDayDetailScreen extends StatelessWidget {
         selectedLeaveDay.approvalStatus;
 
     var year = DateTime.now().year;
-    int memberId;
-    memberId =
-        int.parse(UpdateLeaveDayController.instance.selectedEmployee.value!);
-    controller.getAbsenceQuota(year, memberId);
+    int memberId = 0;
+    if (UpdateLeaveDayController.instance.selectedEmployee.value != null) {
+      memberId =
+          int.parse(UpdateLeaveDayController.instance.selectedEmployee.value!);
+      controller.getAbsenceQuota(year, memberId);
+    }
   }
 
   @override
@@ -299,7 +297,15 @@ class LeaveDayDetailScreen extends StatelessWidget {
                 field: 1,
               ),
               const SizedBox(height: MySizes.spaceBtwInputFields),
-              AbsenceQuotaCard(),
+              // Obx(() {
+              //   if (UpdateLeaveDayController.instance.selectedEmployee.value !=
+              //       null) {
+              //     return const AbsenceQuotaCard();
+              //   } else {
+              //     return Container();
+              //   }
+              // }),
+              const AbsenceQuotaCard(),
               const SizedBox(height: MySizes.spaceBtwInputFields),
               EditableTextField(
                 textController: updateLeaveDayController.reasonController,

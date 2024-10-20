@@ -11,10 +11,19 @@ class AbsenceQuotaCard extends StatelessWidget {
   Widget build(BuildContext context) {
     LeaveDayController controller = Get.find();
     var year = DateTime.now().year;
-    int memberId =
-        int.parse(UpdateLeaveDayController.instance.selectedEmployee.value!);
 
-    controller.getAbsenceQuota(year, memberId);
+    if (UpdateLeaveDayController.instance.selectedEmployee.value != null) {
+      String? selectedEmployee =
+          UpdateLeaveDayController.instance.selectedEmployee.value;
+
+      int? memberId = int.tryParse(selectedEmployee ?? '');
+
+      if (memberId != null) {
+        Future.microtask(() => controller.getAbsenceQuota(year, memberId));
+      } else {
+        print('Invalid member ID: $selectedEmployee');
+      }
+    }
 
     return Obx(() {
       AbsenceQuota absenceQuota = controller.absenceQuota.value;
@@ -34,7 +43,7 @@ class AbsenceQuotaCard extends StatelessWidget {
               const Center(
                 child: Text(
                   'Hạn mức nghỉ phép cá nhân',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
                     color: Colors.black87,
@@ -44,16 +53,27 @@ class AbsenceQuotaCard extends StatelessWidget {
                 ),
               ),
               Center(
-                child: Text(
-                  'năm ${absenceQuota.year}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: Colors.black87,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
-                ),
+                child: absenceQuota.year == 0
+                    ? Text(
+                        'năm ${DateTime.now().year}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Colors.black87,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      )
+                    : Text(
+                        'năm ${absenceQuota.year}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Colors.black87,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
               ),
               _buildDetailRow('Hạn mức nghỉ phép',
                   absenceQuota.absenceQuota.toString(), true),
@@ -101,10 +121,10 @@ class AbsenceQuotaCard extends StatelessWidget {
               color: isGood
                   ? Colors.blue.withOpacity(0.2)
                   : Colors.red.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8.0), // Rounded corners
+              borderRadius: BorderRadius.circular(8.0),
             ),
-            padding: const EdgeInsets.symmetric(
-                horizontal: 12.0, vertical: 4.0), // Added vertical padding
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
             child: Text(
               value,
               style: TextStyle(
