@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/features/daily_report/controllers/case_waiting_time_controller.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
-import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 class CaseWaitingTimePieChart extends StatelessWidget {
@@ -44,6 +43,16 @@ class CaseWaitingTimePieChart extends StatelessWidget {
                                 legendPosition: LegendPosition.bottom),
                             chartValuesOptions: const ChartValuesOptions(
                                 showChartValuesInPercentage: true),
+                            colorList: const [
+                              MyColors.blueColor,
+                              MyColors.orangeColor,
+                              MyColors.redColor,
+                              MyColors.purpleColor,
+                              MyColors.greenColor,
+                              MyColors.brownColor,
+                              MyColors.pinkColor,
+                              MyColors.greyColor
+                            ],
                           )),
                     ),
                   ),

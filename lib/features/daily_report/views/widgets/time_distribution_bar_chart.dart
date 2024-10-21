@@ -6,7 +6,6 @@ import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/features/daily_report/controllers/coder_case_report_controller.dart';
 import 'package:hrm_aqtech/features/daily_report/views/widgets/item_chart.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
-import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
 class TimeDistributionBarChart extends StatelessWidget {
   const TimeDistributionBarChart({super.key});
@@ -26,7 +25,7 @@ class TimeDistributionBarChart extends StatelessWidget {
         } else {
           return CaptureWidget(
             fullWidth:
-                800,
+                data.length * 2 * barItemWidth * 1.8,
             child: Container(
               color: Colors.white,
               child: Column(
@@ -35,7 +34,7 @@ class TimeDistributionBarChart extends StatelessWidget {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: SizedBox(
-                        width: 800,
+                        width: data.length * 2 * barItemWidth * 1.8,
                         child: Padding(
                           padding:
                               const EdgeInsets.only(top: 24, left: 8, right: 8),
@@ -48,7 +47,7 @@ class TimeDistributionBarChart extends StatelessWidget {
                                       0,
                                       (max, item) =>
                                           item.tgCanXyLy.toInt() > max
-                                              ? item.tgCanXyLy.toInt() + 4
+                                              ? item.tgCanXyLy.toInt() + 2
                                               : max)
                                   .toDouble(),
                               titlesData: FlTitlesData(
@@ -124,7 +123,7 @@ class TimeDistributionBarChart extends StatelessWidget {
                                   rods.add(
                                     BarChartRodData(
                                       toY: item.tgCanXyLy,
-                                      color: Colors.blue,
+                                      color: MyColors.blueColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),
@@ -134,7 +133,7 @@ class TimeDistributionBarChart extends StatelessWidget {
                                   rods.add(
                                     BarChartRodData(
                                       toY: item.luongGioTrongNgay,
-                                      color: Colors.orange,
+                                      color: MyColors.orangeColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),
@@ -158,11 +157,11 @@ class TimeDistributionBarChart extends StatelessWidget {
                                     double value;
 
                                     switch (rod.color) {
-                                      case Colors.blue:
+                                      case MyColors.blueColor:
                                         label = 'Số giờ cần xử lý tất cả case';
                                         value = item.tgCanXyLy;
                                         break;
-                                      case Colors.orange:
+                                      case MyColors.orangeColor:
                                         label = 'Số giờ đã xử lý';
                                         value = item.luongGioTrongNgay;
                                         break;
@@ -196,14 +195,14 @@ class TimeDistributionBarChart extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ItemChart(
-                            color: Colors.blue,
+                            color: MyColors.blueColor,
                             label: "Số giờ cần xử lý tất cả case",
                             onClick: () {
                               controller.showTgCanXyLy.toggle();
                             },
                           ),
                           ItemChart(
-                              color: Colors.orange,
+                              color: MyColors.orangeColor,
                               label: "Số giờ đã xử lý",
                               onClick: () {
                                 controller.showLuongGioTrongNgay.toggle();

@@ -16,10 +16,10 @@ class DailyReportRepository {
     }
   }
 
-  Future<List<AqCaseReport>> fetchAQCaseReport() async {
+  Future<List<AqCaseReport>> fetchAQCaseReport(String selectedDate) async {
     try {
       final request = {
-        "data": "2024-09-22T00:00:00.0000000",
+        "data": selectedDate,
       };
       final response = await HttpHelper.post("ThongKe/w-AqCaseReport", request);
       List<dynamic> data = response['data'] as List<dynamic>;
@@ -29,10 +29,10 @@ class DailyReportRepository {
     }
   }
 
-  Future<List<SupCaseReport>> fetchSupCaseReport() async {
+  Future<List<SupCaseReport>> fetchSupCaseReport(String selectedDate) async {
     try {
       final request = {
-        "data": "2024-09-22T00:00:00.0000000",
+        "data": selectedDate, 
       };
       final response =
           await HttpHelper.post("ThongKe/w-supCaseReport", request);
@@ -43,17 +43,18 @@ class DailyReportRepository {
     }
   }
 
-  Future<List<CoderCaseReport>> fetchCoderCaseReport() async {
-    try {
-      final request = {
-        "data": "2024-09-22T00:00:00.0000000",
-      };
-      final response =
-          await HttpHelper.post("ThongKe/w-coderCaseReport", request);
-      List<dynamic> data = response['data'] as List<dynamic>;
-      return data.map((item) => CoderCaseReport.fromJson(item)).toList();
-    } on Exception catch (_) {
-      rethrow;
-    }
+  Future<List<CoderCaseReport>> fetchCoderCaseReport(String selectedDate) async {
+  try {
+    final request = {
+      "data": selectedDate, 
+    };
+    final response =
+        await HttpHelper.post("ThongKe/w-coderCaseReport", request);
+    List<dynamic> data = response['data'] as List<dynamic>;
+    return data.map((item) => CoderCaseReport.fromJson(item)).toList();
+  } on Exception catch (_) {
+    rethrow;
   }
+}
+
 }

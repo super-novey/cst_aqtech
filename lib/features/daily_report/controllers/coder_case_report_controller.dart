@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/data/daily_report/daily_report_repository.dart';
 import 'package:hrm_aqtech/features/daily_report/models/coder_case_report_model.dart';
 import 'package:hrm_aqtech/features/employee_management/controllers/network_manager.dart';
+import 'package:intl/intl.dart';
 
 
 class CoderCaseReportController extends GetxController {
@@ -18,18 +19,19 @@ class CoderCaseReportController extends GetxController {
 
   @override
   void onInit() {
-    fetchCoderCaseReport();
+    final currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    fetchCoderCaseReport(currentDate);
     super.onInit();
   }
 
-  void fetchCoderCaseReport() async {
+  void fetchCoderCaseReport(String selectedDate) async {
   try {
     isLoading(true);
     final isConnected = await NetworkManager.instance.isConnected();
-      if (!isConnected) {
-        return;
-      }
-    final data = await _repository.fetchCoderCaseReport();
+    if (!isConnected) {
+      return;
+    }
+    final data = await _repository.fetchCoderCaseReport(selectedDate);
     coderCaseReportList.value = data;
   } catch (e) {
     errorMessage.value = e.toString();
@@ -37,5 +39,6 @@ class CoderCaseReportController extends GetxController {
     isLoading(false);
   }
 }
+
 
 }
