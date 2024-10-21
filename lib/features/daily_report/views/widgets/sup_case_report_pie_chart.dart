@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/features/daily_report/controllers/sup_case_report_controller.dart';
-import 'package:hrm_aqtech/utils/devices/device_utils.dart';
+import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 class SupCaseReportPieChart extends StatelessWidget {
@@ -39,6 +39,14 @@ class SupCaseReportPieChart extends StatelessWidget {
                           legendPosition: LegendPosition.bottom),
                       chartValuesOptions: const ChartValuesOptions(
                           showChartValuesInPercentage: true),
+                      colorList: const [
+                        MyColors.blueColor,
+                        MyColors.orangeColor,
+                        MyColors.redColor,
+                        MyColors.purpleColor,
+                        MyColors.greenColor,
+                        MyColors.brownColor,                        
+                      ],
                     )),
               ),
             ),

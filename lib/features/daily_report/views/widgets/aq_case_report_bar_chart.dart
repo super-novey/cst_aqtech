@@ -6,7 +6,6 @@ import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/features/daily_report/controllers/aq_case_report_controller.dart';
 import 'package:hrm_aqtech/features/daily_report/views/widgets/item_chart.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
-import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
 class AqCaseReportBarChart extends StatelessWidget {
   const AqCaseReportBarChart({super.key});
@@ -25,7 +24,7 @@ class AqCaseReportBarChart extends StatelessWidget {
           return Center(child: Text('Lỗi: ${controller.errorMessage}'));
         } else {
           return CaptureWidget(
-            fullWidth: 400,
+            fullWidth: data.length * 4 * barItemWidth * 1.5,
             child: Container(
               color: Colors.white,
               child: Column(
@@ -34,7 +33,7 @@ class AqCaseReportBarChart extends StatelessWidget {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: SizedBox(
-                        width: 400,
+                        width: data.length * 4 * barItemWidth * 1.5,
                         child: Padding(
                           padding:
                               const EdgeInsets.only(top: 24, left: 8, right: 8),
@@ -124,7 +123,7 @@ class AqCaseReportBarChart extends StatelessWidget {
                                 if (controller.showTongCase.value) {
                                   rods.add(BarChartRodData(
                                     toY: item.tongCase.toDouble(),
-                                    color: Colors.blue,
+                                    color: MyColors.blueColor,
                                     width: barItemWidth,
                                     borderRadius: BorderRadius.zero,
                                   ));
@@ -133,7 +132,7 @@ class AqCaseReportBarChart extends StatelessWidget {
                                 if (controller.showConHan.value) {
                                   rods.add(BarChartRodData(
                                     toY: item.conHan.toDouble(),
-                                    color: Colors.orange,
+                                    color: MyColors.orangeColor,
                                     width: barItemWidth,
                                     borderRadius: BorderRadius.zero,
                                   ));
@@ -142,7 +141,7 @@ class AqCaseReportBarChart extends StatelessWidget {
                                 if (controller.showTreHan.value) {
                                   rods.add(BarChartRodData(
                                     toY: item.treHan.toDouble(),
-                                    color: Colors.red,
+                                    color: MyColors.redColor,
                                     width: barItemWidth,
                                     borderRadius: BorderRadius.zero,
                                   ));
@@ -151,7 +150,7 @@ class AqCaseReportBarChart extends StatelessWidget {
                                 if (controller.showNhanSu.value) {
                                   rods.add(BarChartRodData(
                                     toY: item.nhanSu.toDouble(),
-                                    color: Colors.purple,
+                                    color: MyColors.purpleColor,
                                     width: barItemWidth,
                                     borderRadius: BorderRadius.zero,
                                   ));
@@ -176,20 +175,19 @@ class AqCaseReportBarChart extends StatelessWidget {
                                       String label;
                                       double value;
                                       switch (rod.color) {
-                                        case Colors.blue:
+                                        case MyColors.blueColor:
                                           label = 'Tổng case';
                                           value = item.tongCase.toDouble();
                                           break;
-                                        case Colors.orange:
+                                        case MyColors.orangeColor:
                                           label = 'Còn hạn';
                                           value = item.conHan.toDouble();
                                           break;
-                                        case Colors.red:
+                                        case MyColors.redColor:
                                           label = 'Trễ hạn';
                                           value = item.treHan.toDouble();
-
                                           break;
-                                        case Colors.purple:
+                                        case MyColors.purpleColor:
                                           label = 'Nhân sự';
                                           value = item.nhanSu.toDouble();
                                           break;
@@ -226,26 +224,26 @@ class AqCaseReportBarChart extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ItemChart(
-                            color: Colors.blue,
+                            color: MyColors.blueColor,
                             label: "Tổng case",
                             onClick: () {
                               controller.showTongCase.toggle();
                             },
                           ),
                           ItemChart(
-                              color: Colors.orange,
+                              color: MyColors.orangeColor,
                               label: "Còn hạn",
                               onClick: () {
                                 controller.showConHan.toggle();
                               }),
                           ItemChart(
-                              color: Colors.red,
+                              color: MyColors.redColor,
                               label: "Trễ hạn",
                               onClick: () {
                                 controller.showTreHan.toggle();
                               }),
                           ItemChart(
-                              color: Colors.purple,
+                              color: MyColors.purpleColor,
                               label: "Nhân sự",
                               onClick: () {
                                 controller.showNhanSu.toggle();

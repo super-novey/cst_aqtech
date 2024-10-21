@@ -6,7 +6,6 @@ import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/features/daily_report/controllers/coder_case_report_controller.dart';
 import 'package:hrm_aqtech/features/daily_report/views/widgets/item_chart.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
-import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
 class DevReportBarChart extends StatelessWidget {
   const DevReportBarChart({super.key});
@@ -25,7 +24,7 @@ class DevReportBarChart extends StatelessWidget {
           return Center(child: Text('Lỗi: ${controller.errorMessage}'));
         } else {
           return CaptureWidget(
-            fullWidth: 800,
+            fullWidth: data.length * 3 * barItemWidth * 1.8,
             child: Container(
               color: Colors.white,
               child: Column(
@@ -34,7 +33,7 @@ class DevReportBarChart extends StatelessWidget {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: SizedBox(
-                        width: 800,
+                        width: data.length * 3 * barItemWidth * 1.8,
                         child: Padding(
                           padding:
                               const EdgeInsets.only(top: 24, left: 8, right: 8),
@@ -122,7 +121,7 @@ class DevReportBarChart extends StatelessWidget {
                                   rods.add(
                                     BarChartRodData(
                                       toY: item.canXuLy.toDouble(),
-                                      color: Colors.blue,
+                                      color: MyColors.blueColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),
@@ -132,7 +131,7 @@ class DevReportBarChart extends StatelessWidget {
                                   rods.add(
                                     BarChartRodData(
                                       toY: item.soCaseTrongNgay.toDouble(),
-                                      color: Colors.orange,
+                                      color: MyColors.orangeColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),
@@ -142,7 +141,7 @@ class DevReportBarChart extends StatelessWidget {
                                   rods.add(
                                     BarChartRodData(
                                       toY: item.xuLyTre.toDouble(),
-                                      color: Colors.red,
+                                      color: MyColors.redColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),
@@ -165,15 +164,15 @@ class DevReportBarChart extends StatelessWidget {
                                     double value;
 
                                     switch (rod.color) {
-                                      case Colors.blue:
+                                      case MyColors.blueColor:
                                         label = 'Cần xử lý';
                                         value = item.canXuLy.toDouble();
                                         break;
-                                      case Colors.orange:
+                                      case MyColors.orangeColor:
                                         label = 'Số case đã xử lý';
                                         value = item.soCaseTrongNgay.toDouble();
                                         break;
-                                      case Colors.red:
+                                      case MyColors.redColor:
                                         label = 'Xử lý trễ';
                                         value = item.xuLyTre.toDouble();
                                         break;
@@ -207,20 +206,20 @@ class DevReportBarChart extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ItemChart(
-                            color: Colors.blue,
+                            color: MyColors.blueColor,
                             label: "Cần xử lý",
                             onClick: () {
                               controller.showCanXuLy.toggle();
                             },
                           ),
                           ItemChart(
-                              color: Colors.orange,
+                              color: MyColors.orangeColor,
                               label: "Số case đã xử lý",
                               onClick: () {
                                 controller.showSoCaseTrongNgay.toggle();
                               }),
                           ItemChart(
-                              color: Colors.red,
+                              color: MyColors.redColor,
                               label: "Xử lý trễ",
                               onClick: () {
                                 controller.showXuLyTre.toggle();

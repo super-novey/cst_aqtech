@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/features/daily_report/controllers/case_waiting_time_controller.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
-import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
 class CaseWaitingTimeBarChart extends StatelessWidget {
   const CaseWaitingTimeBarChart({super.key});
@@ -24,7 +23,7 @@ class CaseWaitingTimeBarChart extends StatelessWidget {
           return Center(child: Text('Lỗi: ${controller.errorMessage}'));
         } else {
           return CaptureWidget(
-            fullWidth: 400,
+            fullWidth: data.length * barItemWidth * 2,
             child: Container(
               color: Colors.white,
               child: Column(
@@ -33,7 +32,7 @@ class CaseWaitingTimeBarChart extends StatelessWidget {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: SizedBox(
-                        width: 400,
+                        width: data.length * barItemWidth * 2,
                         child: Padding(
                           padding: const EdgeInsets.only(
                               top: 24, left: 8, right: 8, bottom: 8),
@@ -120,7 +119,7 @@ class CaseWaitingTimeBarChart extends StatelessWidget {
                                   barRods: [
                                     BarChartRodData(
                                       toY: item.soCase.toDouble(),
-                                      color: MyColors.primaryColor,
+                                      color: MyColors.blueColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_aqtech/features/daily_report/controllers/aq_case_report_controller.dart';
+import 'package:hrm_aqtech/features/daily_report/controllers/coder_case_report_controller.dart';
 import 'package:hrm_aqtech/features/daily_report/controllers/daily_report_controller.dart';
+import 'package:hrm_aqtech/features/daily_report/controllers/sup_case_report_controller.dart';
 import 'package:hrm_aqtech/features/daily_report/views/widgets/choose_day_widget.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
 import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
+import 'package:intl/intl.dart';
 
 class DailyReportScreen extends StatelessWidget {
   const DailyReportScreen({super.key});
@@ -14,6 +18,10 @@ class DailyReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(DailyReportController());
     final TextEditingController chooseDate = TextEditingController();
+    final coderCaseReportController = Get.put(CoderCaseReportController());
+    final aqCaseReportController = Get.put(AqCaseReportController());
+    final supCaseReportController = Get.put(SupCaseReportController());
+
 
     return Scaffold(
       appBar: AppBar(
@@ -50,7 +58,20 @@ class DailyReportScreen extends StatelessWidget {
                             color: MyColors.secondaryTextColor, width: 0.5),
                         borderRadius: BorderRadius.circular(12)),
                     child: IconButton(
-                        onPressed: () {},
+                       onPressed: () {
+                      final selectedDate = chooseDate.text.isNotEmpty
+                          ? DateFormat('dd/MM/yyyy').parse(chooseDate.text)
+                          : DateTime.now();
+                      coderCaseReportController.fetchCoderCaseReport(
+                        DateFormat('yyyy-MM-dd').format(selectedDate),
+                      );
+                      supCaseReportController.fetchSupCaseReport(
+                        DateFormat('yyyy-MM-dd').format(selectedDate),
+                      );
+                      aqCaseReportController.fetchAqCaseReport(
+                        DateFormat('yyyy-MM-dd').format(selectedDate),
+                      );
+                    },
                         icon: const Icon(
                           Icons.search,
                           color: MyColors.secondaryTextColor,

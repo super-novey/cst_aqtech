@@ -6,7 +6,6 @@ import 'package:hrm_aqtech/common/widgets/capture/capture_widget.dart';
 import 'package:hrm_aqtech/features/daily_report/controllers/sup_case_report_controller.dart';
 import 'package:hrm_aqtech/features/daily_report/views/widgets/item_chart.dart';
 import 'package:hrm_aqtech/utils/constants/colors.dart';
-import 'package:hrm_aqtech/utils/devices/device_utils.dart';
 
 class WorkProgressBarChart extends StatelessWidget {
   const WorkProgressBarChart({super.key});
@@ -24,7 +23,7 @@ class WorkProgressBarChart extends StatelessWidget {
           return Center(child: Text('Lỗi: ${controller.errorMessage}'));
         } else {
           return CaptureWidget(
-            fullWidth: 600,
+            fullWidth: data.length * 5 * barItemWidth * 1.5,
             child: Container(
               color: Colors.white,
               child: Column(
@@ -33,7 +32,7 @@ class WorkProgressBarChart extends StatelessWidget {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: SizedBox(
-                        width: 600,
+                        width: data.length * 5 * barItemWidth * 1.5,
                         child: Padding(
                           padding:
                               const EdgeInsets.only(top: 24, left: 8, right: 8),
@@ -121,7 +120,7 @@ class WorkProgressBarChart extends StatelessWidget {
                                   rods.add(
                                     BarChartRodData(
                                       toY: item.caseLamTrongNgay.toDouble(),
-                                      color: Colors.green,
+                                      color: MyColors.greenColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),
@@ -131,7 +130,7 @@ class WorkProgressBarChart extends StatelessWidget {
                                   rods.add(
                                     BarChartRodData(
                                       toY: item.canXuLy.toDouble(),
-                                      color: Colors.blue,
+                                      color: MyColors.blueColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),
@@ -141,7 +140,7 @@ class WorkProgressBarChart extends StatelessWidget {
                                   rods.add(
                                     BarChartRodData(
                                       toY: item.xuLyTre.toDouble(),
-                                      color: Colors.red,
+                                      color: MyColors.redColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),
@@ -151,7 +150,7 @@ class WorkProgressBarChart extends StatelessWidget {
                                   rods.add(
                                     BarChartRodData(
                                       toY: item.phanTichTre.toDouble(),
-                                      color: Colors.orange,
+                                      color: MyColors.orangeColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),
@@ -161,7 +160,7 @@ class WorkProgressBarChart extends StatelessWidget {
                                   rods.add(
                                     BarChartRodData(
                                       toY: item.testTre.toDouble(),
-                                      color: Colors.purple,
+                                      color: MyColors.purpleColor,
                                       width: barItemWidth,
                                       borderRadius: BorderRadius.zero,
                                     ),
@@ -185,24 +184,24 @@ class WorkProgressBarChart extends StatelessWidget {
                                     double value;
 
                                     switch (rod.color) {
-                                      case Colors.green:
+                                      case MyColors.greenColor:
                                         label = 'Số case đã xử lý';
                                         value =
                                             item.caseLamTrongNgay.toDouble();
                                         break;
-                                      case Colors.blue:
+                                      case MyColors.blueColor:
                                         label = 'Cần xử lý';
                                         value = item.canXuLy.toDouble();
                                         break;
-                                      case Colors.red:
+                                      case MyColors.redColor:
                                         label = 'Xử lý trễ';
                                         value = item.xuLyTre.toDouble();
                                         break;
-                                      case Colors.orange:
+                                      case MyColors.orangeColor:
                                         label = 'Phân tích trễ';
                                         value = item.phanTichTre.toDouble();
                                         break;
-                                      case Colors.purple:
+                                      case MyColors.purpleColor:
                                         label = 'Test trễ';
                                         value = item.testTre.toDouble();
                                         break;
@@ -238,20 +237,20 @@ class WorkProgressBarChart extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               ItemChart(
-                                color: Colors.green,
+                                color: MyColors.greenColor,
                                 label: "Số case đã xử lý",
                                 onClick: () {
                                   controller.showCaseLamTrongNgay.toggle();
                                 },
                               ),
                               ItemChart(
-                                  color: Colors.blue,
+                                  color: MyColors.blueColor,
                                   label: "Cần xử lý",
                                   onClick: () {
                                     controller.showCanXuLy.toggle();
                                   }),
                               ItemChart(
-                                  color: Colors.red,
+                                  color: MyColors.redColor,
                                   label: "Xử lý trễ",
                                   onClick: () {
                                     controller.showXuLyTre.toggle();
@@ -262,7 +261,7 @@ class WorkProgressBarChart extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ItemChart(
-                                color: Colors.orange,
+                                color: MyColors.orangeColor,
                                 label: "Phân tích trễ",
                                 onClick: () {
                                   controller.showPhanTichTre.toggle();
@@ -272,7 +271,7 @@ class WorkProgressBarChart extends StatelessWidget {
                                 width: 12,
                               ),
                               ItemChart(
-                                  color: Colors.purple,
+                                  color: MyColors.purpleColor,
                                   label: "Test trễ",
                                   onClick: () {
                                     controller.showTestTre.toggle();
