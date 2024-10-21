@@ -28,6 +28,7 @@ class LeaveDayDetailScreen extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>(); // Add GlobalKey for the form
+  final _searchFieldController = TextEditingController();
 
   void fetchLeaveDayDetails() {
     updateLeaveDayController.dateFromController.text =
@@ -77,6 +78,13 @@ class LeaveDayDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     fetchLeaveDayDetails();
 
+    _searchFieldController.text =
+        updateLeaveDayController.selectedEmployee.value != null
+            ? employeeController
+                .getEmployeeNameById(
+                    int.parse(updateLeaveDayController.selectedEmployee.value!))
+                .toString()
+            : "";
     final _employeeNames =
         employeeController.allEmployees.where((Employee employee) {
       return AuthenticationController.instance.currentUser.isLeader ||
@@ -191,6 +199,7 @@ class LeaveDayDetailScreen extends StatelessWidget {
                   Form(
                     key: _formKey,
                     child: SearchField(
+                      controller: _searchFieldController,
                       suggestions: _employeeNames
                           .map((Employee e) =>
                               SearchFieldListItem(e.fullName, item: e.id))
