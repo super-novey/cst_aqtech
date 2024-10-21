@@ -16,6 +16,7 @@ import 'package:hrm_aqtech/utils/constants/enums.dart';
 import 'package:hrm_aqtech/utils/constants/sizes.dart';
 import 'package:hrm_aqtech/utils/formatter/formatter.dart';
 import 'package:hrm_aqtech/utils/helpers/helper_function.dart';
+import 'package:searchfield/searchfield.dart';
 
 class LeaveDayDetailScreen extends StatelessWidget {
   LeaveDayDetailScreen({super.key, required this.selectedLeaveDay});
@@ -25,6 +26,8 @@ class LeaveDayDetailScreen extends StatelessWidget {
   final LeaveDayController controller = Get.find();
 
   final TextEditingController searchController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>(); // Add GlobalKey for the form
 
   void fetchLeaveDayDetails() {
     updateLeaveDayController.dateFromController.text =
@@ -74,6 +77,12 @@ class LeaveDayDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     fetchLeaveDayDetails();
 
+    final _employeeNames =
+        employeeController.allEmployees.where((Employee employee) {
+      return AuthenticationController.instance.currentUser.isLeader ||
+          employee.id == AuthenticationController.instance.currentUser.id;
+    });
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -95,14 +104,16 @@ class LeaveDayDetailScreen extends StatelessWidget {
           Obx(
             () => IconButton(
               onPressed: () {
-                if (updateLeaveDayController.isEditting.value) {
-                  if (updateLeaveDayController.isAdd.value) {
-                    updateLeaveDayController.save(selectedLeaveDay, true);
+                if (_formKey.currentState!.validate()) {
+                  if (updateLeaveDayController.isEditting.value) {
+                    if (updateLeaveDayController.isAdd.value) {
+                      updateLeaveDayController.save(selectedLeaveDay, true);
+                    } else {
+                      updateLeaveDayController.save(selectedLeaveDay, false);
+                    }
                   } else {
-                    updateLeaveDayController.save(selectedLeaveDay, false);
+                    updateLeaveDayController.toggleEditting();
                   }
-                } else {
-                  updateLeaveDayController.toggleEditting();
                 }
               },
               icon: Icon(
@@ -177,78 +188,41 @@ class LeaveDayDetailScreen extends StatelessWidget {
                 children: [
                   Text("Họ tên", style: Theme.of(context).textTheme.bodySmall!),
                   const SizedBox(height: 2),
-                  TextField(
-                    controller: searchController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Nhập tên nhân viên',
-                    ),
-                    onChanged: (value) {
-                      updateLeaveDayController.searchQuery.value =
-                          value.toLowerCase();
-                    },
-                  ),
-                  const SizedBox(height: MySizes.md),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(MySizes.borderRadiusMd),
-                      border: Border.all(color: MyColors.accentColor, width: 1),
-                    ),
-                    child: Obx(
-                      () {
-                        // Filter the employees based on search query
-                        final filteredEmployees =
-                            employeeController.allEmployees.where((employee) {
-                          final matchesName = employee.fullName
-                              .toLowerCase()
-                              .contains(updateLeaveDayController
-                                  .searchQuery.value
-                                  .trim());
-                          return matchesName &&
-                              (AuthenticationController
-                                      .instance.currentUser.isLeader ||
-                                  employee.id ==
-                                      AuthenticationController
-                                          .instance.currentUser.id);
-                        }).toList();
-
-                        // Check if the current selectedEmployee is in the filtered list
-                        String? selectedEmployeeId =
-                            updateLeaveDayController.selectedEmployee.value;
-                        final isEmployeeInList = filteredEmployees.any(
-                            (employee) =>
-                                employee.id.toString() == selectedEmployeeId);
-
-                        // If the selected employee is not in the filtered list, keep the value unchanged
-                        if (!isEmployeeInList && filteredEmployees.isNotEmpty) {
-                          selectedEmployeeId =
-                              filteredEmployees.first.id.toString();
-                          updateLeaveDayController.selectedEmployee.value =
-                              selectedEmployeeId;
+                  Form(
+                    key: _formKey,
+                    child: SearchField(
+                      suggestions: _employeeNames
+                          .map((Employee e) =>
+                              SearchFieldListItem(e.fullName, item: e.id))
+                          .toList(),
+                      validator: (x) {
+                        // Check if the input exists in the list of employee full names
+                        if (x == null ||
+                            !_employeeNames
+                                .map((e) => e.fullName)
+                                .contains(x)) {
+                          return 'Tên nhân viên không tồn tại';
                         }
-
-                        return DropdownButtonHideUnderline(
-                          child: DropdownButton<String?>(
-                            value: selectedEmployeeId,
-                            dropdownColor: MyColors.iconColor,
-                            onChanged: updateLeaveDayController.isEditting.value
-                                ? (String? employeeId) {
-                                    if (employeeId != null) {
-                                      updateLeaveDayController
-                                          .selectedEmployee.value = employeeId;
-                                    }
-                                  }
-                                : null,
-                            items: filteredEmployees.map((Employee employee) {
-                              return DropdownMenuItem<String?>(
-                                value: employee.id.toString(),
-                                child: Text(employee.fullName),
-                              );
-                            }).toList(),
+                        return null;
+                      },
+                      suggestionState: Suggestion.expand,
+                      textInputAction: TextInputAction.next,
+                      hint: 'Nhập tên nhân viên',
+                      searchInputDecoration: SearchInputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black.withOpacity(0.8),
                           ),
-                        );
+                        ),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
+                      ),
+                      onSuggestionTap: (SearchFieldListItem<int> item) {
+                        int selectedEmployeeId = item.item!;
+                        print("Selected Employee ID: $selectedEmployeeId");
+                        updateLeaveDayController.selectedEmployee.value =
+                            selectedEmployeeId.toString();
                       },
                     ),
                   ),
