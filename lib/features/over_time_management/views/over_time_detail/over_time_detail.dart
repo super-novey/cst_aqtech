@@ -20,6 +20,7 @@ class OverTimeDetailScreen extends StatelessWidget {
   final employeeController = Get.put(EmployeeController());
 
   final _formKey = GlobalKey<FormState>(); // Add GlobalKey for the form
+  final _searchFieldController = TextEditingController();
 
   void fetchOverTimeDetails() {
     updateOverTimeController.dateController.text =
@@ -44,6 +45,13 @@ class OverTimeDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     fetchOverTimeDetails();
+    _searchFieldController.text =
+        updateOverTimeController.selectedEmployee.value != null
+            ? employeeController
+                .getEmployeeNameById(
+                    int.parse(updateOverTimeController.selectedEmployee.value!))
+                .toString()
+            : "";
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -105,6 +113,7 @@ class OverTimeDetailScreen extends StatelessWidget {
                   Form(
                     key: _formKey,
                     child: SearchField(
+                      controller: _searchFieldController,
                       suggestions: employeeController.allEmployees
                           .where((Employee employee) {
                         return AuthenticationController

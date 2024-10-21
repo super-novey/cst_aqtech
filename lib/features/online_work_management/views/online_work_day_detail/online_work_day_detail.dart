@@ -22,6 +22,7 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
   final employeeController = Get.put(EmployeeController());
 
   final _formKey = GlobalKey<FormState>(); // Add GlobalKey for the form
+  final _searchFieldController = TextEditingController();
 
   void fetchOnlineWorkDayDetails() {
     updateOnlineWorkDayController.dateFromController.text =
@@ -53,6 +54,13 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     fetchOnlineWorkDayDetails();
+    _searchFieldController.text =
+        updateOnlineWorkDayController.selectedEmployee.value != null
+            ? employeeController
+                .getEmployeeNameById(int.parse(
+                    updateOnlineWorkDayController.selectedEmployee.value!))
+                .toString()
+            : "";
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -171,6 +179,7 @@ class OnlineWorkDayDetailScreen extends StatelessWidget {
                   Form(
                     key: _formKey,
                     child: SearchField(
+                      controller: _searchFieldController,
                       suggestions: employeeController.allEmployees
                           .where((Employee employee) {
                         return AuthenticationController
